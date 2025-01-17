@@ -1,13 +1,15 @@
 import mongoose from 'mongoose';
 
-const connectMongoDB=async()=>{
-    try{
-        const conn=await mongoose.connect(process.env.MONGO_URI);
-        console.log(`MongoDB connected: ${conn.connection.host}`);
-    }
-    catch(error){
-        console.log(error.message);
+const connectDb = async () => {
+    if (mongoose.connection.readyState >= 1) return;
+
+    try {
+        await mongoose.connect(process.env.MONGO_URI);
+        console.log("mongodb atlas connected...");
+    } catch (error) {
+        console.error(error.message);
+        process.exit(1);
     }
 };
 
-export default connectMongoDB;
+export default connectDb;

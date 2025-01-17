@@ -14,3 +14,4 @@ router.get('/profile', authenticate, getUserProfile);
 router.post("/logout", logoutUser);
 
 export default router;
+
