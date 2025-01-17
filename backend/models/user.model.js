@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
-import Question from './question.model.js';
-import Test from './test.model.js';
+
 
 const UserSchema = new mongoose.Schema({
     name: { type: String, required: true },
@@ -15,4 +14,4 @@ const User = mongoose.model('User', UserSchema);
 
 export default User;
 
-//test id
+

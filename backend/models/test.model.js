@@ -19,10 +19,6 @@ const testSchema = new mongoose.Schema(
       type: Number, // Duration in minutes
       required: true,
     },
-    subject: {
-      type: String,
-      required: true,
-    },
     testDate: {
       type: Date,
       required: true,
