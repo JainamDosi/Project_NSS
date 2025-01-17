@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import "./dash.css";
+import "./adminDash.css";
 import { Link } from "react-router-dom";
 import Navbar from "../Navbar/navbar";
 
-const StudentDashboard = () => {
+const AdminDashboard = () => {
   const [value, setValue] = useState(""); // State for dropdown value
   const options = [
     { label: "Completed Tests", value: 1 },
@@ -46,4 +46,4 @@ const StudentDashboard = () => {
   );
 };
 
-export default StudentDashboard;
+export default AdminDashboard;
