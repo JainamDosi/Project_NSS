@@ -4,10 +4,12 @@ import User from '../models/user.model.js';
 import { body, validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import fetchuser from '../middlewares/fetchuser.js';
-
+import fetchuser from '../middleware/fetchuser.js';
+import dotenv from 'dotenv';    
+dotenv.config();
 const router = express.Router();
-const JWT_SECRET = 'demo123';
+const JWT_SECRET = process.env.JWT_SECRET;
+console.log(JWT_SECRET);
 
 
 router.post('/createuser', [

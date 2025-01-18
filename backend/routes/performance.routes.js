@@ -1,6 +1,6 @@
 import express from 'express';
 import { getPerformanceByTest } from '../controllers/performance.controller.js';
-import  fetchuser   from '../middlewares/fetchuser.js';
+import  fetchuser   from '../middleware/fetchuser.js';
 
 const router = express.Router();
 
