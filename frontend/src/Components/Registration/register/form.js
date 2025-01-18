@@ -35,8 +35,8 @@ export default function VerifyEmail() {
     console.log(Number(code));
     setUser({ ...user, otp: Number(code) });
 
-    setLoading({ loading: true });
-
+    setLoading(true);
+    
     try {
       const response = await axios.post(`/apiV1/verifyOTP`, {
         ...user,
@@ -88,7 +88,7 @@ export default function VerifyEmail() {
               numInputs={4}
               shouldAutoFocus={true}
               renderSeparator={<span style={{ width: "8px" }}></span>}
-              inputType={true}
+              inputType="text"
               renderInput={(props) => <input {...props} />}
               inputStyle={{
                 border: "1px solid black",
@@ -111,7 +111,7 @@ export default function VerifyEmail() {
             onClick={Verify}
             disabled={!active}
             style={
-              active == true
+              active===true
                 ? { background: "#ff5c00" }
                 : { background: "rgb(204, 204, 204)" }
             }
