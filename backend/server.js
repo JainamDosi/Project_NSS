@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 
 import connectMongoDB from './config/connectMongoDB.js';
 import authRoutes from './routes/auth.js';
+import bookmarksRoutes from './routes/bookmarks_route.js';
 import testRoutes from './routes/test.routes.js';
 import performanceRoutes from './routes/performance.routes.js';
 import cookieParser from 'cookie-parser'; 
@@ -21,6 +22,7 @@ app.get('/', (req, res) => {
 app.use('/api/users', authRoutes); // Routes for user authentication and management
 app.use('/api/tests', testRoutes); // Routes for test management
 app.use('/api/performance', performanceRoutes); // Routes for performance tracking
+app.use('/api/bookmarks', bookmarksRoutes); // Routes for bookmarking tests
 
 
 
