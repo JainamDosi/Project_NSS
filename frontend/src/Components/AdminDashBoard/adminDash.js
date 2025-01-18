@@ -22,7 +22,7 @@ const AdminDashboard = () => {
         <Navbar />
       </div>
       <div id="btnsInDashBoard">
-        <select
+        {/* <select
           onChange={handleSelect}
           value={value}
           className="whichTestsYouWant"
@@ -32,9 +32,9 @@ const AdminDashboard = () => {
               {option.label}
             </option>
           ))}
-        </select>
+        </select> */}
         <Link to="">
-          <button className="Analysis">Analysis</button>
+          <button className="Analysis">Create Test</button>
         </Link>
       </div>
       <main className="mainStudentDashboard">

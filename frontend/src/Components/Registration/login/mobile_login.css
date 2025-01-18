@@ -1,0 +1,37 @@
+@media only screen and (max-width: 350px) and (min-width: 0px)
+{
+    #center{
+        padding-left: 1vw;
+        padding-right: 1vw;
+    }
+    #bottom{
+        font-size: 12px;
+    }
+    #register{
+        font-size: 12px; 
+    }
+    #niche{
+        text-align: center;
+    }
+    #box{
+        filter: drop-shadow(8px 8px 0px rgba(0, 0, 0, 0.32));
+        stroke-width: 1px;
+        width: 80%;
+        padding-left: 2vh;
+        padding-right: 2vh;
+    }
+}
+
+
+
+@media only screen and (max-width: 300px) and (min-width: 0px)
+{
+    
+    #bottom{
+        font-size: 10px;
+    }
+    #register{
+        font-size: 10px; 
+    }
+    
+}

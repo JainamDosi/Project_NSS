@@ -1,0 +1,142 @@
+#wel_log_back {
+  margin-top: 13vh;
+  width: 42vw;
+}
+
+#campus_ambd {
+  margin-top: -2vh;
+  margin-left: 11vw;
+  width: 23vw;
+}
+.fp_maindiv {
+  margin: 10vh 0 0 0;
+  height: 80vh;
+}
+
+.forgot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff;
+  margin: 30vh 0 0 0;
+  width: fit-content;
+  /* height: 46.5vh !important; */
+  height: auto;
+  width: 30vw !important;
+  border: 2px solid #000000;
+  border-radius: 5px;
+  box-shadow: 12px 12px 0px 0px #00000066;
+  padding: 4vw 0 1.5vw 0;
+}
+
+.forgot .f-h2 {
+  font-family: Comic Sans MS;
+  color: #ff5c00;
+  font-size: 35px;
+  font-weight: 900;
+  line-height: 32px;
+  text-align: center;
+}
+
+.forgot .f-pa {
+  width: 76% !important;
+  text-align: center;
+  margin: 25px auto 0 auto;
+  font-size: 18px;
+  color: #505050;
+}
+
+.send {
+  display: block;
+  width: 100%;
+  height: 40px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: Comic Sans MS;
+  font-weight: 400;
+  background-color: #ff5c00;
+  color: #ffffff;
+  margin: 2rem auto;
+  border: 1.52px solid #505050;
+  box-shadow: 1.518475890159607px 3.036951780319214px 0px 0px #505050;
+  cursor: pointer;
+}
+
+.send:hover {
+  background-color: #ff5c00;
+}
+
+.email {
+  width: 100%;
+  height: 40px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: Comic Sans MS;
+  font-weight: 400;
+  margin: 3rem auto 0 auto;
+  box-shadow: 2px 2px #000000;
+  background-color: #ffffff;
+  border: 2px solid #000000;
+  color: #505050;
+  text-align: left;
+}
+
+.message {
+  /* display: none; */
+  background-color: #ffffff;
+  border: 1px solid #000000;
+  border-radius: 8px;
+  width: 60%;
+  height: 6rem;
+  margin: 0 auto 0 auto;
+}
+.newBg {
+  margin: 10vh 0 0 0;
+  height: 89.8vh !important;
+}
+
+/* .message p {
+    color: #000000;
+    font-size: 17px;
+    line-height: 17px;
+    font-weight: 400;
+    width: 85%;
+    margin: 1.5rem auto;
+  } */
+
+#welcomebckbg {
+  z-index: -1;
+  position: absolute;
+}
+
+@media only screen and (max-width: 1079px) {
+  .forgot {
+    /* height:51.5vh !important; */
+    width: 50vw !important;
+  }
+}
+@media only screen and (max-width: 800px) {
+  .fp_maindiv {
+    margin: 0;
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  .forgot {
+    width: 70vw !important;
+  }
+}
+
+@media only screen and (max-width: 460px) {
+  .forgot {
+    width: 80vw !important;
+    /* height:60vh !important; */
+  }
+}
+/* @media only screen and (min-width:800px){
+    .fp_maindiv{
+      margin-top: 20vh;
+
+    }
+    
+  } */
