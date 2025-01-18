@@ -1,0 +1,70 @@
+.navMain{
+    width: 100vw;
+    height: 5.5vw;
+    background: #000;
+    position: fixed;
+    display: flex;
+    top:0px;
+    z-index:10;
+    justify-content: space-between;
+}
+
+.navMain div img{
+    width: 13vw;
+  height: 13vw;
+}
+
+.navMain div img:hover {
+    width: 17vw;
+  height: 17vw;
+  top: -145px;
+      left: -152px;
+  
+   
+  }
+
+
+.registerNow {
+    border-radius: 16px;
+    border: 2px solid #FFF;
+    width: 10vw;
+    display: inline-flex;
+    background: transparent;
+padding: 0px;
+justify-content: center;
+align-items: center;
+gap: 10px;
+    color: #FFF;
+    cursor: pointer;
+font-family: Bangers;
+font-size: 24px;
+font-style: normal;
+font-weight: 400;
+line-height: 100%;
+letter-spacing: 1.2px;
+  }
+  
+  .registerNow:hover{
+    background-color: white;
+    color:black;
+  }
+  
+    
+  @media only screen and (max-width:1300px){
+    .navMain{
+        height: 76px;
+    }
+    .navMain div img{
+        width: 211px;
+height: 211px;
+    }
+    .navMain div img:hover {
+        width:240px;
+      height: 240px;
+      top: -145px;
+          left: -152px;
+      
+       
+      }
+  }
+  

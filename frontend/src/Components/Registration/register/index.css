@@ -1,0 +1,230 @@
+#root{
+  height: 100vh;
+  position: relative;
+  overflow: auto;
+  /* overflow-x: hidden; */
+}
+
+.otpBox{
+  margin-top: -67vh;
+}
+
+.registerPageContainer {
+  width: 100vw;
+  min-height: 100vh;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: grey;
+  gap: 1.5rem;
+}
+
+.otpBack{
+  margin-top:11vh;
+  height:88.8vh;
+  width: 100vw;
+}
+.registration {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.title {
+  color: #fff;
+  text-shadow: 8px 8px 0px 0px rgba(0, 0, 0, 0.2);
+  font-family: Bangers;
+  /* font-size: 6.5rem; */
+  font-size: min(6.5rem,10vw);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  letter-spacing: 0.43rem;
+  transform: rotate(-3.786deg);
+}
+.subtitle {
+  transform: rotate(-2.58deg);
+  color: #000;
+  font-family: Comic Sans MS;
+  font-size: min(2rem,5vw);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+  letter-spacing: 0.12rem;
+}
+.formContainer {
+  min-width: 53vw;
+  width: auto;
+  max-width: 80vw;
+  height: 67vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  border: 2px #000000 solid;
+  border-radius: 1rem;
+  box-shadow: 12px 12px 0px rgba(0, 0, 0, 0.4);
+}
+.otpContainer {
+  min-width: 60%;
+  width: 50vw;
+  height: 57vh;
+  background-color: #fff;
+  display: flex;
+  border:2px solid black;
+  border-radius:6px !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 1rem;
+}
+.verifyEmailText {
+  color: #ff5c00;
+  text-align: center;
+  font-family: Comic Sans MS;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%; /* 32px */
+  letter-spacing: 0.64px;
+}
+.otpSent {
+  width: 40%;
+  color: #555;
+  text-align: center;
+  font-family: Comic Neue;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: center;
+}
+.inputBoxes {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.inputBoxes input {
+  width: 3rem;
+  height: 3rem;
+  padding: 12px 20px;
+  border-radius: 5.96px;
+  border: 1.49px solid #505050;
+  background: #fff;
+  box-shadow: 1.5px 3px 0px 0px #505050;
+  display: flex;
+  text-align: center;
+}
+.verify_btn{
+  display: inline-flex;
+  justify-content: center;
+  padding: 10px 20px;
+  align-items: center;
+  gap: 10px;
+  width: 6rem;
+  height: 3rem;
+  padding: 12px 20px;
+  border-radius: 6.07px;
+  border: 1.51px solid #505050;
+  background: #ff5c00;
+  box-shadow: 1.5px 3px 0px 0px #505050;
+  text-align: center;
+  font-family: 'Comic Sans MS';
+  font-size: larger;
+  color: #fff;
+  line-height: 20px;
+  cursor: pointer;
+}
+.inputBoxes input[type="number"]::-webkit-inner-spin-button,
+.inputBoxes input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.otpContainer button:hover {
+  background-color: #ff5c00;
+}
+.resendOtp {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: #555;
+  text-align: center;
+  font-family: Comic Neue;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px;
+}
+.resendOtp Button{
+    color: #FF5C00;
+}
+.resendOtp Button:hover{
+    background-color: #ffffff;
+}
+#log_bg2{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 9.5vh;
+}
+@media only screen and (max-width:1079px){
+  .otpContainer{
+    height:51.5vh !important;
+    width:50vw !important;
+  }
+  #wel_log_back{
+      /* width:62vw !important; */
+  }
+  #log_bg2{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 15vh;
+  }
+}
+
+
+@media only screen and (max-width:800px){
+  .otpBack{
+    margin-top:9vh;
+    height:91vh;
+  }
+}
+@media only screen and (max-width:650px){
+  .otpContainer{
+    width:70vw !important;
+  }
+}
+
+@media only screen and (max-width:385px){
+  .otpContainer{
+    width: 80vw !important;
+    height:60vh !important;
+  }
+}
+
+@media screen and (max-width:450px) {
+  .inputBoxes input{
+    width: 14px;
+    height: 14px;
+    padding: 8.461px 14.102px;
+  }
+  .verifyEmailText{
+    font-size: 1.25rem;
+  }
+  .otpSent{
+    width: 90%;
+  }
+  .formContainer{
+    height: 75vh;
+  }
+  .resendOtp{
+    flex-direction: column;
+  }
+  .otpBox{
+    padding-bottom: 15vh !important;
+  }
+}

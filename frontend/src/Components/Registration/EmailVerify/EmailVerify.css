@@ -1,0 +1,217 @@
+@import url("https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Comic+Sans+MS:wght@400;700&display=swap");
+
+/* body {
+  background-color: #ffffff;
+  font-family: 'Comic Neue', cursive;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+} */
+#wel_log_back2{
+  position: relative;
+  top: -59px;
+  left: 30vw;
+}
+#campus_ambd2 {
+  position: relative;
+  top: -29px;
+  left: 12vw;
+}
+
+#emailroot {
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.regcompleteback{
+  height: 88.8vh !important;
+  margin-top: 11vh;
+}
+
+@media only screen and (max-width: 800px) {
+  #center {
+    display: inline-block;
+    padding-left: 5.5vw !important;
+    padding-right: 10.5vw !important;
+  }
+  #campus_ambd2 {
+    position: relative;
+    top: -62px;
+    left: 45vw;
+    width: 45vw !important;
+  }
+  #wel_log_back2 {
+    margin-top: 2vh !important;
+    width: 65vw !important;
+    left: 180px;
+  }
+
+  #campus_ambd {
+    margin-top: -1vh !important;
+    margin-left: 28vw !important;
+    width: 42vw !important;
+  }
+  .regcompleteback{
+    margin-top: 9vh;
+    height: 91vh !important;
+  }
+
+}
+
+
+.Box {
+
+  position: absolute;
+  top: 45vh;
+  left: 27vw;
+  display: flex;
+  text-align: center;
+  background-color: #ffffff;
+  /* margin: auto; */
+  width: 50%;
+  height: 320px;
+  border: 2px solid #000000;
+  border-radius: 5px;
+  margin-top: 0rem;
+  box-shadow: 12px 12px 0px 0px rgba(0, 0, 0, 0.32);
+}
+
+#navemailbar {
+  top: 0px !important;
+}
+
+#emailroot {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  /* background-image: url("../../../assets/caloginbg1.svg"); */
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  overflow-y: hidden;
+}
+
+#box2_reg {
+  margin: auto;
+
+}
+
+.emailVerifyBack{
+  height: 89vh;
+  width:100vw;
+  position: absolute;
+  top: 11vh;
+}
+
+.Box2 {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  /* top: 10%; */
+  /* left: 5%; */
+  /* right: 5%; */
+  width: 100%;
+  height: 100%;
+}
+
+.Box h2 {
+  color: #ff5c00;
+  font-size: 35px;
+  font-weight: bolder;
+  margin-top: 0rem;
+  line-height: 32px;
+  font-family: Comic Sans MS;
+  display: flex;
+  justify-content: center;
+}
+
+.Box p {
+  width: 70%;
+  margin: 0 auto 0 auto;
+  font-size: 18px;
+}
+
+.submit {
+  display: block;
+  width: 40%;
+  height: 40px;
+  border-radius: 6px;
+  font-size: 20px;
+  font-family: "Comic Neue", cursive;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.submit {
+  background-color: #ff5c00;
+  color: #ffffff;
+  margin: 2rem auto 0 auto;
+  border: 1.52px solid #505050;
+  box-shadow: 1.518475890159607px 3.036951780319214px 0px 0px #505050;
+  font-family: Comic Sans MS;
+}
+
+.reg-btn1 {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+@media (max-width: 1200px) {
+  
+
+  .Box h2 {
+    font-size: 24px;
+  }
+
+  .Box p {
+    font-size: 13px;
+  }
+
+  .submit {
+    font-size: 15px;
+    width: 55%;
+  }
+}
+
+@media (max-width:700px) {
+  .submit {
+    width: 60% !important;
+  }
+
+}
+
+@media (max-width: 500px) {
+  .submit {
+    font-size: 10px;
+    width: 60%;
+  }
+
+  .Box h2 {
+    font-size: 18px;
+  }
+
+  .Box {
+    width: 80% !important;
+    left:10vw;
+    box-shadow: 8px 8px 0px 0px rgba(0, 0, 0, 0.32);
+  }
+
+  .Box2 {
+    width: 100%;
+  }
+  #campus_ambd2 {
+    position: relative;
+    top: -62px;
+    left: 35vw;
+    width: 45vw !important;
+  }
+  #wel_log_back2 {
+    margin-top: 2vh !important;
+    width: 65vw !important;
+    left: 80px;
+  }
+}
