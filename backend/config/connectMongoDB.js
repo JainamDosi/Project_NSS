@@ -1,4 +1,6 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'; // If using ESM (ECMAScript modules)
+
+
 
 const connectDb = async () => {
     if (mongoose.connection.readyState >= 1) return;

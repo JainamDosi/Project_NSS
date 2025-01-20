@@ -7,13 +7,13 @@ import authRoutes from './routes/auth.js';
 import bookmarksRoutes from './routes/bookmarks_route.js';
 import testRoutes from './routes/test.routes.js';
 import performanceRoutes from './routes/performance.routes.js';
-import cookieParser from 'cookie-parser'; 
+// import cookieParser from 'cookie-parser'; 
 
 dotenv.config();
 const PORT=process.env.PORT;
 const app = express();
 app.use(express.json());
-app.use(cookieParser());
+// app.use(cookieParser());
 
 app.use(cors({
   origin: ['http://localhost:5000', 'http://localhost:5173', 'http://localhost:3000'],
