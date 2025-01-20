@@ -14,3 +14,52 @@
 .optionsDecimalType{
     display: none;
 }
+.btnNavigate{
+    padding: 10px 20px;
+    border: 1px solid black;
+    cursor: 'pointer';
+}
+.btnDiv{
+    position: fixed;
+    bottom: 2vh;
+    right: 50%;
+}
+.btnAnswers{
+    padding: 0.5rem 1.5rem;
+    border: 1px solid black;
+    cursor: 'pointer';
+    border-radius: 4px;
+    
+}
+
+.actionButtons{
+    gap: 0.4rem;
+    display: flex;
+    text-decoration: solid;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.greenbtn{
+    background-color: green;
+    color: #fff;
+}
+
+.orangebtn{
+    background-color: orange;
+    color: #fff;
+}
+
+.bluebtn{
+    background-color: blue;
+    color: #fff;
+}
+
+.btnSubmit{
+    background-color: green;
+    color: #fff;
+    position: fixed;
+    bottom: 2vh;
+    right: 2%;
+}
+
