@@ -1,0 +1,29 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#instructionMain{
+    margin-left: 1vw;
+    margin-right: 1vw;
+}
+
+.btnCenter{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2vh;
+}
+
+.btnCenter button{
+    background-color: grey;
+    height: 50px;
+    width: 100px;
+    border: 1px solid black;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+ol li{
+    margin-left: 3vw;
+}
