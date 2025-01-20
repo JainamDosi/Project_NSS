@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./dash.css";
 import { Link } from "react-router-dom";
+import TestCard from "../TestCard/testcard";
 import Navbar from "../Navbar/navbar";
 
 const StudentDashboard = () => {
@@ -39,6 +40,7 @@ const StudentDashboard = () => {
       </div>
       <main className="mainStudentDashboard">
         <div>
+          <TestCard />
           
         </div>
       </main>

@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.card {
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    margin: 16px;
+    background-color: #fff;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-header{
+    font-size: 1.5em;
+}
+.card-title {
+    
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.card-content {
+    font-size: 1em;
+    color: #666;
+}
+
+.test-card-footer {
+    margin-top: 16px;
+    text-align: right;
+}

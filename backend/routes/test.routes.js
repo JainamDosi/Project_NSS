@@ -20,7 +20,7 @@ router.post('/:testId/questions', fetchuser, isAdmin, addQuestionToTest); // Add
 router.delete('/:testId/questions/:questionId', fetchuser, isAdmin, removeQuestionFromTest); // Remove a question
 
 // Student routes
-router.get('/', fetchuser , getAllTests);
+router.get('/', fetchuser,getAllTests);
 
 router.post('/attempt', fetchuser , attemptTest);
 
