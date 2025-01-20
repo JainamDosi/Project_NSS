@@ -1,0 +1,16 @@
+#mainTestInterface{
+    display: flex;
+    flex-direction: row;
+}
+#leftMainTestInterface{
+    width: 50%;
+}
+#rightMainTestInterface{
+    width: 50%;
+}
+.optionsSingleCorrect{
+    display: none;
+}
+.optionsDecimalType{
+    display: none;
+}
