@@ -1,10 +1,27 @@
-import React, { useState } from "react";
+import {React, useState,useEffect } from "react";
 import "./dash.css";
 import { Link } from "react-router-dom";
 import TestCard from "../TestCard/testcard";
 import Navbar from "../Navbar/navbar";
+import axios from "axios";
 
 const StudentDashboard = () => {
+  
+  const [tests, setTests] = useState([]);
+
+  useEffect(() => {
+      axios.get("http://localhost:5000/api/tests")
+          .then(response => {
+              setTests(response.data);
+              console.log(response.data);
+          })
+          .catch(error => {
+              console.error("There was an error fetching the test data!", error);
+          });
+  }, []);
+
+
+
   const [value, setValue] = useState(""); // State for dropdown value
   const options = [
     { label: "Completed Tests", value: 1 },
@@ -22,11 +39,11 @@ const StudentDashboard = () => {
       <div>
         <Navbar />
       </div>
-      <div id="btnsInDashBoard">
+      <div id="btnsInDashBoard" >
         <select
           onChange={handleSelect}
           value={value}
-          className="whichTestsYouWant"
+          className=" border-4"
         >
           {options.map((option) => (
             <option key={option.value} value={option.value}>
@@ -40,8 +57,10 @@ const StudentDashboard = () => {
       </div>
       <main className="mainStudentDashboard">
         <div>
-          <TestCard />
-          
+
+        {tests.map((test) => (
+            <TestCard key={test.id} test={test} />
+          ))}
         </div>
       </main>
     </>

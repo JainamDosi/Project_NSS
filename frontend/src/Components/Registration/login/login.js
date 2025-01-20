@@ -18,9 +18,11 @@ const Login = (props) => {
         },
         body: JSON.stringify({email:cradensital.email,password:cradensital.password}), 
       });
+      
       // props.setProgress(50)
-
+      
       const json = await response.json();
+      
       console.log("aaaaaaaaaaaaaaaaaaaaaaaaa");
         console.log(json);
         console.log("aaaaaaaaaaaaaaaaaaaaaaaaa");
@@ -42,7 +44,6 @@ const Login = (props) => {
       }
       const onChange = (e) => {
         setcradensital({...cradensital,[e.target.name]: e.target.value });
-        
       }
   return (
     <form onSubmit={handlesumit}>
