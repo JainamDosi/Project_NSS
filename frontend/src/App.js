@@ -9,22 +9,24 @@ import VerifyEmail from "./Components/Registration/register/form";
 import StudentDashboard from "./Components/studentDashboard/dash";
 import AdminDashboard from "./Components/AdminDashBoard/adminDash";
 import TestInstructions from "./Components/Test/testInstructions/testInstructions";
+import TestInterface from "./Components/Test/testInterface/testInterface";
 function App() {
   return (
     <>
     {/* Hello */}
       <Router>
         <Routes>
+          {/* <Route path="/verifyEmail" element={<VerifyEmail />} />     */}
+          {/* <Route path="/forgotPassword" element={<ForgotPassword/>} />     */}
+          {/* <Route path="/emailVerify" element={<EmailVerify/>} />     */}
         <Route path="/" element={<LandingPage />} />
           <Route path="/landingPage" element={<LandingPage />} />    
-          <Route path="/verifyEmail" element={<VerifyEmail />} />    
-          <Route path="/forgotPassword" element={<ForgotPassword/>} />    
           <Route path="/registrationComplete" element={<RegistrationCompleted/>} />    
           <Route path="/login" element={<Login />} />    
-          <Route path="/emailVerify" element={<EmailVerify/>} />    
           <Route path="/studentDashboard" element={<StudentDashboard/>} />    
           <Route path="/adminDashboard" element={<AdminDashboard/>} />    
           <Route path="/testInstructions" element={<TestInstructions/>} />    
+          <Route path="/testInterface" element={<TestInterface/>} />    
         </Routes>          
       </Router>    
     </>
