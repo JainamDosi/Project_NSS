@@ -1,0 +1,76 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#instructionMain{
+    margin-left: 1vw;
+    margin-right: 1vw;
+}
+
+.btnCenter{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2vh;
+}
+
+.btnCenter button{
+    background-color: grey;
+    height: 50px;
+    width: 100px;
+    border: 1px solid black;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+ol li{
+    margin-left: 3vw;
+}
+
+ul li{
+    margin-left: 2vw;
+}
+
+ul li p{
+    word-wrap: break-word; /* For legacy support */
+      overflow-wrap: break-word; /* Modern browsers */
+      white-space: normal; 
+}
+ol li p{
+    word-wrap: break-word; /* For legacy support */
+      overflow-wrap: break-word; /* Modern browsers */
+      white-space: normal; 
+}
+
+.legend {
+    list-style: none;
+    padding: 0;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .symbol {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    display: inline-block;
+    border: 1px solid #000;
+  }
+  .not-visited {
+    background-color: #fff;
+  }
+  .not-answered {
+    background-color: red;
+  }
+  .answered {
+    background-color: green;
+  }
+  .marked-for-review {
+    background-color: purple;
+  }
+  .answered-and-marked {
+    background: linear-gradient(45deg, green 50%, purple 50%);
+  }

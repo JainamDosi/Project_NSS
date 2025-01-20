@@ -8,6 +8,7 @@ import RegistrationCompleted from "./Components/Registration/RegCompletedMsg/Reg
 import VerifyEmail from "./Components/Registration/register/form";
 import StudentDashboard from "./Components/studentDashboard/dash";
 import AdminDashboard from "./Components/AdminDashBoard/adminDash";
+import TestInstructions from "./Components/Test/testInstructions/testInstructions";
 function App() {
   return (
     <>
@@ -23,6 +24,7 @@ function App() {
           <Route path="/emailVerify" element={<EmailVerify/>} />    
           <Route path="/studentDashboard" element={<StudentDashboard/>} />    
           <Route path="/adminDashboard" element={<AdminDashboard/>} />    
+          <Route path="/testInstructions" element={<TestInstructions/>} />    
         </Routes>          
       </Router>    
     </>
