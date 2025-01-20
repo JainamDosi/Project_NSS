@@ -16,7 +16,6 @@ router.post('/add', async (req, res) => {
       console.log("error id npoty found");
       return res.status(400).json({ error: 'Invalid userId or questionId' });
     }
-    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 
     const user = await User.findById(userId);
     if (!user) {
