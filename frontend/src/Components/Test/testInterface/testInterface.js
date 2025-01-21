@@ -3,6 +3,21 @@ import "./testInterface.css";
 import { useNavigate } from "react-router-dom";
 
 function TestInterface() {
+  //Submit Utility
+  const [showPopup, setShowPopup] = useState(false);
+
+    const handleSubmitClick = () => {
+        setShowPopup(true); // Show the popup when the "Submit" button is clicked
+    };
+
+    const handleYes = () => {
+        setShowPopup(false); // Close the popup
+        alert("Form submitted!"); // Simulate form submission
+    };
+
+    const handleNo = () => {
+        setShowPopup(false); // Close the popup
+    };
   // Navigation
   const navigate = useNavigate();
   const handleBack = () => {
@@ -171,7 +186,22 @@ function TestInterface() {
           <div><button className="btnAnswers bluebtn">MARK FOR REVIEW & NEXT</button></div>
           </div>
           <div class="responses"></div>
-          <button className="btnSubmit btnAnswers">SUBMIT</button>
+          <button className="btnSubmit btnAnswers" onClick={handleSubmitClick}>SUBMIT</button>
+          {showPopup && (
+                <div className="popup-overlay">
+                    <div className="popup-box">
+                        <h3>Are you sure you want to submit?</h3>
+                        <div className="finalSubmit">
+                        <button className="yes-button" onClick={handleYes}>
+                            YES
+                        </button>
+                        <button className="no-button" onClick={handleNo}>
+                            NO
+                        </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
       </div>
     </>
