@@ -10,6 +10,7 @@ import StudentDashboard from "./Components/studentDashboard/dash";
 import AdminDashboard from "./Components/AdminDashBoard/adminDash";
 import TestInstructions from "./Components/Test/testInstructions/testInstructions";
 import TestInterface from "./Components/Test/testInterface/testInterface";
+import FormByAdmin from "./Components/FormByAdmin/FormByAdmin";
 function App() {
   return (
     <>
@@ -27,6 +28,7 @@ function App() {
           <Route path="/adminDashboard" element={<AdminDashboard/>} />    
           <Route path="/testInstructions" element={<TestInstructions/>} />    
           <Route path="/testInterface" element={<TestInterface/>} />    
+          <Route path="/formByAdmin" element={<FormByAdmin/>} />    
         </Routes>          
       </Router>    
     </>
