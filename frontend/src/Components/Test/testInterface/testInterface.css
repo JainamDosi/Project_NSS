@@ -3,10 +3,13 @@
     flex-direction: row;
 }
 #leftMainTestInterface{
+    border-right: 1px solid black;
     width: 50%;
+    height: 100vh;
 }
 #rightMainTestInterface{
     width: 50%;
+    height: 100vh;
 }
 .optionsSingleCorrect{
     display: none;
@@ -63,3 +66,52 @@
     right: 2%;
 }
 
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Transparent black */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* Popup box styling */
+.popup-box {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.yes-button {
+    background-color: #007bff; /* Blue */
+    color: white;
+    padding: .5rem;
+    border-radius: 4px;
+}
+.yes-button:hover {
+    background-color: #0056b3; /* Darker blue */
+}
+
+.no-button {
+    background-color: #6c757d; /* Gray */
+    padding: .5rem;
+    border-radius: 4px;
+    color: white;
+}
+
+.no-button:hover {
+    background-color: #495057; /* Darker gray */
+}
+
+.finalSubmit{
+    display: flex;
+    gap: .2rem;
+    justify-content: center;
+}

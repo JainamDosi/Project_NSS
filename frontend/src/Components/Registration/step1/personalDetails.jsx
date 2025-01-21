@@ -13,6 +13,13 @@ const gender_choice = ["Male", "Female", "Others"].map((state) => ({
 }));
 
 const PersonalDetails = () => {
+  //Select whether Student or Admin 
+  const [selectedRole, setSelectedRole] = useState(""); // State to track the selected role
+
+    const handleCheckboxChange = (role) => {
+        setSelectedRole(role); // Update the state to the selected role
+    };
+
   let navigate = useNavigate();
   const [active, setActive] = useState(false);
   const [confirm_err, setConfirm_err] = useState(false);
@@ -97,9 +104,9 @@ const PersonalDetails = () => {
       <div className="personal">
         <div className="personal-steps">
           <div className="personal-step1">
-            <div className="personal-step1-number">
+            {/* <div className="personal-step1-number">
               <div className="personal-step1-number-content">1</div>
-            </div>
+            </div> */}
             <div className="personal-step1-description">
               <div className="personal-step1-description-content-para1">
                 {/* Step 1/2 */}
@@ -218,6 +225,29 @@ const PersonalDetails = () => {
               ></div>
             )}
           </div>
+          {/* Student or Admin  */}
+          <div className="Role">
+            <label>
+                <input
+                    type="checkbox"
+                    name="role"
+                    checked={selectedRole === "Student"}
+                    onChange={() => handleCheckboxChange("Student")}
+                />
+                Student
+            </label>
+            <br />
+            <label>
+                <input
+                    type="checkbox"
+                    name="role"
+                    checked={selectedRole === "Admin"}
+                    onChange={() => handleCheckboxChange("Admin")}
+                />
+                Admin
+            </label>
+        </div>
+
 
           <div className="personal-buttons">
             <button
