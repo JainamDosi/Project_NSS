@@ -228,10 +228,30 @@ input:focus::placeholder {
     width: 25vw;
 }
 
+.loginbox{
+    width: 50vw;
+}
+
+.signInofLogin{
+    /* width: 20px; */
+    border: 1px solid black;
+    padding: 0.3rem;
+    border-radius: 4px;
+}
+.loginSignin{
+    display: flex;
+    justify-content: center;
+}
+
 @media (max-width:1050px) {
     #center form{
         width: 280px;
       
+    }
+}
+@media (max-width:400px) {
+    .loginbox{
+        width: 80vw;
     }
 }
 @media (max-width:500px) {

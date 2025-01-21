@@ -1,25 +1,61 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./testInterface.css";
 import { useNavigate } from "react-router-dom";
 
 function TestInterface() {
-  //Submit Utility
+  // Timer  
+  const [time, setTime] = useState(10); // Initialize timer with 10 seconds for testing
+
   const [showPopup, setShowPopup] = useState(false);
 
-    const handleSubmitClick = () => {
-        setShowPopup(true); // Show the popup when the "Submit" button is clicked
-    };
+  const handleSubmitClick = () => {
+    setShowPopup(true); // Show the popup when the "Submit" button is clicked
+  };
 
-    const handleYes = () => {
-        setShowPopup(false); // Close the popup
-        alert("Form submitted!"); // Simulate form submission
-    };
+  const handleYes = () => {
+    setShowPopup(false); // Close the popup
+    alert("Form submitted!"); // Simulate form submission
+  };
 
-    const handleNo = () => {
-        setShowPopup(false); // Close the popup
-    };
+  const handleNo = () => {
+    setShowPopup(false); // Close the popup
+  };
+
+  useEffect(() => {
+    // Start the countdown timer
+    const timer = setInterval(() => {
+      setTime((prevTime) => {
+        if (prevTime > 0) {
+          return prevTime - 1; // Decrement the timer by 1 second
+        } else {
+          clearInterval(timer); // Stop the timer when it reaches 0
+          handleYes(); // Automatically execute the "Yes" action
+          return 0;
+        }
+      });
+    }, 1000); // Update every 1 second (1000 ms)
+
+    // Cleanup the timer when the component unmounts
+    return () => clearInterval(timer);
+  }, []);
+
+  // Convert time from seconds to hh:mm:ss format
+  const formatTime = (seconds) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+
+    return `${hours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  };
+
+  // Generate an array of numbers from 1 to 75
+  const buttons = Array.from({ length: 75 }, (_, i) => i + 1);
+
   // Navigation
   const navigate = useNavigate();
+
   const handleBack = () => {
     navigate(-1); // Navigate to the previous page
   };
@@ -27,6 +63,7 @@ function TestInterface() {
   const handleNext = () => {
     navigate(1); // Navigate to the next page (if possible)
   };
+
   // Decimal Answers
   const [value, setValue] = useState("");
 
@@ -38,6 +75,7 @@ function TestInterface() {
       setValue(inputValue);
     }
   };
+
   // Single Option
   const [selectedOption, setSelectedOption] = useState(null);
 
@@ -45,6 +83,7 @@ function TestInterface() {
     const { name } = e.target;
     setSelectedOption(name); // Set the selected option
   };
+
   // Multiple Option
   const [checkboxes, setCheckboxes] = useState({
     option1: false,
@@ -57,6 +96,7 @@ function TestInterface() {
     const { name, checked } = e.target;
     setCheckboxes({ ...checkboxes, [name]: checked });
   };
+
   return (
     <>
       <div id="mainTestInterface">
@@ -77,9 +117,10 @@ function TestInterface() {
             <li>ANSWER3</li>
             <li>ANSWER4</li>
           </ol>
+
           {/* Multiple Correct Answers */}
-          <div class="optionsMultipleCorrect">
-            <form id>
+          <div className="optionsMultipleCorrect">
+            <form>
               <label>
                 <input
                   type="checkbox"
@@ -121,7 +162,8 @@ function TestInterface() {
               </label>
             </form>
           </div>
-          <div class="optionsSingleCorrect">
+
+          <div className="optionsSingleCorrect">
             <form>
               <label>
                 <input
@@ -164,44 +206,58 @@ function TestInterface() {
               </label>
             </form>
           </div>
-          <div class="optionsDecimalType">
+
+          <div className="optionsDecimalType">
             <input type="text" value={value} onChange={handleChange} />
           </div>
+
           <div className="btnDiv">
-          <button onClick={handleBack} className="btnNavigate">
-            Back
-          </button>
-          <button onClick={handleNext} className="btnNavigate">
-            Next
-          </button>
+            <button onClick={handleBack} className="btnNavigate">
+              Back
+            </button>
+            <button onClick={handleNext} className="btnNavigate">
+              Next
+            </button>
           </div>
         </div>
 
         <div id="rightMainTestInterface">
-          <h4>Time Remaining: </h4>
+          <h4>Time Remaining: {formatTime(time)}</h4>
           <div className="actionButtons">
-          <div><button className="btnAnswers greenbtn">SAVE & NEXT</button></div>
-          <div><button className="btnAnswers">CLEAR</button></div>
-          <div><button className="btnAnswers orangebtn">SAVE & MARK FOR REVIEW</button></div>
-          <div><button className="btnAnswers bluebtn">MARK FOR REVIEW & NEXT</button></div>
+            <div><button className="btnAnswers greenbtn">SAVE & NEXT</button></div>
+            <div><button className="btnAnswers">CLEAR</button></div>
+            <div><button className="btnAnswers orangebtn">SAVE & MARK FOR REVIEW</button></div>
+            <div><button className="btnAnswers bluebtn">MARK FOR REVIEW & NEXT</button></div>
           </div>
-          <div class="responses"></div>
+
+          <div className="grid-container">
+            {buttons.map((number) => (
+              <button 
+                key={number}
+                className="btn75"
+              >
+                {number.toString().padStart(2, "0")}
+              </button>
+            ))}
+          </div>
+
           <button className="btnSubmit btnAnswers" onClick={handleSubmitClick}>SUBMIT</button>
+
           {showPopup && (
-                <div className="popup-overlay">
-                    <div className="popup-box">
-                        <h3>Are you sure you want to submit?</h3>
-                        <div className="finalSubmit">
-                        <button className="yes-button" onClick={handleYes}>
-                            YES
-                        </button>
-                        <button className="no-button" onClick={handleNo}>
-                            NO
-                        </button>
-                        </div>
-                    </div>
+            <div className="popup-overlay">
+              <div className="popup-box">
+                <h3>Are you sure you want to submit?</h3>
+                <div className="finalSubmit">
+                  <button className="yes-button" onClick={handleYes}>
+                    YES
+                  </button>
+                  <button className="no-button" onClick={handleNo}>
+                    NO
+                  </button>
                 </div>
-            )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>
