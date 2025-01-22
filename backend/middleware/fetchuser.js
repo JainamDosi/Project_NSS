@@ -21,7 +21,8 @@ const fetchuser = (req, res, next) => {
       req.user = data.user;
      
       req.user = {
-        id: data.user.id,       // Extract the user ID from the payload
+        id: data.user.id,
+        role:data.user.role       // Extract the user ID from the payload
        
     };
       next();

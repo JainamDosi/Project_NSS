@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 function TestInterface() {
   // Timer  
-  const [time, setTime] = useState(10); // Initialize timer with 10 seconds for testing
+  const [time, setTime] = useState(100); // Initialize timer with 10 seconds for testing
 
   const [showPopup, setShowPopup] = useState(false);
 

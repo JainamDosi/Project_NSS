@@ -14,10 +14,12 @@ const testSchema = new mongoose.Schema(
     totalMarks: {
       type: Number,
       required: true,
+      default: 300,
     },
     duration: {
       type: Number, // Duration in minutes
       required: true,
+      default: 180,
     },
     testDate: {
       type: Date,
@@ -27,11 +29,6 @@ const testSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Question',
     }],
-    status: {
-      type: String,
-      enum: ['Upcoming', 'Ongoing', 'Completed', 'Expired'],
-      default: 'Upcoming',
-    },
   },
   { timestamps: true }
 );
