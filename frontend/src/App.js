@@ -11,6 +11,7 @@ import AdminDashboard from "./Components/AdminDashBoard/adminDash";
 import TestInstructions from "./Components/Test/testInstructions/testInstructions";
 import TestInterface from "./Components/Test/testInterface/testInterface";
 import FormByAdmin from "./Components/FormByAdmin/FormByAdmin";
+import QuestionForm from "./Components/questionForm/questionForm";
 function App() {
   return (
     <>
@@ -29,6 +30,7 @@ function App() {
           <Route path="/testInstructions" element={<TestInstructions/>} />    
           <Route path="/testInterface" element={<TestInterface/>} />    
           <Route path="/formByAdmin" element={<FormByAdmin/>} />    
+          <Route path="/questionForm" element={<QuestionForm/>} />    
         </Routes>          
       </Router>    
     </>
