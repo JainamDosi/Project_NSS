@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
 import './FormByAdmin.css';
 
 function FormByAdmin() {
@@ -6,12 +7,12 @@ function FormByAdmin() {
   const [description, setDescription] = useState('');
   const [testDate, setTestDate] = useState('');
   const [testTime, setTestTime] = useState('');
-  const [loading, setLoading] = useState(false); // To handle loading state
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Combine test date and time into a single Date object
     const selectedDateTime = new Date(`${testDate}T${testTime}`);
     const currentDateTime = new Date();
 
@@ -29,15 +30,14 @@ function FormByAdmin() {
 
     console.log('Form submitted:', formData);
 
-    // Send data to backend
     try {
-      setLoading(true); // Start loading
+      setLoading(true);
       const token = localStorage.getItem('token');
       const response = await fetch('http://localhost:5000/api/tests/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `${token}`, // Include 'Bearer' for token
+          Authorization: `${token}`,
         },
         body: JSON.stringify(formData),
       });
@@ -47,11 +47,8 @@ function FormByAdmin() {
         alert('Form submitted successfully!');
         console.log('Response from backend:', result);
 
-        // Clear the form
-        setTitle('');
-        setDescription('');
-        setTestDate('');
-        setTestTime('');
+        // Redirect to AdminDashBoard
+        navigate('/adminDashBoard');
       } else {
         const errorData = await response.json();
         alert(`Failed to submit form: ${errorData.message}`);
@@ -60,66 +57,64 @@ function FormByAdmin() {
       console.error('Error submitting form:', error);
       alert('An error occurred while submitting the form. Please try again.');
     } finally {
-      setLoading(false); // End loading
+      setLoading(false);
     }
   };
 
   return (
-    <>
-      <div className="form-container">
-        <h2>Test Details Form</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="title">Title:</label>
-            <input
-              type="text"
-              id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Enter the test title"
-              required
-            />
-          </div>
+    <div className="form-container">
+      <h2>Test Details Form</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="title">Title:</label>
+          <input
+            type="text"
+            id="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Enter the test title"
+            required
+          />
+        </div>
 
-          <div className="form-group">
-            <label htmlFor="description">Description:</label>
-            <textarea
-              id="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Enter the test description"
-              required
-            ></textarea>
-          </div>
+        <div className="form-group">
+          <label htmlFor="description">Description:</label>
+          <textarea
+            id="description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Enter the test description"
+            required
+          ></textarea>
+        </div>
 
-          <div className="form-group">
-            <label htmlFor="testDate">Test Date:</label>
-            <input
-              type="date"
-              id="testDate"
-              value={testDate}
-              onChange={(e) => setTestDate(e.target.value)}
-              required
-            />
-          </div>
+        <div className="form-group">
+          <label htmlFor="testDate">Test Date:</label>
+          <input
+            type="date"
+            id="testDate"
+            value={testDate}
+            onChange={(e) => setTestDate(e.target.value)}
+            required
+          />
+        </div>
 
-          <div className="form-group">
-            <label htmlFor="testTime">Test Timing:</label>
-            <input
-              type="time"
-              id="testTime"
-              value={testTime}
-              onChange={(e) => setTestTime(e.target.value)}
-              required
-            />
-          </div>
+        <div className="form-group">
+          <label htmlFor="testTime">Test Timing:</label>
+          <input
+            type="time"
+            id="testTime"
+            value={testTime}
+            onChange={(e) => setTestTime(e.target.value)}
+            required
+          />
+        </div>
 
-          <button type="submit" className="submit-button" disabled={loading}>
-            {loading ? 'Submitting...' : 'Submit'}
-          </button>
-        </form>
-      </div>
-    </>
+        <button type="submit" className="submit-button" disabled={loading}>
+          {loading ? 'Submitting...' : 'Submit'}
+        </button>
+      </form>
+    </div>
   );
 }
 
