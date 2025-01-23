@@ -294,12 +294,8 @@ select option [value="Gender 1"] {
   }
 }
 
-.Role{
-  color: #000;
-    font-family: Comic Neue;
-    font-size: 1rem;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 1.25rem;
-    letter-spacing: 0.02rem;
+.loginBtn{
+  background-color: orange;
+  padding: 8px;
+  border-radius: 8px;
 }

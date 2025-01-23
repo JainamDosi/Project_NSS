@@ -1,6 +1,6 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import LandingPage from "./Components/Registration/step1/personalDetails";
+import SignUp from "./Components/Registration/step1/personalDetails";
 import Login from "./Components/Registration/login/login";
 import ForgotPassword from "./Components/Registration/ForgotPassword/ForgotPassword";
 import EmailVerify from "./Components/Registration/EmailVerify/EmailVerify";
@@ -12,6 +12,7 @@ import TestInstructions from "./Components/Test/testInstructions/testInstruction
 import TestInterface from "./Components/Test/testInterface/testInterface";
 import FormByAdmin from "./Components/FormByAdmin/FormByAdmin";
 import QuestionForm from "./Components/questionForm/questionForm";
+import LandingPage from "./Components/landingPage/landingPage";
 function App() {
   return (
     <>
@@ -22,7 +23,7 @@ function App() {
           {/* <Route path="/forgotPassword" element={<ForgotPassword/>} />     */}
           {/* <Route path="/emailVerify" element={<EmailVerify/>} />     */}
         <Route path="/" element={<LandingPage />} />
-          <Route path="/landingPage" element={<LandingPage />} />    
+          <Route path="/signup" element={<SignUp />} />    
           <Route path="/registrationComplete" element={<RegistrationCompleted/>} />    
           <Route path="/login" element={<Login />} />    
           <Route path="/studentDashboard" element={<StudentDashboard/>} />    
