@@ -28,19 +28,45 @@ const AdminDashboard = () => {
     fetchTests();
   }, []);
 
-  // Categorize tests based on their test time and duration
-  const currentDate = new Date();
-  const ongoingTests = tests.filter((test) => {
-    const testStartTime = new Date(test.testDate);
-    const testEndTime = new Date(testStartTime.getTime() + 3 * 60 * 60 * 1000); // Add 3 hours to the start time
-    return currentDate >= testStartTime && currentDate <= testEndTime;
-  });
+  // Function to determine the test status (Upcoming, Ongoing, Completed)
+  const getTestStatus = (testDate, duration) => {
+    const currentDate = new Date();
+    console.log(currentDate);
+  
+    // Adjust testStartTime by subtracting 5 hours and 30 minutes
+    const testStartTime = new Date(testDate);
+    testStartTime.setHours(testStartTime.getHours() - 5); // Subtract 5 hours
+    testStartTime.setMinutes(testStartTime.getMinutes() - 30); // Subtract 30 minutes
+    console.log(testStartTime);
+  
+    // Adjust testEndTime by subtracting 5 hours and 30 minutes
+    const testEndTime = new Date(testDate);
+    testEndTime.setMinutes(testEndTime.getMinutes() + duration);
+    testEndTime.setHours(testEndTime.getHours() - 5); // Subtract 5 hours
+    testEndTime.setMinutes(testEndTime.getMinutes() - 30);
+    console.log(testEndTime); 
+  
+    if (currentDate < testStartTime) {
+      return "Upcoming";
+    } else if (currentDate >= testStartTime && currentDate <= testEndTime) {
+      return "Ongoing";
+    } else {
+      return "Completed";
+    }
+  };
+  
 
-  const upcomingTests = tests.filter((test) => new Date(test.testDate) > currentDate);
-  const completedTests = tests.filter((test) => {
-    const testEndTime = new Date(new Date(test.testDate).getTime() + 3 * 60 * 60 * 1000); // Add 3 hours to the start time
-    return currentDate > testEndTime;
-  });
+  const categorizedTests = tests.reduce(
+    (acc, test) => {
+      console.log(test.name);
+      const status = getTestStatus(test.testDate, test.duration);
+      if (status === "Upcoming") acc.upcoming.push(test);
+      if (status === "Ongoing") acc.ongoing.push(test);
+      if (status === "Completed") acc.completed.push(test);
+      return acc;
+    },
+    { upcoming: [], ongoing: [], completed: [] }
+  );
 
   return (
     <>
@@ -56,8 +82,8 @@ const AdminDashboard = () => {
       <h1>Ongoing Tests</h1>
       <main className="mainAdminDashboard">
         <div>
-          {ongoingTests.length > 0 ? (
-            ongoingTests.map((test) => <TestCard key={test.id} test={test} role="admin" />)
+          {categorizedTests.ongoing.length > 0 ? (
+            categorizedTests.ongoing.map((test) => <TestCard key={test.id} test={test} role="admin" />)
           ) : (
             <p>No ongoing tests available.</p>
           )}
@@ -67,8 +93,8 @@ const AdminDashboard = () => {
       <h1>Upcoming Tests</h1>
       <main className="mainAdminDashboard">
         <div>
-          {upcomingTests.length > 0 ? (
-            upcomingTests.map((test) => <TestCard key={test.id} test={test} role="admin" />)
+          {categorizedTests.upcoming.length > 0 ? (
+            categorizedTests.upcoming.map((test) => <TestCard key={test.id} test={test} role="admin" />)
           ) : (
             <p>No upcoming tests available.</p>
           )}
@@ -78,8 +104,8 @@ const AdminDashboard = () => {
       <h1>Completed Tests</h1>
       <main className="mainAdminDashboard">
         <div>
-          {completedTests.length > 0 ? (
-            completedTests.map((test) => <TestCard key={test.id} test={test} role="admin" />)
+          {categorizedTests.completed.length > 0 ? (
+            categorizedTests.completed.map((test) => <TestCard key={test.id} test={test} role="admin" />)
           ) : (
             <p>No completed tests available.</p>
           )}

@@ -8,7 +8,6 @@ import axios from "axios";
 const StudentDashboard = () => {
   const [tests, setTests] = useState([]);
 
-  
   // Fetch tests with authorization token
   useEffect(() => {
     const fetchTests = async () => {
@@ -30,17 +29,27 @@ const StudentDashboard = () => {
     fetchTests();
   }, []);
 
+  // Adjust times for IST (subtract 5 hours 30 minutes)
+  const adjustForIST = (date) => {
+    const adjustedDate = new Date(date);
+    adjustedDate.setHours(adjustedDate.getHours() - 5); // Subtract 5 hours
+    adjustedDate.setMinutes(adjustedDate.getMinutes() - 30); // Subtract 30 minutes
+    return adjustedDate;
+  };
+
   // Categorize tests based on their test time and duration
   const currentDate = new Date();
+
   const ongoingTests = tests.filter((test) => {
-    const testStartTime = new Date(test.testDate);
-    const testEndTime = new Date(testStartTime.getTime() + 3 * 60 * 60 * 1000); // Add 3 hours to the start time
+    const testStartTime = adjustForIST(test.testDate);
+    const testEndTime = new Date(testStartTime.getTime() + test.duration * 60 * 1000); // Adjust for duration
     return currentDate >= testStartTime && currentDate <= testEndTime;
   });
 
-  const upcomingTests = tests.filter((test) => new Date(test.testDate) > currentDate);
+  const upcomingTests = tests.filter((test) => adjustForIST(test.testDate) > currentDate);
   const completedTests = tests.filter((test) => {
-    const testEndTime = new Date(new Date(test.testDate).getTime() + 3 * 60 * 60 * 1000); // Add 3 hours to the start time
+    const testStartTime = adjustForIST(test.testDate);
+    const testEndTime = new Date(testStartTime.getTime() + test.duration * 60 * 1000); // Adjust for duration
     return currentDate > testEndTime;
   });
 
