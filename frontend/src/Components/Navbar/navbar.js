@@ -13,7 +13,6 @@ const Home = () => {
     <>
       <header className="navbar">
         <span id="one">JEE SERIES</span>
-        <span id="two">NAME</span>
         <button onClick={handlelogout}>LOG OUT</button>
 
 
