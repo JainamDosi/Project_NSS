@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import "./personalDetails.css";
 import Select from "react-select";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -178,7 +179,7 @@ const PersonalDetails = () => {
                   onChange={handleChange3}
                   options={gender_choice}
                   isSearchable={false}
-                />
+                  />
               </div> */}
               {/* <div>
                 <input
@@ -196,7 +197,7 @@ const PersonalDetails = () => {
                     Please enter a valid Mobile Number
                     </div>
                     )}
-              </div> */}
+                    </div> */}
             </div>
             <div className="personal-input3">
               <div>
@@ -244,9 +245,9 @@ const PersonalDetails = () => {
             </div>
             {error && (
               <div
-                className="text-danger"
-                style={{ marginTop: "-10px" }}
-                dangerouslySetInnerHTML={{ __html: errorMsg }}
+              className="text-danger"
+              style={{ marginTop: "-10px" }}
+              dangerouslySetInnerHTML={{ __html: errorMsg }}
               ></div>
             )}
           </div>
@@ -263,8 +264,8 @@ const PersonalDetails = () => {
             </label>
             <br />
             <label>
-                <input
-                    type="checkbox"
+            <input
+            type="checkbox"
                     name="role"
                     checked={selectedRole === "Admin"}
                     onChange={() => handleCheckboxChange("Admin")}
@@ -272,6 +273,7 @@ const PersonalDetails = () => {
                 Admin
             </label>
         </div> */}
+        
 
 
           <div className="personal-buttons">
@@ -293,7 +295,16 @@ const PersonalDetails = () => {
             <button className="personal-button-clear" onClick={clearInput}>
               Clear
             </button>
+
+          
+            <Link className="personal-button-clear" to="/login">
+  Login
+</Link>
+            
+           
+            
           </div>
+          
         </div>
       </div>
       </form>
