@@ -1,21 +1,24 @@
 import React from "react";
-import { Link,Navigate,useNavigate } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import "./navbar.css";
 
 const Home = () => {
   const handlelogout=()=>{
     localStorage.removeItem('token')
-    Navigate('/')
+    localStorage.removeItem('userInfo')
+    navigate('/login')
   }
+  const navigate = useNavigate();
   return (
     <>
       <header className="navbar">
         <span id="one">JEE SERIES</span>
-        <span id="two">NAME</span>
-        <span id="three"><button onclick="handlelogout">LOG OUT</button></span>
+        <button onClick={handlelogout}>LOG OUT</button>
+
+
       </header>
     </>
-  );
+  )
 };
 
 export default Home;
