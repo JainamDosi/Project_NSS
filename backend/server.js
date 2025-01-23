@@ -7,12 +7,14 @@ import authRoutes from './routes/auth.js';
 import bookmarksRoutes from './routes/bookmarks_route.js';
 import testRoutes from './routes/test.routes.js';
 import performanceRoutes from './routes/performance.routes.js';
+import analyze from './routes/test_analyze_route.js';
 // import cookieParser from 'cookie-parser'; 
 
 dotenv.config();
 const PORT=process.env.PORT;
 const app = express();
 app.use(express.json());
+
 // app.use(cookieParser());
 
 app.use(cors({
@@ -30,6 +32,7 @@ app.use('/api/users', authRoutes); // Routes for user authentication and managem
 app.use('/api/tests', testRoutes); // Routes for test management
 app.use('/api/performance', performanceRoutes); // Routes for performance tracking
 app.use('/api/bookmarks', bookmarksRoutes); // Routes for bookmarking tests
+app.use('/api/test_analyze', analyze); // Routes for bookmarking tests
 
 
 
