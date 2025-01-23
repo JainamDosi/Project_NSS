@@ -15,7 +15,10 @@ const gender_choice = ["Male", "Female", "Others"].map((state) => ({
 const PersonalDetails = () => {
   //Select whether Student or Admin 
   const [selectedRole, setSelectedRole] = useState(""); // State to track the selected role
+
   const Host = "http://localhost:5000/";
+
+
 
     const handleCheckboxChange = (role) => {
         setSelectedRole(role); // Update the state to the selected role
@@ -131,6 +134,7 @@ const PersonalDetails = () => {
           <div className="personal-step1">
             {/* <div className="personal-step1-number">
               <div className="personal-step1-number-content">1</div>
+
               </div> */}
             <div className="personal-step1-description">
               <div className="personal-step1-description-content-para1">
@@ -251,7 +255,11 @@ const PersonalDetails = () => {
             )}
           </div>
           {/* Student or Admin  */}
+
           {/* <div className="Role">
+
+          <div className="Role">
+
             <label>
                 <input
                     type="checkbox"
@@ -271,7 +279,11 @@ const PersonalDetails = () => {
                 />
                 Admin
             </label>
+
         </div> */}
+
+        </div>
+
 
 
           <div className="personal-buttons">

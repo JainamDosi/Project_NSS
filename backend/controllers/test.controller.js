@@ -6,29 +6,28 @@ import Question from '../models/question.model.js';
 
 export const createTest = async (req, res) => {
   try {
-    const { name, description, totalMarks, duration, subject, testDate, questions } = req.body;
+    const { title, description, testDate, testTime } = req.body;
 
-    // Create new questions if provided
-    let questionIds = [];
-    if (questions && questions.length > 0) {
-      for (const questionData of questions) {
-        const newQuestion = new Question(questionData); // Assuming each question has a valid structure
-        const savedQuestion = await newQuestion.save();
-        questionIds.push(savedQuestion._id);
-      }
-    }
+    // Create a combined date-time string using the testDate and testTime
+    const combinedDateTime = `${testDate}T${testTime}:00`;  // This will give you '2025-01-23T04:48:00'
 
-    // Create the test
+    // Parse it into a JavaScript Date object
+    const testDateTime = new Date(combinedDateTime);
+
+    // If the testDate is incorrect, we can log the Date object for debugging
+    console.log('Parsed testDateTime:', testDateTime);
+
+    // Now you can make sure the date is correctly converted to UTC if needed
+    const utcTestDateTime = new Date(testDateTime.getTime() - testDateTime.getTimezoneOffset() * 60000);
+
+    // Create a new Test instance
     const newTest = new Test({
-      name,
+      name: title,
       description,
-      totalMarks,
-      duration,
-      subject,
-      testDate,
-      questions: questionIds, // Link created questions to the test
+      testDate: utcTestDateTime,
     });
 
+    // Save the test to the database
     await newTest.save();
 
     res.status(201).json({ message: 'Test created successfully', test: newTest });
@@ -36,6 +35,7 @@ export const createTest = async (req, res) => {
     res.status(500).json({ message: 'Error creating test', error: error.message });
   }
 };
+
 
 
 // Get all tests (Students)
@@ -83,7 +83,7 @@ export const addQuestionToTest = async (req, res) => {
 export const editTest = async (req, res) => {
   try {
     const { testId } = req.params;
-    const updates = req.body; // Updates will contain the fields to modify (e.g., name, description)
+    const updates = req.body; 
 
     const updatedTest = await Test.findByIdAndUpdate(testId, updates, { new: true });
 
@@ -120,41 +120,29 @@ export const removeQuestionFromTest = async (req, res) => {
 };
 
 
-// Attempt a test (Student only)
-export const attemptTest = async (req, res) => {
+export const deleteTest = async (req, res) => {
   try {
-    const { testId, answers } = req.body;  // `answers` will be an array of question answers
-    const test = await Test.findById(testId).populate('questions');
+    const { testId } = req.params;
+
+    // Find the test by ID
+    const test = await Test.findById(testId);
 
     if (!test) {
       return res.status(404).json({ message: 'Test not found' });
     }
 
-    // Calculate marks and time taken
-    let marksObtained = 0;
-    let timeTaken = 0;  // In minutes
+    // Optional: Remove associated questions from the database
+    if (test.questions && test.questions.length > 0) {
+      await Question.deleteMany({ _id: { $in: test.questions } });
+    }
 
-    test.questions.forEach((question, index) => {
-      const isCorrect = question.correctAnswer === answers[index];
-      if (isCorrect) marksObtained += 4;
-      else marksObtained-=1;  
-    });
+    // Delete the test
+    await Test.findByIdAndDelete(testId);
 
-    const performance = new Performance({
-      user: req.user.userId,
-      test: testId,
-      marksObtained,
-      timeTaken,
-      questionWiseStats: test.questions.map((question, index) => ({
-        question: question._id,
-        isCorrect: question.correctAnswer === answers[index],
-        timeSpent: timeTaken, // Assuming time spent is tracked
-      })),
-    });
-
-    await performance.save();
-    res.status(200).json({ message: 'Test submitted successfully', performance });
+    res.status(200).json({ message: 'Test deleted successfully' });
   } catch (error) {
-    res.status(500).json({ message: 'Error attempting test' });
+    res.status(500).json({ message: 'Error deleting test', error: error.message });
   }
 };
+
+

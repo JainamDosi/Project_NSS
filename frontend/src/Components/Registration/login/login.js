@@ -1,6 +1,7 @@
 import React ,{useState}from 'react'
 import { json } from 'react-router-dom';
 import { useNavigate} from'react-router-dom';
+import "./login.css"; 
 
 const Login = (props) => {
   let history = useNavigate();
@@ -18,9 +19,11 @@ const Login = (props) => {
         },
         body: JSON.stringify({email:cradensital.email,password:cradensital.password}), 
       });
+      
       // props.setProgress(50)
-
+      
       const json = await response.json();
+      
       console.log("aaaaaaaaaaaaaaaaaaaaaaaaa");
         console.log(json);
         console.log("aaaaaaaaaaaaaaaaaaaaaaaaa");
@@ -42,14 +45,13 @@ const Login = (props) => {
       }
       const onChange = (e) => {
         setcradensital({...cradensital,[e.target.name]: e.target.value });
-        
       }
   return (
     <form onSubmit={handlesumit}>
 
     <div className='items-center justify-center'>
-      <h1 className='text-4xl font-extralight text-center text-blue-400 mb-10 '>login</h1>
-      <div className='flex flex-col rounded-md  gap-4 border-2 border-sky-300 rounded-x1 w-[600px] p-4 mx-auto'>
+      <h1 className='text-4xl font-extralight text-center text-blue-400 mb-10 '>Login</h1>
+      <div className='flex flex-col rounded-md  gap-4 border-2 border-sky-300 rounded-x1 w-[600px] p-4 mx-auto loginbox' >
      
            <div className='my-0 rounded-md '>
             <label className='text-xl mr-10 my-2  text-gray-400'>gmail</label>
@@ -61,7 +63,9 @@ const Login = (props) => {
             <input type='text' value={cradensital.password} onChange ={onChange} name='password'  id="exampleInputPassword1" className='border-2 rounded-md  border-blue-400 px-4 py-2 w-full '>
             </input>
            </div>
-           <button type="submit" className="btn btn-primary" onSubmit={handlesumit}>sign in</button>
+           <div class="loginSignin">
+           <button type="submit" className="btn btn-primary signInofLogin" onSubmit={handlesumit}>sign in</button>
+           </div>
 
 
 
@@ -71,4 +75,4 @@ const Login = (props) => {
   )
 }
 
-export default Login
+export default Login;

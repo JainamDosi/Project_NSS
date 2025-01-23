@@ -1,0 +1,157 @@
+#mainTestInterface{
+    display: flex;
+    flex-direction: row;
+}
+#leftMainTestInterface{
+    border-right: 1px solid black;
+    width: 50%;
+    height: 100vh;
+}
+#rightMainTestInterface{
+    width: 50%;
+    height: 100vh;
+}
+.optionsSingleCorrect{
+    display: none;
+}
+.optionsDecimalType input{
+    display: none;
+    width: 5vw;
+    border: 1px solid black;
+}
+.btnNavigate{
+    padding: 10px 20px;
+    border: 1px solid black;
+    cursor: 'pointer';
+}
+.btnDiv{
+    /* position: fixed; */
+    bottom: 2vh;
+    right: 50%;
+}
+.btnAnswers{
+    padding: 0.5rem 1.5rem;
+    border: 1px solid black;
+    cursor: 'pointer';
+    border-radius: 4px;
+    
+}
+
+.actionButtons{
+    gap: 0.4rem;
+    display: flex;
+    text-decoration: solid;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.greenbtn{
+    background-color: green;
+    color: #fff;
+}
+
+.orangebtn{
+    background-color: orange;
+    color: #fff;
+}
+
+.bluebtn{
+    background-color: blue;
+    color: #fff;
+}
+
+.btnSubmit{
+    background-color: green;
+    color: #fff;
+    /* position: fixed; */
+    bottom: 2vh;
+    right: 2%;
+}
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Transparent black */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* Popup box styling */
+.popup-box {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.yes-button {
+    background-color: #007bff; /* Blue */
+    color: white;
+    padding: .5rem;
+    border-radius: 4px;
+}
+.yes-button:hover {
+    background-color: #0056b3; /* Darker blue */
+}
+
+.no-button {
+    background-color: #6c757d; /* Gray */
+    padding: .5rem;
+    border-radius: 4px;
+    color: white;
+}
+
+.no-button:hover {
+    background-color: #495057; /* Darker gray */
+}
+
+.finalSubmit{
+    display: flex;
+    gap: .2rem;
+    justify-content: center;
+}
+
+h1 {
+    display: block;       /* `<h1>` is a block-level element */
+    font-size: 2em;       /* Default size is 2 times the root font size */
+    font-weight: bold;    /* Default font weight is bold */
+    margin-block-start: 0.67em; /* Top margin */
+    margin-block-end: 0.67em;   /* Bottom margin */
+    margin-inline-start: 0;     /* No left margin */
+    margin-inline-end: 0;       /* No right margin */
+  }
+
+  h4 {
+    display: block;       /* `<h4>` is a block-level element */
+    font-size: 1.17em;    /* Default size is 1.17 times the root font size */
+    font-weight: bold;    /* Default font weight is bold */
+    margin-block-start: 1.33em; /* Top margin */
+    margin-block-end: 1.33em;   /* Bottom margin */
+    margin-inline-start: 0;     /* No left margin */
+    margin-inline-end: 0;       /* No right margin */
+  }
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(10, 50px); /* 10 buttons per row */
+    gap: 0.2rem; /* Space between buttons */
+    margin-top: 4vh;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 4vh 2vw;
+  }
+
+  .btn75{
+    border: 1px solid black;
+    background-color: gray;
+    color: #fff;
+    padding: 0.3rem;
+    border-radius: 4px;
+  }
