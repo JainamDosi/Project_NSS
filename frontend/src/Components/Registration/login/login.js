@@ -1,6 +1,7 @@
 import React ,{useState}from 'react'
 import { json } from 'react-router-dom';
-import { useNavigate} from'react-router-dom';
+import { Link, useNavigate} from'react-router-dom';
+
 import "./login.css"; 
 
 const Login = (props) => {
@@ -54,17 +55,18 @@ const Login = (props) => {
       <div className='flex flex-col rounded-md  gap-4 border-2 border-sky-300 rounded-x1 w-[600px] p-4 mx-auto loginbox' >
      
            <div className='my-0 rounded-md '>
-            <label className='text-xl mr-10 my-2  text-gray-400'>gmail</label>
+            <label className='text-xl mr-10 my-2  text-gray-400'>Gmail</label>
             <input type='text' value={cradensital.email} onChange={onChange} id="email" name="email"  className='border-2 rounded-md  border-blue-400 px-4 py-2 w-full '>
             </input>
            </div>
            <div className='my-0'>
-            <label type="password"  className='text-xl mr-10 my-2 rounded-md  text-gray-400'> password</label>
+            <label type="password"  className='text-xl mr-10 my-2 rounded-md  text-gray-400'> Password</label>
             <input type='text' value={cradensital.password} onChange ={onChange} name='password'  id="exampleInputPassword1" className='border-2 rounded-md  border-blue-400 px-4 py-2 w-full '>
             </input>
            </div>
            <div class="loginSignin">
-           <button type="submit" className="btn btn-primary signInofLogin" onSubmit={handlesumit}>sign in</button>
+           <button type="submit" className="btn btn-primary signInofLogin" onSubmit={handlesumit}>Sign in</button>
+           <Link to="/signUp" className="btn btn-primary signInofLogin" ><button>Sign up</button></Link>
            </div>
 
 

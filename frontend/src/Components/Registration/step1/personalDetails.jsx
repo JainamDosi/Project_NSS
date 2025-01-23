@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./personalDetails.css";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Input } from "antd";
@@ -162,6 +162,7 @@ const PersonalDetails = () => {
             </button>
           </div>
         </div>
+      <Link to="/login" className="loginBtn"><button>Login</button></Link>
       </div>
     </form>
   );
