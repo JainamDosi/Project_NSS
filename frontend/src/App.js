@@ -24,7 +24,7 @@ function App() {
           {/* <Route path="/emailVerify" element={<EmailVerify/>} />     */}
         <Route path="/" element={<LandingPage />} />
           <Route path="/signup" element={<SignUp />} />    
-          <Route path="/registrationComplete" element={<RegistrationCompleted/>} />    
+          {/* <Route path="/registrationComplete" element={<RegistrationCompleted/>} />     */}
           <Route path="/login" element={<Login />} />    
           <Route path="/studentDashboard" element={<StudentDashboard/>} />    
           <Route path="/adminDashboard" element={<AdminDashboard/>} />    

@@ -7,13 +7,8 @@ import axios from "axios";
 
 const StudentDashboard = () => {
   const [tests, setTests] = useState([]);
-  const [value, setValue] = useState(""); // State for dropdown value
-  const options = [
-    { label: "Completed Tests", value: 1 },
-    { label: "Upcoming Tests", value: 2 },
-    { label: "Ongoing Tests", value: 3 },
-  ]; // Options array for dropdown
 
+  
   // Fetch tests with authorization token
   useEffect(() => {
     const fetchTests = async () => {
@@ -35,33 +30,61 @@ const StudentDashboard = () => {
     fetchTests();
   }, []);
 
-  const handleSelect = (event) => {
-    setValue(event.target.value); // Update state with selected value
-  };
+  // Categorize tests based on their test time and duration
+  const currentDate = new Date();
+  const ongoingTests = tests.filter((test) => {
+    const testStartTime = new Date(test.testDate);
+    const testEndTime = new Date(testStartTime.getTime() + 3 * 60 * 60 * 1000); // Add 3 hours to the start time
+    return currentDate >= testStartTime && currentDate <= testEndTime;
+  });
+
+  const upcomingTests = tests.filter((test) => new Date(test.testDate) > currentDate);
+  const completedTests = tests.filter((test) => {
+    const testEndTime = new Date(new Date(test.testDate).getTime() + 3 * 60 * 60 * 1000); // Add 3 hours to the start time
+    return currentDate > testEndTime;
+  });
 
   return (
     <>
-      {/* Navbar ko stick krna hai top pr */}
       <div>
         <Navbar />
       </div>
       <div id="btnsInDashBoard">
-        <select onChange={handleSelect} value={value} className="border-4">
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
         <Link to="">
           <button className="Analysis">Analysis</button>
         </Link>
       </div>
+
+      <h1>Ongoing Tests</h1>
       <main className="mainStudentDashboard">
         <div>
-          {tests.map((test) => (
-            <TestCard key={test.id} test={test} role="student"/>
-          ))}
+          {ongoingTests.length > 0 ? (
+            ongoingTests.map((test) => <TestCard key={test.id} test={test} role="student" />)
+          ) : (
+            <p>No ongoing tests available.</p>
+          )}
+        </div>
+      </main>
+
+      <h1>Upcoming Tests</h1>
+      <main className="mainStudentDashboard">
+        <div>
+          {upcomingTests.length > 0 ? (
+            upcomingTests.map((test) => <TestCard key={test.id} test={test} role="student" />)
+          ) : (
+            <p>No upcoming tests available.</p>
+          )}
+        </div>
+      </main>
+
+      <h1>Completed Tests</h1>
+      <main className="mainStudentDashboard">
+        <div>
+          {completedTests.length > 0 ? (
+            completedTests.map((test) => <TestCard key={test.id} test={test} role="student" />)
+          ) : (
+            <p>No completed tests available.</p>
+          )}
         </div>
       </main>
     </>
