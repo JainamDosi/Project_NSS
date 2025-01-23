@@ -16,6 +16,10 @@ const PersonalDetails = () => {
   //Select whether Student or Admin 
   const [selectedRole, setSelectedRole] = useState(""); // State to track the selected role
 
+  const Host = "http://localhost:5000/";
+
+
+
     const handleCheckboxChange = (role) => {
         setSelectedRole(role); // Update the state to the selected role
     };
@@ -27,21 +31,19 @@ const PersonalDetails = () => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-  const [user, setUser] = useState({
-    name: "",
+  const [cradensital, setcradensital] = useState({
     email: "",
-    contact: "",
-    gender: "",
     password: "",
-    confirmpassword: "",
+    cpassword: "",
+    name: ""
   });
 
   const onInputChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+    setcradensital({ ...cradensital, [e.target.name]: e.target.value });
   };
 
   const confirm = (confirm) => {
-    if (confirm === user.password) {
+    if (confirm === cradensital.password) {
       setConfirm_err(false);
     } else {
       setConfirm_err(true);
@@ -49,7 +51,7 @@ const PersonalDetails = () => {
   };
 
   const clearInput = () => {
-    setUser({
+    setcradensital({
       name: "",
       email: "",
       // contact: "",
@@ -60,13 +62,13 @@ const PersonalDetails = () => {
   };
 
   // const handleChange3 = (gender) => {
-  //   setUser({ ...user, gender: gender?.value });
+  //   setcradensital({ ...cradensital, gender: gender?.value });
   // };
 
   // const validateMobileNumber = (e) => {
   //   if (e.target.value.length <= 10) {
   //     setMobile_check(true);
-  //     setUser({ ...user, [e.target.name]: e.target.value });
+  //     setcradensital({ ...cradensital, [e.target.name]: e.target.value });
   //     let mnumber = e.target.value;
   //     if (mnumber.length === 10) {
   //       setMobile_check(false);
@@ -74,39 +76,66 @@ const PersonalDetails = () => {
   //   }
   // };
 
-  useEffect(() => {
-    if (
-      user.name &&
-      user.email &&
-      user.gender &&
-      user.contact &&
-      user.password &&
-      user.confirmpassword &&
-      user.password === user.confirmpassword &&
-      user.contact.length === 10 &&
-      /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(user.email)
-    ) {
-      setActive(true);
-    } else {
-      setActive(false);
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (
+  //     cradensital.name &&
+  //     cradensital.email &&
+  //     cradensital.gender &&
+  //     cradensital.contact &&
+  //     cradensital.password &&
+  //     cradensital.confirmpassword &&
+  //     cradensital.password === cradensital.confirmpassword &&
+  //     cradensital.contact.length === 10 &&
+  //     /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(cradensital.email)
+  //   ) {
+  //     setActive(true);
+  //   } else {
+  //     setActive(false);
+  //   }
+  // }, [cradensital]);
 
   const nextpage = () => {
-    if (user.password !== user.confirmpassword) return;
+    if (cradensital.password !== cradensital.confirmpassword) return;
     else {
       alert("Proceeding to the next step");
     }
   };
+  const handlesumit = async (e) => {
+    e.preventDefault();
+    console.log("handle sumit call");
+    const response = await fetch(`${Host}api/users/createuser`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: cradensital.name,
+        email: cradensital.email,
+        password: cradensital.password
+      }),
+    });
+    const json = await response.json();
+    console.log(json);
+    if (json.success) {
+      localStorage.setItem('token', json.authtoken);
+      // history("/home");
+    } else {
+      // history("/signup");
+    }
+  };
+
 
   return (
     <>
+    <form onSubmit={handlesumit}>
+
       <div className="personal">
         <div className="personal-steps">
           <div className="personal-step1">
             {/* <div className="personal-step1-number">
               <div className="personal-step1-number-content">1</div>
-            </div> */}
+
+              </div> */}
             <div className="personal-step1-description">
               <div className="personal-step1-description-content-para1">
                 {/* Step 1/2 */}
@@ -127,7 +156,7 @@ const PersonalDetails = () => {
                   type="text"
                   placeholder="Name *"
                   name="name"
-                  value={user.name}
+                  value={cradensital.name}
                   required
                   onChange={(e) => onInputChange(e)}
                 />
@@ -138,7 +167,7 @@ const PersonalDetails = () => {
                   type="email"
                   placeholder="Email ID *"
                   name="email"
-                  value={user.email}
+                  value={cradensital.email}
                   required
                   onChange={(e) => onInputChange(e)}
                 />
@@ -161,16 +190,16 @@ const PersonalDetails = () => {
                   className="input-field"
                   name="contact"
                   placeholder="Phone Number *"
-                  value={user.contact}
+                  value={cradensital.contact}
                   pattern="/^[6-9]{1}+[0-9]{9}$/"
                   required
                   onChange={(e) => validateMobileNumber(e)}
-                />
-                {mobile_check && (
-                  <div className="text-danger">
+                  />
+                  {mobile_check && (
+                    <div className="text-danger">
                     Please enter a valid Mobile Number
-                  </div>
-                )}
+                    </div>
+                    )}
               </div> */}
             </div>
             <div className="personal-input3">
@@ -187,7 +216,7 @@ const PersonalDetails = () => {
                   }
                   placeholder="Create Password *"
                   name="password"
-                  value={user.password}
+                  value={cradensital.password}
                   required
                   onChange={(e) => onInputChange(e)}
                 />
@@ -205,13 +234,13 @@ const PersonalDetails = () => {
                   }
                   placeholder="Confirm Password *"
                   name="confirmpassword"
-                  value={user.confirmpassword}
+                  value={cradensital.confirmpassword}
                   required
                   onChange={(e) => {
                     onInputChange(e);
                     confirm(e.target.value);
                   }}
-                />
+                  />
                 {confirm_err && (
                   <div className="text-danger">Password didn't match</div>
                 )}
@@ -226,7 +255,11 @@ const PersonalDetails = () => {
             )}
           </div>
           {/* Student or Admin  */}
+
+          {/* <div className="Role">
+
           <div className="Role">
+
             <label>
                 <input
                     type="checkbox"
@@ -246,28 +279,36 @@ const PersonalDetails = () => {
                 />
                 Admin
             </label>
+
+        </div> */}
+
         </div>
+
 
 
           <div className="personal-buttons">
             <button
-              onClick={nextpage}
-              className="personal-button-submit"
-              disabled={!active}
-              style={
-                active
-                  ? { background: "#ff5c00" }
-                  : { background: "rgb(204, 204, 204)" }
-              }
+            type="submit"
+            // onClick={nextpage}
+            className="personal-button-submit"
+            disabled={active}
+            
+            style={
+              active
+              ? { background: "#ff5c00" }
+              : { background: "rgb(204, 204, 204)" }
+            }
             >
               Next
             </button>
+           
             <button className="personal-button-clear" onClick={clearInput}>
               Clear
             </button>
           </div>
         </div>
       </div>
+      </form>
     </>
   );
 };
