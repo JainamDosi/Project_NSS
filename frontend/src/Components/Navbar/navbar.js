@@ -5,7 +5,7 @@ import "./navbar.css";
 const Home = () => {
   const handlelogout=()=>{
     localStorage.removeItem('token')
-    Navigate('/signin')
+    Navigate('/')
   }
   return (
     <>
