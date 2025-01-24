@@ -5,6 +5,13 @@ import { Link } from "react-router-dom";
 
 const TestInstructions = () => {
   const [isChecked, setIsChecked] = useState(false);
+  let navigate = useNavigate();
+   
+  useEffect(() => {
+    if (!localStorage.getItem('token') || localStorage.getItem('token') === undefined) {
+      navigate('/login');
+    }
+  }, [navigate]);
 
   // Function to handle checkbox change
   const handleCheckboxChange = (event) => {

@@ -1,7 +1,14 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 // import "./QuestionForm.css";
 
 function QuestionForm() {
+  let navigate = useNavigate();
+  useEffect(() => {
+    if (!localStorage.getItem('token') || localStorage.getItem('token') === undefined) {
+      navigate('/login');
+    }
+  }, [navigate]);
   const [questions, setQuestions] = useState(
     Array.from({ length: 75 }, () => ({
       text: "",

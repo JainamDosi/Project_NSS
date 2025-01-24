@@ -58,6 +58,11 @@ const PersonalDetails = () => {
       confirmpassword: "",
     });
   };
+  useEffect(() => {
+    if (!localStorage.getItem('token') || localStorage.getItem('token') === undefined) {
+      navigate('/login');
+    }
+  }, [navigate]);
 
   // const handleChange3 = (gender) => {
   //   setcradensital({ ...cradensital, gender: gender?.value });

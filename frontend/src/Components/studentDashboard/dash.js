@@ -1,12 +1,21 @@
 import { React, useState, useEffect } from "react";
 import "./dash.css";
-import { Link } from "react-router-dom";
+import { Link ,useNavigate} from "react-router-dom";
 import TestCard from "../TestCard/testcard";
 import Navbar from "../Navbar/navbar";
 import axios from "axios";
 
 const StudentDashboard = () => {
   const [tests, setTests] = useState([]);
+
+  let navigate = useNavigate();
+   
+  useEffect(() => {
+    if (!localStorage.getItem('token') || localStorage.getItem('token') === undefined) {
+      navigate('/login');
+    }
+  }, [navigate]);
+
 
   // Fetch tests with authorization token
   useEffect(() => {
