@@ -59,8 +59,8 @@ const PersonalDetails = () => {
     });
   };
   useEffect(() => {
-    if (!localStorage.getItem('token') || localStorage.getItem('token') === undefined) {
-      navigate('/login');
+    if (localStorage.getItem('token') || !localStorage.getItem('token') === undefined) {
+      navigate('/studentDashboard');
     }
   }, [navigate]);
 

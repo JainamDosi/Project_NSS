@@ -4,6 +4,14 @@ import './login.css';
 
 const Login = (props) => {
   let history = useNavigate();
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem('token') || !localStorage.getItem('token') === undefined) {
+      navigate('/studentDashboard');
+    }
+  }, [navigate]);
+
   const Host = "http://localhost:5000";
   const [cradensital, setcradensital] = useState({ email: "", password: "" });
 
