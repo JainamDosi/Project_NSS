@@ -3,11 +3,12 @@ import "./testInterface.css";
 import { useNavigate } from "react-router-dom";
 
 function TestInterface() {
+
   // Timer  
   const [time, setTime] = useState(100); // Initialize timer with 10 seconds for testing
-
+  
   const [showPopup, setShowPopup] = useState(false);
-
+  
   const handleSubmitClick = () => {
     setShowPopup(true); // Show the popup when the "Submit" button is clicked
   };
@@ -34,30 +35,37 @@ function TestInterface() {
         }
       });
     }, 1000); // Update every 1 second (1000 ms)
-
+    
     // Cleanup the timer when the component unmounts
     return () => clearInterval(timer);
   }, []);
-
+  
   // Convert time from seconds to hh:mm:ss format
   const formatTime = (seconds) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
-
+    
     return `${hours.toString().padStart(2, "0")}:${minutes
       .toString()
       .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
-  };
+    };
 
-  // Generate an array of numbers from 1 to 75
-  const buttons = Array.from({ length: 75 }, (_, i) => i + 1);
+    // Generate an array of numbers from 1 to 75
+    const buttons = Array.from({ length: 75 }, (_, i) => i + 1);
+    
+    // Navigation
+    const navigate = useNavigate();
+    
+    useEffect(() => {
+      if (!localStorage.getItem('token') || localStorage.getItem('token') === undefined) {
+        navigate('/login');
+      }
+    }, [navigate]);
 
-  // Navigation
-  const navigate = useNavigate();
-
-  const handleBack = () => {
-    navigate(-1); // Navigate to the previous page
+    
+    const handleBack = () => {
+      navigate(-1); // Navigate to the previous page
   };
 
   const handleNext = () => {
