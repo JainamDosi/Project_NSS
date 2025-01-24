@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
 import './FormByAdmin.css';
-
+import { useEffect } from 'react';
 function FormByAdmin() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
