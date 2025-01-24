@@ -18,7 +18,6 @@ const questionSchema = new mongoose.Schema(
     image: {
       type: String, //cloudinary image  
       default: '',
-      
     },
     subject: {
         type: String,

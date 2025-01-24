@@ -19,7 +19,7 @@ router.post('/create',fetchuser, isAdmin, createTest);
 router.patch('/:testId/edit', fetchuser, isAdmin, editTest); // Edit test details
 router.post('/:testId/questions', fetchuser, isAdmin, addQuestionToTest); // Add a question
 router.delete('/:testId/questions/:questionId', fetchuser, isAdmin, removeQuestionFromTest); // Remove a question
-router.delete('/tests/:testId',fetchuser, isAdmin, deleteTest); // Delete a test
+router.delete('/delete/:testId',fetchuser, isAdmin, deleteTest); // Delete a test
 
 
 

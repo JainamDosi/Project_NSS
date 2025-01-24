@@ -83,6 +83,7 @@ export const addQuestionToTest = async (req, res) => {
 export const editTest = async (req, res) => {
   try {
     const { testId } = req.params;
+    console.log('Test ID:', testId);
     const updates = req.body; 
 
     const updatedTest = await Test.findByIdAndUpdate(testId, updates, { new: true });
@@ -139,6 +140,7 @@ export const deleteTest = async (req, res) => {
     // Delete the test
     await Test.findByIdAndDelete(testId);
 
+    console.log('Test deleted successfully'); 
     res.status(200).json({ message: 'Test deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Error deleting test', error: error.message });

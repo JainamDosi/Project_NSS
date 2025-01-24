@@ -1,80 +1,72 @@
-import React ,{useState}from 'react'
-import { json } from 'react-router-dom';
-import { Link, useNavigate} from'react-router-dom';
-
-import "./login.css"; 
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import './login.css';
 
 const Login = (props) => {
   let history = useNavigate();
-  const Host= "http://localhost:5000"
-  const [cradensital,setcradensital] = useState({email:"",password:"",});
-    // const [password,setpassword] = useState("");
-    const handlesumit = async(e) => {
-      e.preventDefault();
-      // props.setProgress(10)
-      // props.login(e.target.email.value,e.target.password.value)
-      const response = await fetch(`${Host}/api/users/login`, {
-        method: "POST",  
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({email:cradensital.email,password:cradensital.password}), 
-      });
-      
-      // props.setProgress(50)
-      
-      const json = await response.json();
-      
-      console.log("aaaaaaaaaaaaaaaaaaaaaaaaa");
-        console.log(json);
-        console.log("aaaaaaaaaaaaaaaaaaaaaaaaa");
-        if (json.success) {
-          localStorage.setItem('token',json.authtoken);
-          localStorage.setItem("userInfo", JSON.stringify(json.data));
-          history("/home");
-          // props.setProgress(100)
+  const Host = "http://localhost:5000";
+  const [cradensital, setcradensital] = useState({ email: "", password: "" });
 
-      // props.showalert("successfuly login","success")
+  const handlesumit = async (e) => {
+    e.preventDefault();
+    const response = await fetch(`${Host}/api/users/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: cradensital.email, password: cradensital.password }),
+    });
+
+    const json = await response.json();
+
+    if (json.success) {
+      localStorage.setItem('token', json.authtoken);
+      localStorage.setItem("userInfo", JSON.stringify(json.data));
+
+      // Check the user's role and redirect accordingly
+      const userInfo = json.data;
+      if (userInfo.role === 'Admin') {
+        history("/adminDashboard");
+      } else {
+        history("/studentDashboard");
+      }
+
       setTimeout(() => {
         window.location.reload();
       }, 500);
-        }
-        else {
-          alert("invalid credenstials","danger")
-          history("/login")
-        }
-      }
-      const onChange = (e) => {
-        setcradensital({...cradensital,[e.target.name]: e.target.value });
-      }
+    } else {
+      alert("Invalid credentials", "danger");
+      history("/login");
+    }
+  };
+
+  const onChange = (e) => {
+    setcradensital({ ...cradensital, [e.target.name]: e.target.value });
+  };
+
   return (
     <form onSubmit={handlesumit}>
-
-    <div className='items-center justify-center'>
-      <h1 className='text-4xl font-extralight text-center text-blue-400 mb-10 '>Login</h1>
-      <div className='flex flex-col rounded-md  gap-4 border-2 border-sky-300 rounded-x1 w-[600px] p-4 mx-auto loginbox' >
-     
-           <div className='my-0 rounded-md '>
-            <label className='text-xl mr-10 my-2  text-gray-400'>Gmail</label>
-            <input type='text' value={cradensital.email} onChange={onChange} id="email" name="email"  className='border-2 rounded-md  border-blue-400 px-4 py-2 w-full '>
-            </input>
-           </div>
-           <div className='my-0'>
-            <label type="password"  className='text-xl mr-10 my-2 rounded-md  text-gray-400'> Password</label>
-            <input type='text' value={cradensital.password} onChange ={onChange} name='password'  id="exampleInputPassword1" className='border-2 rounded-md  border-blue-400 px-4 py-2 w-full '>
-            </input>
-           </div>
-           <div class="loginSignin">
-           <button type="submit" className="btn btn-primary signInofLogin" onSubmit={handlesumit}>Sign in</button>
-           <Link to="/signUp" className="btn btn-primary signInofLogin" ><button>Sign up</button></Link>
-           </div>
-
-
-
+      <div className='items-center justify-center'>
+        <h1 className='text-4xl font-extralight text-center text-blue-400 mb-10 '>Login</h1>
+        <div className='flex flex-col rounded-md gap-4 border-2 border-sky-300 rounded-x1 w-[600px] p-4 mx-auto loginbox'>
+          <div className='my-0 rounded-md'>
+            <label className='text-xl mr-10 my-2 text-gray-400'>Gmail</label>
+            <input type='text' value={cradensital.email} onChange={onChange} id="email" name="email" className='border-2 rounded-md border-blue-400 px-4 py-2 w-full' />
+          </div>
+          <div className='my-0'>
+            <label className='text-xl mr-10 my-2 rounded-md text-gray-400'>Password</label>
+            <input type='password' value={cradensital.password} onChange={onChange} name='password' id="exampleInputPassword1" className='border-2 rounded-md border-blue-400 px-4 py-2 w-full' />
+          </div>
+          <div className="loginSignin">
+            <button type="submit" className="btn btn-primary signInofLogin">Sign in</button>
+            <Link to="/signUp" className="btn btn-primary signInofLogin">
+              <button>Sign up</button>
+            </Link>
+          </div>
+        </div>
       </div>
-    </div>
     </form>
-  )
+  );
 }
 
 export default Login;

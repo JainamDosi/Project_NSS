@@ -3,10 +3,19 @@ import "./adminDash.css";
 import { Link } from "react-router-dom";
 import Navbar from "../Navbar/navbar";
 import TestCard from "../TestCard/testcard";
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
 import axios from "axios";
 
 const AdminDashboard = () => {
   const [tests, setTests] = useState([]);
+
+  const navigate = useNavigate(); // Initialize useNavigate
+   
+  useEffect(() => {
+    if (!localStorage.getItem('token') || localStorage.getItem('token') === undefined) {
+      navigate('/login');
+    }
+  }, [navigate]);
 
   useEffect(() => {
     const fetchTests = async () => {
