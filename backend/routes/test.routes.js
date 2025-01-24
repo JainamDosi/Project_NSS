@@ -17,6 +17,7 @@ const router = express.Router();
 //authenticate change to fetchuser 
 router.post('/create',fetchuser, isAdmin, createTest);
 router.patch('/:testId/edit', fetchuser, isAdmin, editTest); // Edit test details
+router.get('/getAllTests', fetchuser, isAdmin, getAllTests); // Edit test details
 router.post('/:testId/questions', fetchuser, isAdmin, addQuestionToTest); // Add a question
 router.delete('/:testId/questions/:questionId', fetchuser, isAdmin, removeQuestionFromTest); // Remove a question
 router.delete('/delete/:testId',fetchuser, isAdmin, deleteTest); // Delete a test
