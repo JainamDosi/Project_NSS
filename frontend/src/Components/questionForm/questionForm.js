@@ -1,12 +1,20 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function QuestionForm() {
   let navigate = useNavigate();
+  // const testId =useParams();
+  const { testId } = useParams();
+  console.log(testId);
   useEffect(() => {
     if (!localStorage.getItem("token") || localStorage.getItem("token") === undefined) {
       navigate("/login");
+    }
+  }, [navigate]);
+  useEffect(() => {
+    if (!testId ) {
+      navigate("/AdminDashboard");
     }
   }, [navigate]);
 
@@ -76,7 +84,7 @@ function QuestionForm() {
   
        
         // Send the question payload
-        const response = await fetch("http://localhost:5000/api/tests/67929e790e6073a3cf71f9c0/questions", {
+        const response = await fetch(`http://localhost:5000/api/tests/${testId}/questions`, {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',

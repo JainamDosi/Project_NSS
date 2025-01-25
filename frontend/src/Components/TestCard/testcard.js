@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate ,Link} from "react-router-dom";
 import axios from "axios";
 import "./testcard.css";
 
@@ -201,9 +201,12 @@ const TestCard = ({ test, role }) => {
                 >
                   Delete Test
                 </button>
-                <button className="btn bg-green-500 rounded-md">
-                  Add Questions
-                </button>
+                <Link 
+  to={`/questionForm/${test._id}`} 
+  className="btn bg-green-500 rounded-md"
+>
+  Add Questions
+</Link>
               </div>
             ) : null}
           </>
