@@ -31,7 +31,7 @@ function App() {
           <Route path="/testInstructions/:testId" element={<TestInstructions/>} />    
           <Route path="/testInterface/:testId" element={<TestInterface/>} />    
           <Route path="/formByAdmin" element={<FormByAdmin/>} />    
-          <Route path="/questionForm" element={<QuestionForm/>} />    
+          <Route path="/questionForm/:testId" element={<QuestionForm/>} />    
         </Routes>          
       </Router>    
     </>

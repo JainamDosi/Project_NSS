@@ -1,7 +1,6 @@
 import React, { useState,useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './login.css';
-import { useEffect } from 'react';
 
 const Login = (props) => {
   let history = useNavigate();
