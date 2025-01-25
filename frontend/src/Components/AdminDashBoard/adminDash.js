@@ -95,44 +95,52 @@ const AdminDashboard = () => {
 
   return (
     <>
-      <div>
+      <div className="bg-gray-800">
         <Navbar />
       </div>
-      <div id="btnsInDashBoard">
+      <div id="btnsInDashBoard" className="flex justify-center mt-8">
         <Link to="/formByAdmin">
-          <button className="Analysis">Create Test</button>
+          <button className="Analysis bg-blue-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-blue-600 transition duration-300">
+            Create Test
+          </button>
         </Link>
       </div>
 
-      <h1>Ongoing Tests</h1>
-      <main className="mainAdminDashboard">
+      <h1 className="text-4xl text-center font-semibold my-8 text-gray-700">Ongoing Tests</h1>
+      <main className="mainAdminDashboard container mx-auto flex flex-wrap justify-start gap-6">
         <div>
           {categorizedTests.ongoing.length > 0 ? (
-            categorizedTests.ongoing.map((test) => <TestCard key={test.id} test={test} role="admin" />)
+            categorizedTests.ongoing.map((test) => (
+              <TestCard key={test.id} test={test} role="admin" />
+            ))
           ) : (
-            <p>No ongoing tests available.</p>
+            <p className="text-center text-gray-500">No ongoing tests available.</p>
           )}
         </div>
       </main>
 
-      <h1>Upcoming Tests</h1>
-      <main className="mainAdminDashboard">
+      <h1 className="text-4xl text-center font-semibold my-8 text-gray-700">Upcoming Tests</h1>
+      <main className="mainAdminDashboard container mx-auto flex flex-wrap justify-start gap-6">
         <div>
           {categorizedTests.upcoming.length > 0 ? (
-            categorizedTests.upcoming.map((test) => <TestCard key={test.id} test={test} role="admin" />)
+            categorizedTests.upcoming.map((test) => (
+              <TestCard key={test.id} test={test} role="admin" />
+            ))
           ) : (
-            <p>No upcoming tests available.</p>
+            <p className="text-center text-gray-500">No upcoming tests available.</p>
           )}
         </div>
       </main>
 
-      <h1>Completed Tests</h1>
-      <main className="mainAdminDashboard">
+      <h1 className="text-4xl text-center font-semibold my-8 text-gray-700">Completed Tests</h1>
+      <main className="mainAdminDashboard container mx-auto flex flex-wrap justify-start gap-6">
         <div>
           {categorizedTests.completed.length > 0 ? (
-            categorizedTests.completed.map((test) => <TestCard key={test.id} test={test} role="admin" />)
+            categorizedTests.completed.map((test) => (
+              <TestCard key={test.id} test={test} role="admin" />
+            ))
           ) : (
-            <p>No completed tests available.</p>
+            <p className="text-center text-gray-500">No completed tests available.</p>
           )}
         </div>
       </main>

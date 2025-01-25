@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate ,Link} from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import "./testcard.css";
 
@@ -111,108 +111,119 @@ const TestCard = ({ test, role }) => {
   };
 
   return (
-    <div className="card">
-      <div className="card-header">{test.name}</div>
-      <div className="card-body">
-        <p className="text-base">{test.description}</p>
-        <p className="card-text">Test Date: {formattedDate}</p>
-        <p className="card-text">Test Time: {formattedTime}</p>
-        <p className="card-text">Total Time of Test: {test.duration} minutes</p>
-        <div className="status-tag-container">
-          <span
-            className={`status-tag ${
-              testStatus === "Upcoming"
-                ? "bg-green-500"
-                : testStatus === "Ongoing"
-                ? "bg-yellow-500"
-                : "bg-red-500"
-            } rounded-lg p-1`}
-          >
-            {testStatus}
-          </span>
-        </div>
-
-        {isEditing ? (
-          <div className="edit-form">
-            <label>
-              Test Name:
-              <input
-                type="text"
-                value={updatedTest.name}
-                onChange={(e) => setUpdatedTest({ ...updatedTest, name: e.target.value })}
-              />
-            </label>
-            <label>
-              Description:
-              <textarea
-                value={updatedTest.description}
-                onChange={(e) => setUpdatedTest({ ...updatedTest, description: e.target.value })}
-              />
-            </label>
-            <label>
-              Duration:
-              <input
-                type="number"
-                value={updatedTest.duration}
-                onChange={(e) => setUpdatedTest({ ...updatedTest, duration: e.target.value })}
-              />
-            </label>
-            <label>
-              Test Date:
-              <input
-                type="datetime-local"
-                value={new Date(updatedTest.testDate).toISOString().slice(0, 16)}
-                onChange={(e) => {
-                  const newDate = new Date(e.target.value);
-
-                  newDate.setHours(newDate.getHours() + 5);
-                  newDate.setMinutes(newDate.getMinutes() + 30);
-                  setUpdatedTest({ ...updatedTest, testDate: newDate.toISOString() });
-                }}
-              />
-            </label>
-            <button className="btn bg-blue-500" onClick={handleTestUpdate}>
-              Save Changes
-            </button>
-            <button className="btn bg-gray-500" onClick={() => setIsEditing(false)}>
-              Cancel
-            </button>
-          </div>
-        ) : (
-          <>
-            {role === "student" && testStatus === "Ongoing" ? (
-              <button
-                className="btn bg-slate-500 rounded-md"
-                onClick={handleAttemptTest}
-              >
-                Attempt Test
-              </button>
-            ) : role === "admin" ? (
-              <div className="admin-btn-group">
-                <button
-                  className="btn bg-blue-500 rounded-md"
-                  onClick={() => setIsEditing(true)}
-                >
-                  Edit Test
-                </button>
-                <button
-                  className="btn bg-red-500 rounded-md"
-                  onClick={() => handleDeleteTest(test._id)}
-                >
-                  Delete Test
-                </button>
-                <Link 
-  to={`/questionForm/${test._id}`} 
-  className="btn bg-green-500 rounded-md"
->
-  Add Questions
-</Link>
-              </div>
-            ) : null}
-          </>
-        )}
+    <div className="card max-w-sm w-full bg-white shadow-lg rounded-lg p-4 mb-4">
+    <div className="card-header text-lg font-semibold mb-2">{test.name}</div>
+    <div className="card-body">
+      <p className="text-base text-gray-700 mb-2">{test.description}</p>
+      <p className="card-text text-sm text-gray-500">Test Date: {formattedDate}</p>
+      <p className="card-text text-sm text-gray-500">Test Time: {formattedTime}</p>
+      <p className="card-text text-sm text-gray-500">Total Time of Test: {test.duration} minutes</p>
+      <div className="status-tag-container mt-2">
+        <span
+          className={`status-tag ${
+            testStatus === "Upcoming"
+              ? "bg-green-500"
+              : testStatus === "Ongoing"
+              ? "bg-yellow-500"
+              : "bg-red-500"
+          } text-white rounded-lg p-1 text-xs`}
+        >
+          {testStatus}
+        </span>
       </div>
+  
+      {isEditing ? (
+        <div className="edit-form mt-4">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Test Name:
+            <input
+              type="text"
+              value={updatedTest.name}
+              onChange={(e) => setUpdatedTest({ ...updatedTest, name: e.target.value })}
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Description:
+            <textarea
+              value={updatedTest.description}
+              onChange={(e) => setUpdatedTest({ ...updatedTest, description: e.target.value })}
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Duration:
+            <input
+              type="number"
+              value={updatedTest.duration}
+              onChange={(e) => setUpdatedTest({ ...updatedTest, duration: e.target.value })}
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Test Date:
+            <input
+              type="datetime-local"
+              value={new Date(updatedTest.testDate).toISOString().slice(0, 16)}
+              onChange={(e) => {
+                const newDate = new Date(e.target.value);
+  
+                newDate.setHours(newDate.getHours() + 5);
+                newDate.setMinutes(newDate.getMinutes() + 30);
+                setUpdatedTest({ ...updatedTest, testDate: newDate.toISOString() });
+              }}
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </label>
+          <button
+            className="btn bg-blue-500 w-full py-2 text-white rounded-md mt-4 hover:bg-blue-600"
+            onClick={handleTestUpdate}
+          >
+            Save Changes
+          </button>
+          <button
+            className="btn bg-gray-500 w-full py-2 text-white rounded-md mt-2 hover:bg-gray-600"
+            onClick={() => setIsEditing(false)}
+          >
+            Cancel
+          </button>
+        </div>
+      ) : (
+        <>
+          {role === "student" && testStatus === "Ongoing" ? (
+            <button
+              className="btn bg-slate-500 w-full py-2 text-white rounded-md mt-4 hover:bg-slate-600"
+              onClick={handleAttemptTest}
+            >
+              Attempt Test
+            </button>
+          ) : role === "admin" ? (
+            <div className="admin-btn-group mt-4 space-y-2">
+              <button
+                className="btn bg-blue-500 w-full py-2 text-white rounded-md hover:bg-blue-600"
+                onClick={() => setIsEditing(true)}
+              >
+                Edit Test
+              </button>
+              <button
+                className="btn bg-red-500 w-full py-2 text-white rounded-md hover:bg-red-600"
+                onClick={() => handleDeleteTest(test._id)}
+              >
+                Delete Test
+              </button>
+              <Link
+                to={`/questionForm/${test._id}`}
+                className="btn bg-green-500 w-full py-2 text-white rounded-md hover:bg-green-600"
+              >
+                Add Questions
+              </Link>
+            </div>
+          ) : null}
+        </>
+      )}
     </div>
+  </div>
+  
   );
 };
 

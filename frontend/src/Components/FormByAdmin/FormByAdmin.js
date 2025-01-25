@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
 import './FormByAdmin.css';
-import { useEffect } from 'react';
+
 function FormByAdmin() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -68,11 +68,11 @@ function FormByAdmin() {
   };
 
   return (
-    <div className="form-container">
-      <h2>Test Details Form</h2>
+    <div className="max-w-2xl mx-auto p-8 bg-white rounded-lg shadow-md mt-10">
+      <h2 className="text-3xl font-semibold text-center text-gray-700 mb-6">Test Details Form</h2>
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="title">Title:</label>
+        <div className="mb-4">
+          <label htmlFor="title" className="block text-lg font-medium text-gray-600">Title:</label>
           <input
             type="text"
             id="title"
@@ -80,43 +80,52 @@ function FormByAdmin() {
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Enter the test title"
             required
+            className="mt-2 p-3 w-full border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="description">Description:</label>
+        <div className="mb-4">
+          <label htmlFor="description" className="block text-lg font-medium text-gray-600">Description:</label>
           <textarea
             id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Enter the test description"
             required
+            className="mt-2 p-3 w-full border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
           ></textarea>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="testDate">Test Date:</label>
-          <input
-            type="date"
-            id="testDate"
-            value={testDate}
-            onChange={(e) => setTestDate(e.target.value)}
-            required
-          />
+        <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="testDate" className="block text-lg font-medium text-gray-600">Test Date:</label>
+            <input
+              type="date"
+              id="testDate"
+              value={testDate}
+              onChange={(e) => setTestDate(e.target.value)}
+              required
+              className="mt-2 p-3 w-full border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            />
+          </div>
+          <div>
+            <label htmlFor="testTime" className="block text-lg font-medium text-gray-600">Test Timing:</label>
+            <input
+              type="time"
+              id="testTime"
+              value={testTime}
+              onChange={(e) => setTestTime(e.target.value)}
+              required
+              className="mt-2 p-3 w-full border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            />
+          </div>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="testTime">Test Timing:</label>
-          <input
-            type="time"
-            id="testTime"
-            value={testTime}
-            onChange={(e) => setTestTime(e.target.value)}
-            required
-          />
-        </div>
-
-        <button type="submit" className="submit-button" disabled={loading}>
+        <button
+          type="submit"
+          className={`w-full mt-6 py-3 px-4 text-white font-semibold rounded-lg shadow-md ${loading ? 'bg-gray-400' : 'bg-blue-500 hover:bg-blue-600'}`}
+          disabled={loading}
+        >
           {loading ? 'Submitting...' : 'Submit'}
         </button>
       </form>
