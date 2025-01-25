@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import "./testInstructions.css";
 import { Link,useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+
 // import Navbar from "../Navbar/navbar";
 
 const TestInstructions = () => {
   const [isChecked, setIsChecked] = useState(false);
   let navigate = useNavigate();
+  const { testId } = useParams();
+  console.log(testId);
    
   useEffect(() => {
     if (!localStorage.getItem('token') || localStorage.getItem('token') === undefined) {
@@ -20,7 +24,7 @@ const TestInstructions = () => {
   };
   const handleButtonClick = () => {
     if (isChecked) {
-      window.location.href = "https://www.google.com";
+      navigate(`/testInterface/${testId}`);
     }
   };
   return (

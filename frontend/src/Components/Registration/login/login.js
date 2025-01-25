@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './login.css';
 
@@ -32,8 +32,8 @@ const Login = (props) => {
       localStorage.setItem("userInfo", JSON.stringify(json.data));
 
       // Check the user's role and redirect accordingly
-      const userInfo = json.data;
-      if (userInfo.role === 'Admin') {
+      const User = JSON.parse(localStorage.getItem("userInfo"));
+      if (User.user.role === 'Admin') {
         history("/adminDashboard");
       } else {
         history("/studentDashboard");

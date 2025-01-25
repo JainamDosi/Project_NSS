@@ -11,11 +11,27 @@ const AdminDashboard = () => {
 
   const navigate = useNavigate(); // Initialize useNavigate
    
+  
   useEffect(() => {
-    if (!localStorage.getItem('token') || localStorage.getItem('token') === undefined) {
-      navigate('/login');
-    }
+    const checkAuthentication = () => {
+      const userInfo = localStorage.getItem("userInfo");
+
+      if (!userInfo) {
+        navigate("/login"); // Redirect to login if userInfo is not found
+        return;
+      }
+
+      const User = JSON.parse(userInfo);
+     
+      // Check if the role is "Admin"
+      if (User.user.role !== "Admin") {
+        console.log("not admin") // Redirect to a 403 Forbidden page if not admin
+      }
+    };
+
+    checkAuthentication();
   }, [navigate]);
+
 
   useEffect(() => {
     const fetchTests = async () => {

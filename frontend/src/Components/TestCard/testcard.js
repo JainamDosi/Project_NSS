@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./testcard.css";
 
@@ -6,16 +7,16 @@ const TestCard = ({ test, role }) => {
   const [isEditing, setIsEditing] = React.useState(false);
   const [updatedTest, setUpdatedTest] = React.useState(test);
 
+  const navigate = useNavigate(); // Initialize navigate
+
   // Function to determine the test status (Upcoming, Ongoing, Completed)
   const getTestStatus = () => {
     const currentDate = new Date();
 
-    // Adjust testDate by subtracting 5 hours and 30 minutes
     const testDate = new Date(test.testDate);
     testDate.setHours(testDate.getHours() - 5);
     testDate.setMinutes(testDate.getMinutes() - 30);
 
-    // Adjust testEndTime by subtracting 5 hours and 30 minutes
     const testEndTime = new Date(test.testDate);
     testEndTime.setMinutes(testEndTime.getMinutes() + test.duration);
     testEndTime.setHours(testEndTime.getHours() - 5);
@@ -60,7 +61,7 @@ const TestCard = ({ test, role }) => {
         `http://localhost:5000/api/tests/delete/${testId}`,
         {
           headers: {
-            Authorization: `${token}`, // Include token in Authorization header
+            Authorization: `${token}`,
           },
         }
       );
@@ -77,12 +78,7 @@ const TestCard = ({ test, role }) => {
     }
   };
 
-  // Handle "Edit Test" click
-  const handleEditClick = () => {
-    setIsEditing(true);
-  };
-
-  // Handle the test update
+  // Handle test update functionality
   const handleTestUpdate = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -107,6 +103,11 @@ const TestCard = ({ test, role }) => {
       console.error("Error updating test:", error);
       alert("An error occurred while updating the test.");
     }
+  };
+
+  // Handle "Attempt Test" click
+  const handleAttemptTest = () => {
+    navigate(`/testInstructions/${test._id}`);
   };
 
   return (
@@ -161,9 +162,13 @@ const TestCard = ({ test, role }) => {
               <input
                 type="datetime-local"
                 value={new Date(updatedTest.testDate).toISOString().slice(0, 16)}
-                onChange={(e) =>
-                  setUpdatedTest({ ...updatedTest, testDate: new Date(e.target.value).toISOString() })
-                }
+                onChange={(e) => {
+                  const newDate = new Date(e.target.value);
+
+                  newDate.setHours(newDate.getHours() + 5);
+                  newDate.setMinutes(newDate.getMinutes() + 30);
+                  setUpdatedTest({ ...updatedTest, testDate: newDate.toISOString() });
+                }}
               />
             </label>
             <button className="btn bg-blue-500" onClick={handleTestUpdate}>
@@ -176,10 +181,18 @@ const TestCard = ({ test, role }) => {
         ) : (
           <>
             {role === "student" && testStatus === "Ongoing" ? (
-              <button className="btn bg-slate-500 rounded-md">Attempt Test</button>
+              <button
+                className="btn bg-slate-500 rounded-md"
+                onClick={handleAttemptTest}
+              >
+                Attempt Test
+              </button>
             ) : role === "admin" ? (
               <div className="admin-btn-group">
-                <button className="btn bg-blue-500 rounded-md" onClick={handleEditClick}>
+                <button
+                  className="btn bg-blue-500 rounded-md"
+                  onClick={() => setIsEditing(true)}
+                >
                   Edit Test
                 </button>
                 <button

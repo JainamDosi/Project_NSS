@@ -28,8 +28,8 @@ function App() {
           <Route path="/login" element={<Login />} />    
           <Route path="/studentDashboard" element={<StudentDashboard/>} />    
           <Route path="/adminDashboard" element={<AdminDashboard/>} />    
-          <Route path="/testInstructions" element={<TestInstructions/>} />    
-          <Route path="/testInterface" element={<TestInterface/>} />    
+          <Route path="/testInstructions/:testId" element={<TestInstructions/>} />    
+          <Route path="/testInterface/:testId" element={<TestInterface/>} />    
           <Route path="/formByAdmin" element={<FormByAdmin/>} />    
           <Route path="/questionForm" element={<QuestionForm/>} />    
         </Routes>          

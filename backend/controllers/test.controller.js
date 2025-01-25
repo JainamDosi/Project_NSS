@@ -148,3 +148,21 @@ export const deleteTest = async (req, res) => {
 };
 
 
+export const getQuestions = async (req, res) => {
+  try {
+      const { testId } = req.params;
+
+      // Fetch the test by ID and populate the questions
+      const test = await Test.findById(testId).populate('questions');
+
+      if (!test) {
+          return res.status(404).json({ error: 'Test not found' });
+      }
+
+      // Return the questions
+      res.status(200).json({ questions: test.questions });
+  } catch (error) {
+      console.error('Error fetching test questions:', error.message);
+      res.status(500).json({ error: 'Internal Server Error' });
+  }
+};

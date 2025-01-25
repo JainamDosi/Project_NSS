@@ -1,8 +1,40 @@
 import React, { useState, useEffect } from "react";
 import "./testInterface.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate ,useParams} from "react-router-dom";
+import axios from "axios";
 
 function TestInterface() {
+  const {testId}=useParams();
+  useEffect(() => {
+    console.log("Idhar mila", testId);
+  }, [testId]);
+  const [questions, setQuestions] = useState([]);
+const fetchQuestions = async () => {
+  try {
+    const response = await axios.get(`http://localhost:5000/api/tests/${testId}/getQuestions`, {
+      headers: {
+        Authorization: `${localStorage.getItem("token")}`,
+      },
+    });
+
+    setQuestions(response.data.questions);
+    console.log("Questions fetched successfully:", response.data.questions);
+  } catch (error) {
+    console.error(
+      "Error fetching questions:",
+      error.response?.data?.error || error.message
+    );
+  }
+};
+
+useEffect(() => {
+  fetchQuestions();
+}, [testId]);
+
+
+
+
+
 
   // Timer  
   const [time, setTime] = useState(100); // Initialize timer with 10 seconds for testing

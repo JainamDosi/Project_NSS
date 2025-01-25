@@ -6,6 +6,7 @@ import {
     addQuestionToTest,
     removeQuestionFromTest,
     deleteTest,
+    getQuestions
   } from '../controllers/test.controller.js';
 import  fetchuser  from '../middleware/fetchuser.js';
 import { isAdmin } from '../middleware/role.middleware.js';
@@ -27,7 +28,7 @@ router.delete('/delete/:testId',fetchuser, isAdmin, deleteTest); // Delete a tes
 
 // Student routes
 router.get('/',fetchuser,getAllTests);
-
+router.get('/:testId/getQuestions', fetchuser,getQuestions); // Get all questions for a test  
 
 
 
