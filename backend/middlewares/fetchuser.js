@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken';
 import fetchuser from '../middlewares/fetchuser.js';
 
 const router = express.Router();
-const JWT_SECRET = 'demo123';
+const JWT_SECRET = 'priyansh123';
 
 
 router.post('/createuser', [
@@ -86,7 +86,7 @@ router.post('/login', [
         console.log("aaaaaaaaaaaaaaaaaaa");
         console.log(data);
 
-        const authtoken = jwt.sign(data ,JWT_SECRET);
+        const authtoken = jwt.sign(data ,JWT_SECRET,{ algorithm: 'HS384' });
         success = true;
         console.log( {success, authtoken,data});
         res.json({ success, authtoken,data});

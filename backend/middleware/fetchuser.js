@@ -14,16 +14,18 @@ const fetchuser = (req, res, next) => {
   
     try {
    
+      console.log("verify successfulllllll");
+      console.log(JWT_SECRET);
       const data =jwt.verify(token,JWT_SECRET,{ algorithm: 'HS384' });
-      console.log("verify successful");
       const id=data.id;
-
+      
       req.user = data.user;
      
       req.user = {
         id: data.user.id,
-        role:data.user.role       // Extract the user ID from the payload
-       
+        name:data.user.name,
+        email:data.user.email,  // Extract the user ID from the payload
+        role:data.user.role       // Extract the user ID from the payload       
     };
       next();
     } catch (error) {

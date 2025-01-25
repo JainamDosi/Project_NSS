@@ -1,30 +1,37 @@
-import React, { useState,useEffect } from "react";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-// import "./QuestionForm.css";
 
 function QuestionForm() {
   let navigate = useNavigate();
   useEffect(() => {
-    if (!localStorage.getItem('token') || localStorage.getItem('token') === undefined) {
-      navigate('/login');
+    if (!localStorage.getItem("token") || localStorage.getItem("token") === undefined) {
+      navigate("/login");
     }
   }, [navigate]);
-  const [questions, setQuestions] = useState(
-    Array.from({ length: 75 }, () => ({
-      text: "",
-      image: null,
-      type: "numerical", // or "mcq"
-      difficulty: "easy", // easy, medium, hard
-      subject: "Physics", // Physics, Chemistry, Math
-      options: [
-        { type: "text", value: "" }, // Each option can be text or image
-        { type: "text", value: "" },
-        { type: "text", value: "" },
-        { type: "text", value: "" },
-      ],
-      correctAnswer: "",
-    }))
-  );
+
+  const [numberOfQuestions, setNumberOfQuestions] = useState(75); // Default to 75
+  const [questions, setQuestions] = useState([]);
+
+  // Initialize questions array when the number of questions changes
+  useEffect(() => {
+    setQuestions(
+      Array.from({ length: numberOfQuestions }, () => ({
+        text: "",
+        image: null,
+        type: "Numerical", // or "mcq"
+        difficulty: "easy", // easy, medium, hard
+        subject: "Physics", // Physics, Chemistry, Math
+        options: [
+          { type: "text", value: "" },
+          { type: "text", value: "" },
+          { type: "text", value: "" },
+          { type: "text", value: "" },
+        ],
+        correctAnswer: "",
+      }))
+    );
+  }, [numberOfQuestions]);
 
   const handleInputChange = (index, field, value) => {
     const updatedQuestions = [...questions];
@@ -44,15 +51,65 @@ function QuestionForm() {
     setQuestions(updatedQuestions);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitted Questions:", questions);
-    alert("Questions saved successfully!");
+  
+    const token = localStorage.getItem("token");
+    const apiUrl = "http://localhost:5000/api/tests/67929e790e6073a3cf71f9c0/questions";
+  
+    if (!token) {
+      alert("Authorization token is missing.");
+      return;
+    }
+  
+    try {
+      for (const question of questions) {
+        const payload = {
+          questionText: question.text,
+          options: question.options.map((opt) => opt.value),
+          correctAnswer: question.correctAnswer,
+          image: "zzzzzzzzzzzzzzz", 
+          subject: question.subject,
+          type: question.type,
+        };
+        console.log(JSON.stringify(payload));
+  
+       
+        // Send the question payload
+        const response = await fetch("http://localhost:5000/api/tests/67929e790e6073a3cf71f9c0/questions", {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `${token}`,
+          },
+          body: JSON.stringify(payload),
+        });
+  
+        if (!response.ok) {
+          throw new Error("Failed to save question.");
+        }
+      }
+  
+      alert("Questions saved successfully!");
+    } catch (error) {
+      console.error("Error saving questions:", error);
+      alert("Failed to save questions. Please try again.");
+    }
   };
-
+  
   return (
     <div className="form-container">
       <h2>Questionnaire Form</h2>
+      <label>
+        Number of Questions:
+        <input
+          type="number"
+          value={numberOfQuestions}
+          onChange={(e) => setNumberOfQuestions(Number(e.target.value))}
+          min="1"
+          required
+        />
+      </label>
       <form onSubmit={handleSubmit}>
         {questions.map((question, index) => (
           <div key={index} className="question-block">
@@ -85,9 +142,7 @@ function QuestionForm() {
             <label>Difficulty:</label>
             <select
               value={question.difficulty}
-              onChange={(e) =>
-                handleInputChange(index, "difficulty", e.target.value)
-              }
+              onChange={(e) => handleInputChange(index, "difficulty", e.target.value)}
             >
               <option value="easy">Easy</option>
               <option value="medium">Medium</option>
@@ -97,9 +152,7 @@ function QuestionForm() {
             <label>Subject:</label>
             <select
               value={question.subject}
-              onChange={(e) =>
-                handleInputChange(index, "subject", e.target.value)
-              }
+              onChange={(e) => handleInputChange(index, "subject", e.target.value)}
             >
               <option value="Physics">Physics</option>
               <option value="Chemistry">Chemistry</option>
@@ -126,12 +179,7 @@ function QuestionForm() {
                         type="text"
                         value={option.value}
                         onChange={(e) =>
-                          handleOptionChange(
-                            index,
-                            optIndex,
-                            "text",
-                            e.target.value
-                          )
+                          handleOptionChange(index, optIndex, "text", e.target.value)
                         }
                         placeholder={`Option ${optIndex + 1}`}
                         required
@@ -141,12 +189,7 @@ function QuestionForm() {
                         type="file"
                         accept="image/*"
                         onChange={(e) =>
-                          handleOptionChange(
-                            index,
-                            optIndex,
-                            "image",
-                            e.target.files[0]
-                          )
+                          handleOptionChange(index, optIndex, "image", e.target.files[0])
                         }
                         required
                       />
@@ -160,9 +203,7 @@ function QuestionForm() {
             <input
               type="text"
               value={question.correctAnswer}
-              onChange={(e) =>
-                handleInputChange(index, "correctAnswer", e.target.value)
-              }
+              onChange={(e) => handleInputChange(index, "correctAnswer", e.target.value)}
               placeholder="Enter the correct answer"
               required
             />
