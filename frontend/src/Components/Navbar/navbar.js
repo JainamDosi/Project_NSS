@@ -12,7 +12,9 @@ const Home = () => {
   return (
     <>
       <header className="navbar">
-        <span id="one">JEE SERIES</span>
+        <span id="one">NSS-JEE SERIES</span>
+        <Link to='/adminDashboard'>ADMIN D</Link>
+        <Link to='/studentDashboard'>STUDENT</Link>
         <button onClick={handlelogout}>LOG OUT</button>
 
 
