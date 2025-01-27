@@ -155,3 +155,26 @@ h1 {
     padding: 0.3rem;
     border-radius: 4px;
   }
+
+
+
+  /* Button Colors */
+.btn-grey {
+    background-color: grey;
+  }
+  
+.btn-red {
+background-color: red;
+}
+
+.btn-green {
+background-color: green;
+}
+
+.btn-purple {
+background-color: purple;
+}
+
+.btn-green-purple {
+background: linear-gradient(to right, green, purple);
+}

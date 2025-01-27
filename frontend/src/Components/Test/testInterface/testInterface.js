@@ -1,258 +1,218 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./testInterface.css";
-import { useNavigate ,useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 function TestInterface() {
-  const {testId}=useParams();
+  const { testId } = useParams();
+  const navigate = useNavigate();
+
   useEffect(() => {
-    console.log("Idhar mila", testId);
+    if (!localStorage.getItem('token') || localStorage.getItem('token') === undefined) {
+      navigate('/login');
+    }
+  }, [navigate]);
+
+  const fetchQuestions = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/tests/${testId}/getQuestions`,
+        {
+          headers: {
+            Authorization: `${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      setQuestions(response.data.questions);
+      console.log(questions)
+    } catch (error) {
+      console.error(
+        "Error fetching questions:",
+        error.response?.data?.error || error.message
+      );
+    }
+  }; 
+  useEffect(() => {
+    fetchQuestions();
   }, [testId]);
+
   const [questions, setQuestions] = useState([]);
-const fetchQuestions = async () => {
-  try {
-    const response = await axios.get(`http://localhost:5000/api/tests/${testId}/getQuestions`, {
-      headers: {
-        Authorization: `${localStorage.getItem("token")}`,
-      },
-    });
-
-    setQuestions(response.data.questions);
-    console.log("Questions fetched successfully:", response.data.questions);
-  } catch (error) {
-    console.error(
-      "Error fetching questions:",
-      error.response?.data?.error || error.message
-    );
-  }
-};
-
-useEffect(() => {
-  fetchQuestions();
-}, [testId]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
 
 
-
-
-
-  // Timer  
-  const [time, setTime] = useState(100); // Initialize timer with 10 seconds for testing
-  
+  // Timer
+  const [time, setTime] = useState(100);
   const [showPopup, setShowPopup] = useState(false);
-  
-  const handleSubmitClick = () => {
-    setShowPopup(true); // Show the popup when the "Submit" button is clicked
-  };
-
-  const handleYes = () => {
-    setShowPopup(false); // Close the popup
-    alert("Form submitted!"); // Simulate form submission
-  };
-
-  const handleNo = () => {
-    setShowPopup(false); // Close the popup
-  };
 
   useEffect(() => {
-    // Start the countdown timer
     const timer = setInterval(() => {
       setTime((prevTime) => {
         if (prevTime > 0) {
-          return prevTime - 1; // Decrement the timer by 1 second
+          return prevTime - 1;
         } else {
-          clearInterval(timer); // Stop the timer when it reaches 0
-          handleYes(); // Automatically execute the "Yes" action
+          clearInterval(timer);
+          handleYes();
           return 0;
         }
       });
-    }, 1000); // Update every 1 second (1000 ms)
-    
-    // Cleanup the timer when the component unmounts
+    }, 1000);
+
     return () => clearInterval(timer);
   }, []);
-  
-  // Convert time from seconds to hh:mm:ss format
+
   const formatTime = (seconds) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
-    
     return `${hours.toString().padStart(2, "0")}:${minutes
       .toString()
       .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
-    };
-
-    // Generate an array of numbers from 1 to 75
-    const buttons = Array.from({ length: 75 }, (_, i) => i + 1);
-    
-    // Navigation
-    const navigate = useNavigate();
-    
-    useEffect(() => {
-      if (!localStorage.getItem('token') || localStorage.getItem('token') === undefined) {
-        navigate('/login');
-      }
-    }, [navigate]);
-
-    
-    const handleBack = () => {
-      navigate(-1); // Navigate to the previous page
   };
 
-  const handleNext = () => {
-    navigate(1); // Navigate to the next page (if possible)
+  // Store answers and status for each question
+  const [answers, setAnswers] = useState({});
+  const [finalAnswers, setFinalAnswers] = useState({}); 
+  
+  
+  // Use ref to hold the answers when the timer hits 0 to prevent state reset
+  const answersRef = useRef(finalAnswers);
+
+  // Update the answersRef when answers state changes
+  useEffect(() => {
+    answersRef.current = finalAnswers;
+  }, [finalAnswers]);
+
+  const handleOptionChange = (e) => {
+    setAnswers({
+      ...answers,
+      [currentQuestionIndex]: e.target.value,
+    });
+
   };
 
-  // Decimal Answers
-  const [value, setValue] = useState("");
+  const handleNumericalChange = (e) => {
+    setAnswers({
+      ...answers,
+      [currentQuestionIndex]: e.target.value,
+    });
+  };
 
-  const handleChange = (e) => {
-    const inputValue = e.target.value;
 
-    // Allow only numbers, decimal points, and a single period
-    if (/^\d*\.?\d*$/.test(inputValue)) {
-      setValue(inputValue);
+
+  const handleBack = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
     }
   };
 
-  // Single Option
-  const [selectedOption, setSelectedOption] = useState(null);
-
-  const handleCheckboxChange1 = (e) => {
-    const { name } = e.target;
-    setSelectedOption(name); // Set the selected option
+  const handleNext = () => {
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    }
   };
 
-  // Multiple Option
-  const [checkboxes, setCheckboxes] = useState({
-    option1: false,
-    option2: false,
-    option3: false,
-    option4: false,
-  });
-
-  const handleCheckboxChange = (e) => {
-    const { name, checked } = e.target;
-    setCheckboxes({ ...checkboxes, [name]: checked });
+  const handleSubmitClick = () => {
+    setShowPopup(true);
   };
+
+  const handleYes = () => {
+    // Use answersRef to access the answers when the timer finishes
+    const final = answersRef.current;
+    console.log(final);
+    alert("Form submitted!");
+    setShowPopup(false);
+  };
+
+  const handleNo = () => {
+    setShowPopup(false);
+  };
+
+  const handleButtonClick = (index) => {
+    setCurrentQuestionIndex(index);
+  };
+
+  const handleSaveNext = () => {
+    finalAnswers[currentQuestionIndex] = answers[currentQuestionIndex];
+    setFinalAnswers(finalAnswers);
+    console.log("SAVED AND MARKED")
+    console.log(finalAnswers);
+    console.log("Ticked")
+    console.log(answers);
+
+    handleNext();
+  };
+
+  const handleSave_Mark = () => {
+    if (!answers[currentQuestionIndex]) {
+      alert("Please select an option ");
+      return;
+    }
+    finalAnswers[currentQuestionIndex] = answers[currentQuestionIndex];
+    setFinalAnswers(finalAnswers);
+    console.log("SAVED AND MARKED")
+    console.log(finalAnswers);
+    console.log("Ticked")
+    console.log(answers);
+    handleNext();
+  };
+
+  const handleReview_Next = () => {
+    handleNext();
+  };
+
+  const handleClear = () => {
+    const updateFinal= { ...finalAnswers };
+    delete updateFinal[currentQuestionIndex];
+    setFinalAnswers(updateFinal);
+    const updatedAnswers = { ...answers };
+    delete updatedAnswers[currentQuestionIndex];
+    setAnswers(updatedAnswers);
+  };
+
+  
 
   return (
     <>
       <div id="mainTestInterface">
         <div id="leftMainTestInterface">
-          <h4>Question 1:</h4>
-          <br />
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero
-            asperiores assumenda aliquid. Deleniti suscipit minima, sunt fuga
-            atque veniam facilis quos eligendi odio sit non pariatur unde ea
-            repellat nostrum sapiente praesentium optio possimus, vitae, quaerat
-            doloremque fugit placeat. Ex.
-          </p>
-          <br />
-          <ol type="1">
-            <li>ANSWER1</li>
-            <li>ANSWER2</li>
-            <li>ANSWER3</li>
-            <li>ANSWER4</li>
-          </ol>
+          {questions.length > 0 && (
+            <div>
+              <h4>{`Question ${currentQuestionIndex + 1}:`}</h4>
+              <p>{questions[currentQuestionIndex].questionText}</p>
 
-          {/* Multiple Correct Answers */}
-          <div className="optionsMultipleCorrect">
-            <form>
-              <label>
-                <input
-                  type="checkbox"
-                  name="option1"
-                  checked={checkboxes.option1}
-                  onChange={handleCheckboxChange}
-                />
-                1
-              </label>
-              <br />
-              <label>
-                <input
-                  type="checkbox"
-                  name="option2"
-                  checked={checkboxes.option2}
-                  onChange={handleCheckboxChange}
-                />
-                2
-              </label>
-              <br />
-              <label>
-                <input
-                  type="checkbox"
-                  name="option3"
-                  checked={checkboxes.option3}
-                  onChange={handleCheckboxChange}
-                />
-                3
-              </label>
-              <br />
-              <label>
-                <input
-                  type="checkbox"
-                  name="option4"
-                  checked={checkboxes.option4}
-                  onChange={handleCheckboxChange}
-                />
-                4
-              </label>
-            </form>
-          </div>
-
-          <div className="optionsSingleCorrect">
-            <form>
-              <label>
-                <input
-                  type="checkbox"
-                  name="option1"
-                  checked={selectedOption === "option1"}
-                  onChange={handleCheckboxChange1}
-                />
-                1
-              </label>
-              <br />
-              <label>
-                <input
-                  type="checkbox"
-                  name="option2"
-                  checked={selectedOption === "option2"}
-                  onChange={handleCheckboxChange1}
-                />
-                2
-              </label>
-              <br />
-              <label>
-                <input
-                  type="checkbox"
-                  name="option3"
-                  checked={selectedOption === "option3"}
-                  onChange={handleCheckboxChange1}
-                />
-                3
-              </label>
-              <br />
-              <label>
-                <input
-                  type="checkbox"
-                  name="option4"
-                  checked={selectedOption === "option4"}
-                  onChange={handleCheckboxChange1}
-                />
-                4
-              </label>
-            </form>
-          </div>
-
-          <div className="optionsDecimalType">
-            <input type="text" value={value} onChange={handleChange} />
-          </div>
+              {questions[currentQuestionIndex].type === "MCQ" ? (
+                <div className="optionsMCQ">
+                  {questions[currentQuestionIndex].options.map((option, optionIndex) => (
+                    <div key={optionIndex}>
+                      <input
+                        type="radio"
+                        id={`option-${optionIndex}`}
+                        name={`question-${currentQuestionIndex}`}
+                        value={option}
+                        checked={answers[currentQuestionIndex] === option}
+                        onChange={handleOptionChange}
+                      />
+                      <label htmlFor={`option-${optionIndex}`}>{option}</label>
+                    </div>
+                  ))}
+                </div>
+              ) : questions[currentQuestionIndex].type === "Numerical" ? (
+                <div className="optionsNumerical">
+                  <input
+                    type="text"
+                    value={answers[currentQuestionIndex] || ""}
+                    onChange={handleNumericalChange}
+                    placeholder="Enter your answer"
+                  />
+                </div>
+              ) : null}
+            </div>
+          )}
 
           <div className="btnDiv">
-            <button onClick={handleBack} className="btnNavigate">
+            <button onClick={handleBack} className="btnNavigate" disabled={currentQuestionIndex === 0}>
               Back
             </button>
             <button onClick={handleNext} className="btnNavigate">
@@ -263,25 +223,37 @@ useEffect(() => {
 
         <div id="rightMainTestInterface">
           <h4>Time Remaining: {formatTime(time)}</h4>
+
           <div className="actionButtons">
-            <div><button className="btnAnswers greenbtn">SAVE & NEXT</button></div>
-            <div><button className="btnAnswers">CLEAR</button></div>
-            <div><button className="btnAnswers orangebtn">SAVE & MARK FOR REVIEW</button></div>
-            <div><button className="btnAnswers bluebtn">MARK FOR REVIEW & NEXT</button></div>
+            <button className="btnAnswers greenbtn" onClick={handleSaveNext}>
+              SAVE & NEXT
+            </button>
+            <button className="btnAnswers" onClick={handleClear}>
+              CLEAR
+            </button>
+            <button className="btnAnswers orangebtn" onClick={handleSave_Mark}>
+              SAVE & MARK FOR REVIEW
+            </button>
+            <button className="btnAnswers bluebtn" onClick={handleReview_Next}>
+              MARK FOR REVIEW & NEXT
+            </button>
           </div>
 
           <div className="grid-container">
-            {buttons.map((number) => (
-              <button 
-                key={number}
-                className="btn75"
+            {Array.from({ length: questions.length }, (_, i) => (
+              <button
+                key={i}
+                className={`btn75 ${i === currentQuestionIndex ? "active" : ""}`}
+                onClick={() => handleButtonClick(i)}
               >
-                {number.toString().padStart(2, "0")}
+                {i + 1}
               </button>
             ))}
           </div>
 
-          <button className="btnSubmit btnAnswers" onClick={handleSubmitClick}>SUBMIT</button>
+          <button className="btnSubmit btnAnswers" onClick={handleSubmitClick}>
+            SUBMIT
+          </button>
 
           {showPopup && (
             <div className="popup-overlay">
@@ -298,6 +270,8 @@ useEffect(() => {
               </div>
             </div>
           )}
+
+          
         </div>
       </div>
     </>
