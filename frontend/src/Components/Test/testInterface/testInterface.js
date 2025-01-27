@@ -144,10 +144,11 @@ function TestInterface() {
       finalAnswers[currentQuestionIndex] = answers[currentQuestionIndex];
       setFinalAnswers({ ...finalAnswers });
       updateStatus(currentQuestionIndex, "Answered");
-    } else {
-      // If no answer is selected, mark as not answered
-      updateStatus(currentQuestionIndex, "Not Answered");
-    }
+    } 
+    // else {
+    //   // If no answer is selected, mark as not answered
+    //   updateStatus(currentQuestionIndex, "Not Answered");
+    // }
     
 
     handleNext_Save();
@@ -230,6 +231,23 @@ function TestInterface() {
 
   const countStatus = (status) => questionStatus.filter((s) => s === status).length;
 
+  const getStatusClass = (index) => {
+    switch (questionStatus[index]) {
+      case "Answered":
+        return "status-green";
+      case "Not Answered":
+        return "status-red";
+      case "Not Visited":
+        return "status-grey";
+      case "Marked for Review":
+        return "status-orange";
+      case "Answered and Marked for Review":
+        return "status-purple";
+      default:
+        return "";
+    }
+  };
+
   return (
     <>
       <div id="mainTestInterface">
@@ -306,16 +324,16 @@ function TestInterface() {
           </div>
 
           <div className="grid-container">
-            {Array.from({ length: questions.length }, (_, i) => (
-              <button
-                key={i}
-                className={`btn75 ${i === currentQuestionIndex ? "active" : ""}`}
-                onClick={() => handleButtonClick(i)}
-              >
-                {i + 1}
-              </button>
-            ))}
-          </div>
+  {Array.from({ length: questions.length }, (_, i) => (
+    <button
+      key={i}
+      className={`btn75 ${getStatusClass(i)} ${i === currentQuestionIndex ? "active" : ""}`}
+      onClick={() => handleButtonClick(i)}
+    >
+      {i + 1}
+    </button>
+  ))}
+</div>
 
           <button className="btnSubmit btnAnswers" onClick={handleSubmitClick}>
             SUBMIT

@@ -178,3 +178,36 @@ background-color: purple;
 .btn-green-purple {
 background: linear-gradient(to right, green, purple);
 }
+
+
+/* Color styles for the question palette */
+.status-green {
+    background-color: #28a745; /* Green for answered */
+    color: white;
+  }
+  
+  .status-red {
+    background-color: #dc3545; /* Red for not answered */
+    color: white;
+  }
+  
+  .status-grey {
+    background-color: #6c757d; /* Grey for not visited */
+    color: white;
+  }
+  
+  .status-orange {
+    background-color: #fd7e14; /* Orange for marked for review */
+    color: white;
+  }
+  
+  .status-purple {
+    background-color: #6f42c1; /* Purple for answered and marked for review */
+    color: white;
+  }
+  
+  /* Highlight the active question */
+  .active {
+    border: 5px solid black;
+  }
+  
