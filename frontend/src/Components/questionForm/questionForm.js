@@ -5,8 +5,59 @@ import { useNavigate, useParams } from "react-router-dom";
 function QuestionForm() {
   let navigate = useNavigate();
   // const testId =useParams();
+  const [previesquestions, setpreviesQuestions] = useState([]);
+
+
+
+
   const { testId } = useParams();
   console.log(testId);
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        // Retrieve the token from local storage
+        const token = localStorage.getItem("token");
+        if (!token) {
+          throw new Error("Authorization token is missing.");
+        }
+
+        // Fetch data with the Authorization header
+        const response = await fetch(
+          "http://localhost:5000/api/tests/679124dc05421966bf98ffa3/getQuestions",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        console.log(data);
+        console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+      //   for (let i = 0; i < data.length; i++) {
+      //     const updatedQuestions = [...questions];
+      //     updatedQuestions[index][field] = value;
+      //     setQuestions(updatedQuestions);
+         
+          
+      //  }
+      //   // setQuestions(data.questions || []);
+      } catch (err) {
+        // setError(err.message);
+        console.log(err.message);
+      } finally {
+      }
+    };
+
+    fetchQuestions();
+  }, []);
   useEffect(() => {
     if (!localStorage.getItem("token") || localStorage.getItem("token") === undefined) {
       navigate("/login");
