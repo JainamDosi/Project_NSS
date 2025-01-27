@@ -9,7 +9,10 @@ function TestInterface() {
 
   // Redirect to login if token is missing
   useEffect(() => {
-    if (!localStorage.getItem("token") || localStorage.getItem("token") === undefined) {
+    if (
+      !localStorage.getItem("token") ||
+      localStorage.getItem("token") === undefined
+    ) {
       navigate("/login");
     }
   }, [navigate]);
@@ -26,14 +29,18 @@ function TestInterface() {
         }
       );
       setQuestions(response.data.questions);
-  
+
       // Initialize question statuses
       const initialStatus = response.data.questions.map((_, index) =>
         index === 0 ? "Not Answered" : "Not Visited"
       );
       setQuestionStatus(initialStatus);
+      setTimeSpent(new Array(response.data.questions.length).fill(0));
     } catch (error) {
-      console.error("Error fetching questions:", error.response?.data?.error || error.message);
+      console.error(
+        "Error fetching questions:",
+        error.response?.data?.error || error.message
+      );
     }
   };
 
@@ -77,10 +84,22 @@ function TestInterface() {
   const [finalAnswers, setFinalAnswers] = useState({});
   const [questionStatus, setQuestionStatus] = useState([]);
 
+  const [timeSpent, setTimeSpent] = useState([]); // Array to track time spent on each question
+  const [startTime, setStartTime] = useState(Date.now()); // Start time for the current question
+
   const updateStatus = (index, status) => {
     const updatedStatus = [...questionStatus];
     updatedStatus[index] = status;
     setQuestionStatus(updatedStatus);
+  };
+
+  const updateTimeSpent = () => {
+    const currentTime = Date.now();
+    const timeDiff = (currentTime - startTime) / 1000; // Time spent on the current question in seconds
+    const updatedTimeSpent = [...timeSpent];
+    updatedTimeSpent[currentQuestionIndex] += timeDiff; // Add the time spent
+    setTimeSpent(updatedTimeSpent);
+    setStartTime(currentTime); // Reset start time for the next question
   };
 
   const handleOptionChange = (e) => {
@@ -92,7 +111,7 @@ function TestInterface() {
 
   const handleNumericalChange = (e) => {
     const value = e.target.value;
-  
+
     // Allow only numbers, decimal points, and negative signs
     if (/^-?\d*\.?\d*$/.test(value)) {
       setAnswers({
@@ -104,26 +123,29 @@ function TestInterface() {
 
   const handleBack = () => {
     if (currentQuestionIndex > 0) {
+      updateTimeSpent();
       const previousIndex = currentQuestionIndex - 1;
-  
+
       // Update status if the previous question is "Not Visited"
       if (questionStatus[previousIndex] === "Not Visited") {
         updateStatus(previousIndex, "Not Answered");
       }
-  
+
       setCurrentQuestionIndex(previousIndex);
     }
   };
 
   const handleNext = () => {
     if (currentQuestionIndex < questions.length - 1) {
+      updateTimeSpent();
+      console.log(timeSpent);
       const nextIndex = currentQuestionIndex + 1;
-  
+
       // Update status if the next question is "Not Visited"
-      if (questionStatus[nextIndex] === "Not Visited") {
-        updateStatus(nextIndex, "Not Answered");
+      if (questionStatus[currentQuestionIndex] === "Not Visited") {
+        updateStatus(currentQuestionIndex, "Not Answered");
       }
-  
+
       setCurrentQuestionIndex(nextIndex);
     }
   };
@@ -132,6 +154,7 @@ function TestInterface() {
       const nextIndex = currentQuestionIndex + 1;
       setCurrentQuestionIndex(nextIndex);
     }
+    
   };
 
   const handleSaveNext = () => {
@@ -144,12 +167,11 @@ function TestInterface() {
       finalAnswers[currentQuestionIndex] = answers[currentQuestionIndex];
       setFinalAnswers({ ...finalAnswers });
       updateStatus(currentQuestionIndex, "Answered");
-    } 
+    }
     // else {
     //   // If no answer is selected, mark as not answered
     //   updateStatus(currentQuestionIndex, "Not Answered");
     // }
-    
 
     handleNext_Save();
   };
@@ -158,25 +180,24 @@ function TestInterface() {
   //     alert("Please select an option");
   //     return;
   //   }
-  
+
   //   // Update the current question's status to "Answered"
   //   finalAnswers[currentQuestionIndex] = answers[currentQuestionIndex];
   //   setFinalAnswers({ ...finalAnswers });
   //   updateStatus(currentQuestionIndex, "Answered");
-  
+
   //   // Move to the next question index
   //   const nextQuestionIndex = currentQuestionIndex + 1;
-  
+
   //   // Check if the next question has been visited or not
   //   if (!finalAnswers[nextQuestionIndex]) {
   //     // If not visited, mark the next question's status as "Not Answered"
   //     updateStatus(nextQuestionIndex, "Not Answered");
   //   }
-  
+
   //   // Proceed to the next question
   //   handleNext_Save();
   // };
-  
 
   const handleSave_Mark = () => {
     if (!answers[currentQuestionIndex]) {
@@ -188,7 +209,7 @@ function TestInterface() {
     updateStatus(currentQuestionIndex, "Answered and Marked for Review");
     handleNext_Save();
   };
-  
+
   const handleReview_Next = () => {
     updateStatus(currentQuestionIndex, "Marked for Review");
     handleNext_Save();
@@ -206,6 +227,7 @@ function TestInterface() {
   };
 
   const handleYes = () => {
+    updateTimeSpent();
     console.log(finalAnswers);
     alert("Form submitted!");
     setShowPopup(false);
@@ -222,6 +244,7 @@ function TestInterface() {
   //   }
   // };
   const handleButtonClick = (index) => {
+    updateTimeSpent();
     setCurrentQuestionIndex(index);
     // Update the question status when visiting for the first time
     if (questionStatus[index] === "Not Visited") {
@@ -229,7 +252,8 @@ function TestInterface() {
     }
   };
 
-  const countStatus = (status) => questionStatus.filter((s) => s === status).length;
+  const countStatus = (status) =>
+    questionStatus.filter((s) => s === status).length;
 
   const getStatusClass = (index) => {
     switch (questionStatus[index]) {
@@ -259,19 +283,23 @@ function TestInterface() {
 
               {questions[currentQuestionIndex].type === "MCQ" ? (
                 <div className="optionsMCQ">
-                  {questions[currentQuestionIndex].options.map((option, optionIndex) => (
-                    <div key={optionIndex}>
-                      <input
-                        type="radio"
-                        id={`option-${optionIndex}`}
-                        name={`question-${currentQuestionIndex}`}
-                        value={option}
-                        checked={answers[currentQuestionIndex] === option}
-                        onChange={handleOptionChange}
-                      />
-                      <label htmlFor={`option-${optionIndex}`}>{option}</label>
-                    </div>
-                  ))}
+                  {questions[currentQuestionIndex].options.map(
+                    (option, optionIndex) => (
+                      <div key={optionIndex}>
+                        <input
+                          type="radio"
+                          id={`option-${optionIndex}`}
+                          name={`question-${currentQuestionIndex}`}
+                          value={option}
+                          checked={answers[currentQuestionIndex] === option}
+                          onChange={handleOptionChange}
+                        />
+                        <label htmlFor={`option-${optionIndex}`}>
+                          {option}
+                        </label>
+                      </div>
+                    )
+                  )}
                 </div>
               ) : questions[currentQuestionIndex].type === "Numerical" ? (
                 <div className="optionsNumerical">
@@ -287,7 +315,11 @@ function TestInterface() {
           )}
 
           <div className="btnDiv">
-            <button onClick={handleBack} className="btnNavigate" disabled={currentQuestionIndex === 0}>
+            <button
+              onClick={handleBack}
+              className="btnNavigate"
+              disabled={currentQuestionIndex === 0}
+            >
               Back
             </button>
             <button onClick={handleNext} className="btnNavigate">
@@ -305,7 +337,10 @@ function TestInterface() {
             <p>Not Answered: {countStatus("Not Answered")}</p>
             <p>Answered: {countStatus("Answered")}</p>
             <p>Marked for Review: {countStatus("Marked for Review")}</p>
-            <p>Answered and Marked for Review: {countStatus("Answered and Marked for Review")}</p>
+            <p>
+              Answered and Marked for Review:{" "}
+              {countStatus("Answered and Marked for Review")}
+            </p>
           </div>
 
           <div className="actionButtons">
@@ -324,16 +359,18 @@ function TestInterface() {
           </div>
 
           <div className="grid-container">
-  {Array.from({ length: questions.length }, (_, i) => (
-    <button
-      key={i}
-      className={`btn75 ${getStatusClass(i)} ${i === currentQuestionIndex ? "active" : ""}`}
-      onClick={() => handleButtonClick(i)}
-    >
-      {i + 1}
-    </button>
-  ))}
-</div>
+            {Array.from({ length: questions.length }, (_, i) => (
+              <button
+                key={i}
+                className={`btn75 ${getStatusClass(i)} ${
+                  i === currentQuestionIndex ? "active" : ""
+                }`}
+                onClick={() => handleButtonClick(i)}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
 
           <button className="btnSubmit btnAnswers" onClick={handleSubmitClick}>
             SUBMIT
