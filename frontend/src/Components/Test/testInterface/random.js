@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./testInterface.css";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -7,14 +7,12 @@ function TestInterface() {
   const { testId } = useParams();
   const navigate = useNavigate();
 
-  // Redirect to login if token is missing
   useEffect(() => {
     if (!localStorage.getItem("token") || localStorage.getItem("token") === undefined) {
       navigate("/login");
     }
   }, [navigate]);
 
-  // Fetch questions
   const fetchQuestions = async () => {
     try {
       const response = await axios.get(
@@ -25,15 +23,14 @@ function TestInterface() {
           },
         }
       );
+
       setQuestions(response.data.questions);
-  
-      // Initialize question statuses
-      const initialStatus = response.data.questions.map((_, index) =>
-        index === 0 ? "Not Answered" : "Not Visited"
-      );
-      setQuestionStatus(initialStatus);
+      setQuestionStatus(new Array(response.data.questions.length).fill("Not Visited")); // Initialize status
     } catch (error) {
-      console.error("Error fetching questions:", error.response?.data?.error || error.message);
+      console.error(
+        "Error fetching questions:",
+        error.response?.data?.error || error.message
+      );
     }
   };
 
@@ -91,91 +88,30 @@ function TestInterface() {
   };
 
   const handleNumericalChange = (e) => {
-    const value = e.target.value;
-  
-    // Allow only numbers, decimal points, and negative signs
-    if (/^-?\d*\.?\d*$/.test(value)) {
-      setAnswers({
-        ...answers,
-        [currentQuestionIndex]: value,
-      });
-    }
+    setAnswers({
+      ...answers,
+      [currentQuestionIndex]: e.target.value,
+    });
   };
 
   const handleBack = () => {
     if (currentQuestionIndex > 0) {
-      const previousIndex = currentQuestionIndex - 1;
-  
-      // Update status if the previous question is "Not Visited"
-      if (questionStatus[previousIndex] === "Not Visited") {
-        updateStatus(previousIndex, "Not Answered");
-      }
-  
-      setCurrentQuestionIndex(previousIndex);
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
     }
   };
 
   const handleNext = () => {
     if (currentQuestionIndex < questions.length - 1) {
-      const nextIndex = currentQuestionIndex + 1;
-  
-      // Update status if the next question is "Not Visited"
-      if (questionStatus[nextIndex] === "Not Visited") {
-        updateStatus(nextIndex, "Not Answered");
-      }
-  
-      setCurrentQuestionIndex(nextIndex);
-    }
-  };
-  const handleNext_Save = () => {
-    if (currentQuestionIndex < questions.length - 1) {
-      const nextIndex = currentQuestionIndex + 1;
-      setCurrentQuestionIndex(nextIndex);
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
     }
   };
 
   const handleSaveNext = () => {
-    if (!answers[currentQuestionIndex]) {
-      alert("Please select an option ");
-      return;
-    }
-    if (answers[currentQuestionIndex]) {
-      // If an answer is selected, mark as answered
-      finalAnswers[currentQuestionIndex] = answers[currentQuestionIndex];
-      setFinalAnswers({ ...finalAnswers });
-      updateStatus(currentQuestionIndex, "Answered");
-    } else {
-      // If no answer is selected, mark as not answered
-      updateStatus(currentQuestionIndex, "Not Answered");
-    }
-    
-
-    handleNext_Save();
+    finalAnswers[currentQuestionIndex] = answers[currentQuestionIndex];
+    setFinalAnswers(finalAnswers);
+    updateStatus(currentQuestionIndex, "Answered");
+    handleNext();
   };
-  // const handleSaveNext = () => {
-  //   if (!answers[currentQuestionIndex]) {
-  //     alert("Please select an option");
-  //     return;
-  //   }
-  
-  //   // Update the current question's status to "Answered"
-  //   finalAnswers[currentQuestionIndex] = answers[currentQuestionIndex];
-  //   setFinalAnswers({ ...finalAnswers });
-  //   updateStatus(currentQuestionIndex, "Answered");
-  
-  //   // Move to the next question index
-  //   const nextQuestionIndex = currentQuestionIndex + 1;
-  
-  //   // Check if the next question has been visited or not
-  //   if (!finalAnswers[nextQuestionIndex]) {
-  //     // If not visited, mark the next question's status as "Not Answered"
-  //     updateStatus(nextQuestionIndex, "Not Answered");
-  //   }
-  
-  //   // Proceed to the next question
-  //   handleNext_Save();
-  // };
-  
 
   const handleSave_Mark = () => {
     if (!answers[currentQuestionIndex]) {
@@ -183,14 +119,14 @@ function TestInterface() {
       return;
     }
     finalAnswers[currentQuestionIndex] = answers[currentQuestionIndex];
-    setFinalAnswers({ ...finalAnswers });
+    setFinalAnswers(finalAnswers);
     updateStatus(currentQuestionIndex, "Answered and Marked for Review");
-    handleNext_Save();
+    handleNext();
   };
-  
+
   const handleReview_Next = () => {
     updateStatus(currentQuestionIndex, "Marked for Review");
-    handleNext_Save();
+    handleNext();
   };
 
   const handleClear = () => {
@@ -214,20 +150,14 @@ function TestInterface() {
     setShowPopup(false);
   };
 
-  // const handleButtonClick = (index) => {
-  //   setCurrentQuestionIndex(index);
-  //   if (questionStatus[index] === "Not Visited") {
-  //     updateStatus(index, "Not Answered");
-  //   }
-  // };
   const handleButtonClick = (index) => {
     setCurrentQuestionIndex(index);
-    // Update the question status when visiting for the first time
     if (questionStatus[index] === "Not Visited") {
       updateStatus(index, "Not Answered");
     }
   };
 
+  // Calculate counts for the status box
   const countStatus = (status) => questionStatus.filter((s) => s === status).length;
 
   return (
