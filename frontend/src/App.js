@@ -14,6 +14,7 @@ import FormByAdmin from "./Components/FormByAdmin/FormByAdmin";
 import QuestionForm from "./Components/questionForm/questionForm";
 import LandingPage from "./Components/landingPage/landingPage";
 import Random from "./Components/Test/testInterface/random";
+import TestResponseDetails from './Analysis/analysis';
 function App() {
   return (
     <>
@@ -33,7 +34,8 @@ function App() {
           <Route path="/testInterface/:testId" element={<TestInterface/>} />    
           <Route path="/formByAdmin" element={<FormByAdmin/>} />    
           <Route path="/questionForm/:testId" element={<QuestionForm/>} />    
-          <Route path="/random" element={<Random/>} />    
+          <Route path="/random" element={<Random/>} />   
+          <Route path="/analysis" element={<TestResponseDetails/>} />
         </Routes>          
       </Router>    
     </>

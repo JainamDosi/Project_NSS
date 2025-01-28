@@ -42,29 +42,41 @@ router.get('/test-responses', async (req, res) => {
 });
 
 // Get a single TestResponse by ID
-router.get('/test-responses/:id', async (req, res) => {
+router.get('/test-responses/:testID/:userID', async (req, res) => {
   try {
-    const { id } = req.params;
+    const { testID, userID } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ message: 'Invalid ID.' });
+    // Validate IDs
+    if (!mongoose.Types.ObjectId.isValid(testID) || !mongoose.Types.ObjectId.isValid(userID)) {
+      return res.status(400).json({ message: 'Invalid testID or userID.' });
     }
 
-    const testResponse = await TestResponse.findById(id)
-      .populate('userId', 'name email')
-      .populate('testId', 'name description')
-      .populate('responses.questionId', 'text options');
-      
 
+    // Find the test response
+    const testResponse = await TestResponse.findOne({ testId: testID, userId: userID })
+      .populate('userId', 'name email') // Populate user details
+      .populate('testId', 'name description') // Populate test details
+      .populate({
+        path: 'responses.questionId', // Populate questionId in responses
+        select: 'questionText options correctAnswer', // Select fields for Question
+      });
+
+    // Check if the test response exists
     if (!testResponse) {
       return res.status(404).json({ message: 'Test response not found.' });
     }
 
+    // Respond with the fully populated test response
     res.status(200).json(testResponse);
   } catch (error) {
-    res.status(500).json({ message: 'Failed to fetch test response.', error: error.message });
+    // Handle server errors
+    res.status(500).json({
+      message: 'Failed to fetch test response.',
+      error: error.message,
+    });
   }
 });
+
 
 // Update a TestResponse by ID
 router.put('/test-responses/:id', async (req, res) => {

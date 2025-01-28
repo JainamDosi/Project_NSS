@@ -6,6 +6,8 @@ import axios from "axios";
 function TestInterface() {
   const { testId } = useParams();
   const navigate = useNavigate();
+  const userId=JSON.parse(localStorage.getItem("userInfo")).user.id;
+
 
   // Redirect to login if token is missing
   useEffect(() => {
@@ -31,6 +33,7 @@ function TestInterface() {
         }
       );
       setQuestions(response.data.questions);
+      console.log(questions);
 
       // Initialize question statuses
       const initialStatus = response.data.questions.map((_, index) =>
@@ -45,6 +48,14 @@ function TestInterface() {
       );
     }
   };
+
+
+
+  
+  
+  
+  
+
 
   const answersRef = useRef(finalAnswers);
 
@@ -61,7 +72,7 @@ function TestInterface() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   // Timer
-  const [time, setTime] = useState(10);
+  const [time, setTime] = useState(100);
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
@@ -106,19 +117,24 @@ function TestInterface() {
   };
 
   const updateTimeSpent = () => {
-    const currentTime = Date.now();
-    const timeDiff = (currentTime - startTime) / 1000; // Time spent on the current question in seconds
-    const updatedTimeSpent = [...timeSpent];
-    updatedTimeSpent[currentQuestionIndex] += timeDiff; // Add the time spent
-    setTimeSpent(updatedTimeSpent);
-    setStartTime(currentTime); // Reset start time for the next question
-  };
+  const currentTime = Date.now();
+  const timeDiff = (currentTime - startTime) / 1000; // Time spent on the current question in seconds
+
+  setTimeSpent((prevTimeSpent) => {
+    const updatedTimeSpent = [...prevTimeSpent];
+    updatedTimeSpent[currentQuestionIndex] += timeDiff; // Accumulate time spent on the question
+    return updatedTimeSpent;
+  });
+
+  setStartTime(currentTime); // Reset the start time for the next question
+};
 
   const handleOptionChange = (e) => {
     setAnswers({
       ...answers,
       [currentQuestionIndex]: e.target.value,
     });
+    console.log(timeSpent);
   };
 
   const handleNumericalChange = (e) => {
@@ -131,11 +147,15 @@ function TestInterface() {
         [currentQuestionIndex]: value,
       });
     }
+    console.log(timeSpent);
+
   };
 
   const handleBack = () => {
+    console.log(questions);
     if (currentQuestionIndex > 0) {
       updateTimeSpent();
+      console.log(timeSpent);
       const previousIndex = currentQuestionIndex - 1;
 
       // Update status if the previous question is "Not Visited"
@@ -145,6 +165,7 @@ function TestInterface() {
 
       setCurrentQuestionIndex(previousIndex);
     }
+    console.log(timeSpent);
   };
 
   const handleNext = () => {
@@ -157,7 +178,9 @@ function TestInterface() {
     }
     setCurrentQuestionIndex(nextIndex);
     updateTimeSpent();
+    console.log(timeSpent);
   }
+  console.log(timeSpent);
   };
   const handleNext_Save = () => {
     if (currentQuestionIndex < questions.length - 1) {
@@ -172,6 +195,7 @@ function TestInterface() {
       alert("Please select an option ");
       return;
     }
+    updateTimeSpent();
     setFinalAnswers((prevFinalAnswers) => ({
       ...prevFinalAnswers,
       [currentQuestionIndex]: answers[currentQuestionIndex],
@@ -187,6 +211,8 @@ function TestInterface() {
       }
       setCurrentQuestionIndex(nextIndex);
     }
+
+    console.log(timeSpent);
     // Set the next question as the current question
 
     // handleNext_Save();
@@ -220,6 +246,7 @@ function TestInterface() {
       alert("Please select an option ");
       return;
     }
+    updateTimeSpent();
     setFinalAnswers((prevFinalAnswers) => ({
       ...prevFinalAnswers,
       [currentQuestionIndex]: answers[currentQuestionIndex],
@@ -234,12 +261,13 @@ function TestInterface() {
       }
       setCurrentQuestionIndex(nextIndex);
     }
+    console.log(timeSpent);
   };
 
   const handleReview_Next = () => {
     // Mark the current question as "Marked for Review"
     updateStatus(currentQuestionIndex, "Marked for Review");
-  
+    updateTimeSpent();
     // Move to the next question
     const nextIndex = currentQuestionIndex + 1;
     if (nextIndex < questions.length) {
@@ -248,6 +276,7 @@ function TestInterface() {
       }
       setCurrentQuestionIndex(nextIndex);
     }
+    console.log(timeSpent);
   };
 
   const handleClear = () => {
@@ -267,18 +296,57 @@ function TestInterface() {
       setSubmitted(true); // Ensure it's only submitted once
       updateTimeSpent();
       // console.log(finalAnswers);
-  
+      SubmitResponse();
       // Simulate automatic form submission
       // Replace this with your actual submission logic if needed
       setShowPopup(false);
       navigate("/studentDashboard"); // Redirect to a "submission successful" page
     }
     const final = answersRef.current;
- console.log(final);
+    console.log(final);
+    console.log(timeSpent);
   };
 
   const handleNo = () => {
     setShowPopup(false);
+  };
+
+  const SubmitResponse = async () => {
+    const final=answersRef.current;
+    // Ensure all questions are included in the payload, even if no response is provided
+    const mergedResponses = questions.map((question, index) => ({
+      questionId: question._id, // Use questionId from the fetched questions
+      InputAnswer: final[index] || null, // Use the saved answers or null if not answered
+      status: questionStatus[index] || "Not Attempted", // Default to "Not Attempted" if status is missing
+      timeSpent: timeSpent[index] || 0,
+      correctAnswer:question.correctAnswer // Use recorded time or default to 0
+    }));
+  
+    // Prepare the payload
+    const payload = {
+      userId: userId, // User ID from localStorage
+      testId: testId, // Test ID from route params
+      responses: mergedResponses, // Responses array
+      totalTimeSpent: timeSpent.reduce((acc, curr) => acc + curr, 0), // Total time spent across all questions
+    };
+  
+    try {
+      // Send POST request to the backend
+      const response = await axios.post(
+        `http://localhost:5000/api/test_analyze/test_responses`, // Backend endpoint
+        payload, // Payload data
+        {
+          headers: {
+            Authorization: `${localStorage.getItem("token")}`, // Authorization token
+            "Content-Type": "application/json", // Set content type
+          },
+        }
+      );
+  
+      console.log("Success:", response.data); // Log backend response
+    } catch (error) {
+      console.error("Error submitting responses:", error.response?.data || error.message);
+    }
   };
 
   // const handleButtonClick = (index) => {

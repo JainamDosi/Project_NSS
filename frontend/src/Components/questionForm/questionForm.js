@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 const cloudinary = require("cloudinary").v2;
 
+<<<<<<< auth
 // Configure Cloudinary
 cloudinary.config({
   cloud_name: "djpd2fkjn", // Replace with your Cloudinary cloud name
@@ -10,8 +11,13 @@ cloudinary.config({
   api_secret: "YQhtQKx_9n6UZ-VoTd2k9cTDgDc", // Replace with your Cloudinary API secret
 });
 
+
+=======
 function QuestionForm() {
-  const navigate = useNavigate();
+  let navigate = useNavigate();
+  // const testId =useParams();
+  const [previesquestions, setpreviesQuestions] = useState([]);
+>>>>>>> main
   const { testId } = useParams();
   const [numberOfQuestions, setNumberOfQuestions] = useState(75); // Default to 75
   const [questions, setQuestions] = useState([]);
