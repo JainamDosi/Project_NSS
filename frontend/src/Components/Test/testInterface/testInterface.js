@@ -88,9 +88,11 @@ function TestInterface() {
   const [startTime, setStartTime] = useState(Date.now()); // Start time for the current question
 
   const updateStatus = (index, status) => {
-    const updatedStatus = [...questionStatus];
-    updatedStatus[index] = status;
-    setQuestionStatus(updatedStatus);
+    setQuestionStatus((prevStatus) => {
+      const updatedStatus = [...prevStatus];
+      updatedStatus[index] = status;
+      return updatedStatus;
+    });
   };
 
   const updateTimeSpent = () => {
@@ -136,21 +138,16 @@ function TestInterface() {
   };
 
   const handleNext = () => {
-    if (currentQuestionIndex < questions.length - 1) {
-      updateTimeSpent();
-      console.log(timeSpent);
-      const nextIndex = currentQuestionIndex + 1;
+    const nextIndex = currentQuestionIndex + 1;
 
-      // Update status if the next question is "Not Visited"
-      // if (questionStatus[currentQuestionIndex] === "Not Visited") {
-      //   updateStatus(currentQuestionIndex, "Not Answered");
-      // }
-      if (questionStatus[nextIndex] === "Not Visited") {
+  if (nextIndex < questions.length) {
+    // Move to the next question only
+    if (questionStatus[nextIndex] === "Not Visited") {
       updateStatus(nextIndex, "Not Answered");
     }
-
-      setCurrentQuestionIndex(nextIndex);
-    }
+    setCurrentQuestionIndex(nextIndex);
+    updateTimeSpent();
+  }
   };
   const handleNext_Save = () => {
     if (currentQuestionIndex < questions.length - 1) {
@@ -165,18 +162,24 @@ function TestInterface() {
       alert("Please select an option ");
       return;
     }
-    if (answers[currentQuestionIndex]) {
-      // If an answer is selected, mark as answered
-      finalAnswers[currentQuestionIndex] = answers[currentQuestionIndex];
-      setFinalAnswers({ ...finalAnswers });
-      updateStatus(currentQuestionIndex, "Answered");
+    setFinalAnswers((prevFinalAnswers) => ({
+      ...prevFinalAnswers,
+      [currentQuestionIndex]: answers[currentQuestionIndex],
+    }));
+    updateStatus(currentQuestionIndex, "Answered");
+  
+    // Move to the next question
+    const nextIndex = currentQuestionIndex + 1;
+    if (nextIndex < questions.length) {
+      // Mark the next question as "Not Answered" if it's "Not Visited"
+      if (questionStatus[nextIndex] === "Not Visited") {
+        updateStatus(nextIndex, "Not Answered");
+      }
+      setCurrentQuestionIndex(nextIndex);
     }
-    // else {
-    //   // If no answer is selected, mark as not answered
-    //   updateStatus(currentQuestionIndex, "Not Answered");
-    // }
+    // Set the next question as the current question
 
-    handleNext_Save();
+    // handleNext_Save();
   };
   // const handleSaveNext = () => {
   //   if (!answers[currentQuestionIndex]) {
@@ -207,15 +210,34 @@ function TestInterface() {
       alert("Please select an option ");
       return;
     }
-    finalAnswers[currentQuestionIndex] = answers[currentQuestionIndex];
-    setFinalAnswers({ ...finalAnswers });
+    setFinalAnswers((prevFinalAnswers) => ({
+      ...prevFinalAnswers,
+      [currentQuestionIndex]: answers[currentQuestionIndex],
+    }));
     updateStatus(currentQuestionIndex, "Answered and Marked for Review");
-    handleNext_Save();
+  
+    // Move to the next question
+    const nextIndex = currentQuestionIndex + 1;
+    if (nextIndex < questions.length) {
+      if (questionStatus[nextIndex] === "Not Visited") {
+        updateStatus(nextIndex, "Not Answered");
+      }
+      setCurrentQuestionIndex(nextIndex);
+    }
   };
 
   const handleReview_Next = () => {
+    // Mark the current question as "Marked for Review"
     updateStatus(currentQuestionIndex, "Marked for Review");
-    handleNext_Save();
+  
+    // Move to the next question
+    const nextIndex = currentQuestionIndex + 1;
+    if (nextIndex < questions.length) {
+      if (questionStatus[nextIndex] === "Not Visited") {
+        updateStatus(nextIndex, "Not Answered");
+      }
+      setCurrentQuestionIndex(nextIndex);
+    }
   };
 
   const handleClear = () => {
