@@ -118,6 +118,7 @@ const TestCard = ({ test, role }) => {
       <p className="card-text text-sm text-gray-500">Test Date: {formattedDate}</p>
       <p className="card-text text-sm text-gray-500">Test Time: {formattedTime}</p>
       <p className="card-text text-sm text-gray-500">Total Time of Test: {test.duration} minutes</p>
+      <Link to={`/random`} className="rounded-lg bg-green-500 p-1"><button>Analysis</button></Link>
       <div className="status-tag-container mt-2">
         <span
           className={`status-tag ${
@@ -174,6 +175,7 @@ const TestCard = ({ test, role }) => {
               }}
               className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
+          
           </label>
           <button
             className="btn bg-blue-500 w-full py-2 text-white rounded-md mt-4 hover:bg-blue-600"

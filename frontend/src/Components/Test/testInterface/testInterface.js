@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import "./testInterface.css";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -16,7 +16,9 @@ function TestInterface() {
       navigate("/login");
     }
   }, [navigate]);
-
+  const [finalAnswers, setFinalAnswers] = useState({});
+  const [submitted, setSubmitted] = useState(false);
+  const [timerExpired, setTimerExpired] = useState(false);
   // Fetch questions
   const fetchQuestions = async () => {
     try {
@@ -44,6 +46,13 @@ function TestInterface() {
     }
   };
 
+  const answersRef = useRef(finalAnswers);
+
+  // Update the answersRef when answers state changes
+  useEffect(() => {
+    answersRef.current = finalAnswers;
+  }, [finalAnswers]);
+
   useEffect(() => {
     fetchQuestions();
   }, [testId]);
@@ -52,7 +61,7 @@ function TestInterface() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   // Timer
-  const [time, setTime] = useState(100);
+  const [time, setTime] = useState(10);
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
@@ -61,15 +70,16 @@ function TestInterface() {
         if (prevTime > 0) {
           return prevTime - 1;
         } else {
-          clearInterval(timer);
-          handleYes();
+          clearInterval(timer); // Clear the interval
+          setShowPopup(true);
+          setTimerExpired(true); // Set timerExpired to true when time hits 0
           return 0;
         }
       });
     }, 1000);
-
+  
     return () => clearInterval(timer);
-  }, []);
+  }, [submitted]); // Ensure submitted is in the dependencies
 
   const formatTime = (seconds) => {
     const hours = Math.floor(seconds / 3600);
@@ -81,7 +91,7 @@ function TestInterface() {
   };
 
   const [answers, setAnswers] = useState({});
-  const [finalAnswers, setFinalAnswers] = useState({});
+  
   const [questionStatus, setQuestionStatus] = useState([]);
 
   const [timeSpent, setTimeSpent] = useState([]); // Array to track time spent on each question
@@ -249,13 +259,22 @@ function TestInterface() {
 
   const handleSubmitClick = () => {
     setShowPopup(true);
+    setTimerExpired(false);
   };
 
   const handleYes = () => {
-    updateTimeSpent();
-    console.log(finalAnswers);
-    alert("Form submitted!");
-    setShowPopup(false);
+    if (!submitted) {
+      setSubmitted(true); // Ensure it's only submitted once
+      updateTimeSpent();
+      // console.log(finalAnswers);
+  
+      // Simulate automatic form submission
+      // Replace this with your actual submission logic if needed
+      setShowPopup(false);
+      navigate("/studentDashboard"); // Redirect to a "submission successful" page
+    }
+    const final = answersRef.current;
+ console.log(final);
   };
 
   const handleNo = () => {
@@ -409,7 +428,7 @@ function TestInterface() {
                   <button className="yes-button" onClick={handleYes}>
                     YES
                   </button>
-                  <button className="no-button" onClick={handleNo}>
+                  <button className="no-button" onClick={handleNo} disabled={timerExpired}>
                     NO
                   </button>
                 </div>
