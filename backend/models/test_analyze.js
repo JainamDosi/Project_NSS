@@ -22,19 +22,21 @@ const testResponseSchema = new mongoose.Schema(
         required: true,
       },
       InputAnswer: {
-        type: mongoose.Schema.Types.Mixed, // Can be a string or object based on question type (e.g., multiple choice answer, free text)
-        required: true,
+        type: mongoose.Schema.Types.Mixed,
+         // Can be a string or object based on question type (e.g., multiple choice answer, free text)
       },
       status: {
-        type: String,
-        enum: ['Not Attempted', 'Correct', 'Incorrect'],
-        default: 'Not Attempted', // Default to 'Not Attempted' when not yet answered
-        required: true,
+        type: String, // Default to 'Not Attempted' when not yet answered
+      
       },
       timeSpent: {
         type: Number, // Time spent on the question in seconds
-        required: true,
+        
       },
+      correctAnswer:{
+        type: mongoose.Schema.Types.Mixed, // Reference to the Question model
+        required: true,
+      }
     }],
   },
   { timestamps: true } // Automatically adds createdAt and updatedAt timestamps

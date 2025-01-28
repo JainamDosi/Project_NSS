@@ -6,10 +6,6 @@ function QuestionForm() {
   let navigate = useNavigate();
   // const testId =useParams();
   const [previesquestions, setpreviesQuestions] = useState([]);
-
-
-
-
   const { testId } = useParams();
   console.log(testId);
   useEffect(() => {

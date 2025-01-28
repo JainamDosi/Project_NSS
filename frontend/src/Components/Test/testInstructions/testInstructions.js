@@ -10,7 +10,7 @@ const TestInstructions = () => {
   const [isChecked, setIsChecked] = useState(false);
   let navigate = useNavigate();
   const { testId } = useParams();
-  console.log(testId);
+  
    
   useEffect(() => {
     if (!localStorage.getItem('token') || localStorage.getItem('token') === undefined) {
