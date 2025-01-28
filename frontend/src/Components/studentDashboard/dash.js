@@ -67,11 +67,11 @@ const StudentDashboard = () => {
       <div>
         <Navbar />
       </div>
-      <div id="btnsInDashBoard">
+      {/* <div id="btnsInDashBoard">
         <Link to="">
           <button className="Analysis">Analysis</button>
         </Link>
-      </div>
+      </div> */}
 
       <h1>Ongoing Tests</h1>
       <main className="mainStudentDashboard">
