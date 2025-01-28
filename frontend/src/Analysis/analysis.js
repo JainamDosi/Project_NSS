@@ -38,7 +38,7 @@ const TestResponseDetails = ({ testID, userID }) => {
           className="border p-4 mb-4 rounded-lg shadow-sm"
         >
           <h2 className="text-lg font-semibold mb-2">
-            Question {index + 1}: {response.questionId.text}
+            Question {index + 1}: {response.questionId.questionText}
           </h2>
           <ul className="list-disc pl-5 mb-2">
             {response.questionId.options.map((option, idx) => (

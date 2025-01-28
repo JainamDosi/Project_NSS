@@ -57,7 +57,7 @@ router.get('/test-responses/:testID/:userID', async (req, res) => {
       .populate('testId', 'name description') // Populate test details
       .populate({
         path: 'responses.questionId', // Populate questionId in responses
-        select: 'text options correctAnswer', // Select fields for Question
+        select: 'questionText options correctAnswer', // Select fields for Question
       });
 
     // Check if the test response exists
