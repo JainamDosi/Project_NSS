@@ -3,6 +3,8 @@
     "web-vitals": "^4.2.4"
   },
   "dependencies": {
-    "nodemon": "^3.1.9"
+    "cloudinary": "^2.5.1",
+    "nodemon": "^3.1.9",
+    "react-app-rewired": "^2.2.1"
   }
 }

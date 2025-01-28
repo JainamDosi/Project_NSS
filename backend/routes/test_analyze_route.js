@@ -54,6 +54,7 @@ router.get('/test-responses/:id', async (req, res) => {
       .populate('userId', 'name email')
       .populate('testId', 'name description')
       .populate('responses.questionId', 'text options');
+      
 
     if (!testResponse) {
       return res.status(404).json({ message: 'Test response not found.' });
