@@ -51,15 +51,20 @@ router.get('/test-responses/:testID/:userID', async (req, res) => {
       return res.status(400).json({ message: 'Invalid testID or userID.' });
     }
 
-
     // Find the test response
     const testResponse = await TestResponse.findOne({ testId: testID, userId: userID })
       .populate('userId', 'name email') // Populate user details
       .populate('testId', 'name description') // Populate test details
       .populate({
         path: 'responses.questionId', // Populate questionId in responses
-        select: 'questionText options correctAnswer', // Select fields for Question
-      });
+        select: 'questionText options correctAnswer' // Select fields for Question
+      })
+      .populate({
+        path: 'responses.correctAnswer', // Populate the correctAnswer (which may be a reference to a Question or another field)
+        select: 'answerText', // Specify which fields to select for correctAnswer (assuming it’s another model)
+      })
+      .select('responses') // Ensure the responses array is included
+      .lean(); // Optional: Converts the result to a plain JavaScript object, better for read operations.
 
     // Check if the test response exists
     if (!testResponse) {
@@ -76,6 +81,7 @@ router.get('/test-responses/:testID/:userID', async (req, res) => {
     });
   }
 });
+
 
 
 // Update a TestResponse by ID
