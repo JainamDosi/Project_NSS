@@ -1,70 +1,24 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+const cloudinary = require("cloudinary").v2;
 
+<<<<<<< auth
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: "djpd2fkjn", // Replace with your Cloudinary cloud name
+  api_key: "767891938697554", // Replace with your Cloudinary API key
+  api_secret: "YQhtQKx_9n6UZ-VoTd2k9cTDgDc", // Replace with your Cloudinary API secret
+});
+
+
+=======
 function QuestionForm() {
   let navigate = useNavigate();
   // const testId =useParams();
   const [previesquestions, setpreviesQuestions] = useState([]);
+>>>>>>> main
   const { testId } = useParams();
-  console.log(testId);
-  useEffect(() => {
-    const fetchQuestions = async () => {
-      try {
-        // Retrieve the token from local storage
-        const token = localStorage.getItem("token");
-        if (!token) {
-          throw new Error("Authorization token is missing.");
-        }
-
-        // Fetch data with the Authorization header
-        const response = await fetch(
-          "http://localhost:5000/api/tests/679124dc05421966bf98ffa3/getQuestions",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error(`Failed to fetch: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-        console.log(data);
-        console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-      //   for (let i = 0; i < data.length; i++) {
-      //     const updatedQuestions = [...questions];
-      //     updatedQuestions[index][field] = value;
-      //     setQuestions(updatedQuestions);
-         
-          
-      //  }
-      //   // setQuestions(data.questions || []);
-      } catch (err) {
-        // setError(err.message);
-        console.log(err.message);
-      } finally {
-      }
-    };
-
-    fetchQuestions();
-  }, []);
-  useEffect(() => {
-    if (!localStorage.getItem("token") || localStorage.getItem("token") === undefined) {
-      navigate("/login");
-    }
-  }, [navigate]);
-  useEffect(() => {
-    if (!testId ) {
-      navigate("/AdminDashboard");
-    }
-  }, [navigate]);
-
   const [numberOfQuestions, setNumberOfQuestions] = useState(75); // Default to 75
   const [questions, setQuestions] = useState([]);
 
@@ -88,72 +42,143 @@ function QuestionForm() {
     );
   }, [numberOfQuestions]);
 
+  // Handle input changes for question text, type, difficulty, etc.
   const handleInputChange = (index, field, value) => {
     const updatedQuestions = [...questions];
     updatedQuestions[index][field] = value;
     setQuestions(updatedQuestions);
   };
 
-  const handleImageUpload = (index, file) => {
+  // Handle image upload for question images
+  const handleImageUpload = async (index, file) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "swapbook"); // Replace with your Cloudinary upload preset
+      formData.append("cloud_name", "djpd2fkjn");
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/djpd2fkjn/image/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+  
+      if (!response.ok) {
+        throw new Error('Error uploading image to Cloudinary');
+      }
+  
+      const data = await response.json();
+      console.log(data);
+      const imageUrl = data.secure_url;
+  
+      const updatedQuestions = [...questions];
+      updatedQuestions[index].image = imageUrl;
+      setQuestions(updatedQuestions);
+    } catch (error) {
+      console.error("Error uploading image to Cloudinary:", error);
+    }
+  };
+  
+
+  // Handle changes for MCQ options (text or image)
+  const handleOptionChange = async (questionIndex, optionIndex, type, value) => {
     const updatedQuestions = [...questions];
-    updatedQuestions[index].image = file;
+  
+    if (type === "image") {
+      try {
+        const formData = new FormData();
+        formData.append("file",value);
+        formData.append("upload_preset", "swapbook"); // Replace with your Cloudinary upload preset
+        formData.append("cloud_name", "djpd2fkjn");
+  console.log("bbbbbbbbbbbbbbbbbbbbbbb");
+        const response = await fetch(
+          `https://api.cloudinary.com/v1_1/djpd2fkjn/image/upload`,
+          {
+            method: "POST",
+            body: formData
+          }
+        );
+  
+        if (!response.ok) {
+          throw new Error('Error uploading image to Cloudinary');
+        }
+  
+        const data = await response.json();
+        const imageUrl = data.secure_url;
+        updatedQuestions[questionIndex].options[optionIndex] = { type, value: imageUrl };
+      } catch (error) {
+        console.log(error.message);
+        console.error("Error uploading image to Cloudinary:", error);
+      }
+    } else {
+      updatedQuestions[questionIndex].options[optionIndex] = { type, value };
+    }
+  
     setQuestions(updatedQuestions);
   };
-
-  const handleOptionChange = (questionIndex, optionIndex, type, value) => {
-    const updatedQuestions = [...questions];
-    updatedQuestions[questionIndex].options[optionIndex] = { type, value };
-    setQuestions(updatedQuestions);
-  };
-
+  
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const token = localStorage.getItem("token");
-    const apiUrl = "http://localhost:5000/api/tests/67929e790e6073a3cf71f9c0/questions";
-  
+    const apiUrl = `http://localhost:5000/api/tests/${testId}/questions`;
     if (!token) {
       alert("Authorization token is missing.");
       return;
     }
-  
+    
     try {
       for (const question of questions) {
+        console.log("aaaaaaaaaaaaaaaaaaa");
         const payload = {
           questionText: question.text,
           options: question.options.map((opt) => opt.value),
           correctAnswer: question.correctAnswer,
-          image: "zzzzzzzzzzzzzzz", 
+          image: question.image || "", // Include the image URL if it exists
           subject: question.subject,
           type: question.type,
         };
         console.log(JSON.stringify(payload));
-  
-       
+
         // Send the question payload
-        const response = await fetch(`http://localhost:5000/api/tests/${testId}/questions`, {
+        const response = await fetch(apiUrl, {
           method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `${token}`,
           },
           body: JSON.stringify(payload),
         });
-  
+
         if (!response.ok) {
           throw new Error("Failed to save question.");
         }
       }
-  
+
       alert("Questions saved successfully!");
     } catch (error) {
       console.error("Error saving questions:", error);
       alert("Failed to save questions. Please try again.");
     }
   };
-  
- return (
-  <div className="form-container max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md space-y-6">
+
+  // Redirect if user is not logged in or testId is missing
+  useEffect(() => {
+    if (!localStorage.getItem("token") || localStorage.getItem("token") === undefined) {
+      navigate("/login");
+    }
+  }, [navigate]);
+
+  useEffect(() => {
+    if (!testId) {
+      navigate("/AdminDashboard");
+    }
+  }, [navigate]);
+
+  return (
+    <div className="form-container max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md space-y-6">
     <h2 className="text-2xl font-bold text-gray-800 mb-4">Questionnaire Form</h2>
     <label className="block text-gray-700 font-medium mb-2">
       Number of Questions:
@@ -302,8 +327,7 @@ function QuestionForm() {
       </button>
     </form>
   </div>
-);
-
+  );
 }
 
 export default QuestionForm;

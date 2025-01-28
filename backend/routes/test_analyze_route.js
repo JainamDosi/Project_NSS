@@ -51,6 +51,7 @@ router.get('/test-responses/:testID/:userID', async (req, res) => {
       return res.status(400).json({ message: 'Invalid testID or userID.' });
     }
 
+
     // Find the test response
     const testResponse = await TestResponse.findOne({ testId: testID, userId: userID })
       .populate('userId', 'name email') // Populate user details
