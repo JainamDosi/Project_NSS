@@ -142,9 +142,12 @@ function TestInterface() {
       const nextIndex = currentQuestionIndex + 1;
 
       // Update status if the next question is "Not Visited"
-      if (questionStatus[currentQuestionIndex] === "Not Visited") {
-        updateStatus(currentQuestionIndex, "Not Answered");
-      }
+      // if (questionStatus[currentQuestionIndex] === "Not Visited") {
+      //   updateStatus(currentQuestionIndex, "Not Answered");
+      // }
+      if (questionStatus[nextIndex] === "Not Visited") {
+      updateStatus(nextIndex, "Not Answered");
+    }
 
       setCurrentQuestionIndex(nextIndex);
     }
