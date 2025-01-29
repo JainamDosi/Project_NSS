@@ -9,12 +9,14 @@ const Home = () => {
     navigate('/login')
   }
   const navigate = useNavigate();
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
   return (
     <>
       <header className="navbar">
         <span id="one">NSS-JEE SERIES</span>
-        <Link to='/adminDashboard'>ADMIN D</Link>
-        <Link to='/studentDashboard'>STUDENT</Link>
+        {userInfo?.user?.role === "Admin" ? <Link to='/adminDashboard'>ADMIN D</Link> :  <Link to='/studentDashboard'>STUDENT</Link>}
+
+       
         <button onClick={handlelogout}>LOG OUT</button>
 
 
