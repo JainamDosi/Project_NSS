@@ -2,7 +2,7 @@ import React,{useEffect} from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import "./testcard.css";
-import { PiBookOpenTextLight } from 'react-icons/pi';
+// import { AiOutlineEdit } from 'react-icons/ai'
 
 const TestCard = ({ test, role }) => {
   const [isEditing, setIsEditing] = React.useState(false);
@@ -11,7 +11,6 @@ const TestCard = ({ test, role }) => {
   const userId = JSON.parse(localStorage.getItem("userInfo")).user.id;
   const navigate = useNavigate(); // Initialize navigate
 
-  // Function to determine the test status (Upcoming, Ongoing, Completed)
   const getTestStatus = () => {
     const currentDate = new Date();
 
@@ -35,7 +34,6 @@ const TestCard = ({ test, role }) => {
 
   const testStatus = getTestStatus();
 
-  // Function to format the date and time
   const formatDateAndTime = (dateString) => {
     const date = new Date(dateString);
     date.setHours(date.getHours() - 5);
@@ -52,7 +50,6 @@ const TestCard = ({ test, role }) => {
 
   const { formattedDate, formattedTime } = formatDateAndTime(test.testDate);
 
-  // Function to handle test deletion
   const handleDeleteTest = async (testId) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this test?");
     if (!confirmDelete) return;
@@ -80,7 +77,6 @@ const TestCard = ({ test, role }) => {
     }
   };
 
-  // Handle test update functionality
   const handleTestUpdate = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -128,7 +124,48 @@ const TestCard = ({ test, role }) => {
     checkAttemptStatus();
   }, [test._id]);
 
-  // Handle "Attempt Test" click
+  useEffect(() => {
+    const checkAttemptStatus = async () => {
+      try {
+        
+        const token = localStorage.getItem("token");
+        const response = await axios.get(`http://localhost:5000/api/test_analyze/user/${userId}`);
+
+        if (response.status === 200) {
+          const attemptedTests = response.data.attemptedTests;
+          setIsAttempted(attemptedTests.includes(test._id));  // Check if test is in attempted list
+        }
+        console.log(response.data);
+        
+      } catch (error) {
+        console.error("Error checking attempt status:", error);
+      }
+    };
+
+    checkAttemptStatus();
+  }, [test._id]);
+
+  useEffect(() => {
+    const checkAttemptStatus = async () => {
+      try {
+        
+        const token = localStorage.getItem("token");
+        const response = await axios.get(`http://localhost:5000/api/test_analyze/user/${userId}`);
+
+        if (response.status === 200) {
+          const attemptedTests = response.data.attemptedTests;
+          setIsAttempted(attemptedTests.includes(test._id));  // Check if test is in attempted list
+        }
+        console.log(response.data);
+        
+      } catch (error) {
+        console.error("Error checking attempt status:", error);
+      }
+    };
+
+    checkAttemptStatus();
+  }, [test._id]);
+
   const handleAttemptTest = () => {
     navigate(`/testInstructions/${test._id}`);
   };
