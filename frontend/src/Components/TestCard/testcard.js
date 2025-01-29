@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import "./testcard.css";
+import { PiBookOpenTextLight } from 'react-icons/pi';
 
 const TestCard = ({ test, role }) => {
   const [isEditing, setIsEditing] = React.useState(false);
@@ -201,6 +202,9 @@ const TestCard = ({ test, role }) => {
             </button>
           ) : role === "admin" ? (
             <div className="admin-btn-group mt-4 space-y-2">
+              <a href={``}>
+            <PiBookOpenTextLight className='text-2xl text-blue-600 hover:text-black cursor-pointer' />all test review
+          </a>
               <button
                 className="btn bg-blue-500 w-full py-2 text-white rounded-md hover:bg-blue-600"
                 onClick={() => setIsEditing(true)}

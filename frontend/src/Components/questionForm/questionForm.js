@@ -230,7 +230,7 @@ function QuestionForm() {
               className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             >
               <option value="numerical">Numerical</option>
-              <option value="mcq">MCQ</option>
+              <option value="MCQ">MCQ</option>
             </select>
           </label>
 
@@ -260,7 +260,7 @@ function QuestionForm() {
             </select>
           </label>
 
-          {question.type === "mcq" && (
+          {question.type === "MCQ" && (
             <div className="mcq-options space-y-2">
               <label className="block text-gray-700 font-medium">Options:</label>
               {question.options.map((option, optIndex) => (
