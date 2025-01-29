@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import "./testcard.css";
@@ -7,7 +7,8 @@ import { PiBookOpenTextLight } from 'react-icons/pi';
 const TestCard = ({ test, role }) => {
   const [isEditing, setIsEditing] = React.useState(false);
   const [updatedTest, setUpdatedTest] = React.useState(test);
-
+  const [isAttempted, setIsAttempted] = React.useState(false);
+  const userId = JSON.parse(localStorage.getItem("userInfo")).user.id;
   const navigate = useNavigate(); // Initialize navigate
 
   // Function to determine the test status (Upcoming, Ongoing, Completed)
@@ -106,10 +107,35 @@ const TestCard = ({ test, role }) => {
     }
   };
 
+  useEffect(() => {
+    const checkAttemptStatus = async () => {
+      try {
+        
+        const token = localStorage.getItem("token");
+        const response = await axios.get(`http://localhost:5000/api/test_analyze/user/${userId}`);
+
+        if (response.status === 200) {
+          const attemptedTests = response.data.attemptedTests;
+          setIsAttempted(attemptedTests.includes(test._id));  // Check if test is in attempted list
+        }
+        console.log(response.data);
+        
+      } catch (error) {
+        console.error("Error checking attempt status:", error);
+      }
+    };
+
+    checkAttemptStatus();
+  }, [test._id]);
+
   // Handle "Attempt Test" click
   const handleAttemptTest = () => {
     navigate(`/testInstructions/${test._id}`);
   };
+
+  const handleAddQuestion=()=>{
+    navigate(`/questionForm/${test._id}`)
+  }
 
   return (
     <div className="card max-w-sm w-full bg-white shadow-lg rounded-lg p-4 mb-4">
@@ -119,7 +145,11 @@ const TestCard = ({ test, role }) => {
       <p className="card-text text-sm text-gray-500">Test Date: {formattedDate}</p>
       <p className="card-text text-sm text-gray-500">Test Time: {formattedTime}</p>
       <p className="card-text text-sm text-gray-500">Total Time of Test: {test.duration} minutes</p>
-      <Link to={`/random`} className="rounded-lg bg-green-500 p-1"><button>Analysis</button></Link>
+      {isAttempted && (
+          <Link to={`/analysis/${test._id}/${userId}`} className="rounded-lg bg-green-500 p-1">
+            <button>Analysis</button>
+          </Link>
+        )}
       <div className="status-tag-container mt-2">
         <span
           className={`status-tag ${
@@ -217,12 +247,19 @@ const TestCard = ({ test, role }) => {
               >
                 Delete Test
               </button>
-              <Link
+              {/* <Link
                 to={`/questionForm/${test._id}`}
-                className="btn bg-green-500 w-full py-2 text-white rounded-md hover:bg-green-600"
+                className="btn bg-green-500 w-full py-2 mt-7 text-white rounded-md hover:bg-green-600"
               >
                 Add Questions
-              </Link>
+              </Link> */}
+              <button
+                className="btn bg-red-400 w-full py-2 text-white rounded-md "
+                onClick={handleAddQuestion}
+              >
+                Add Questions
+              </button>
+
             </div>
           ) : null}
         </>

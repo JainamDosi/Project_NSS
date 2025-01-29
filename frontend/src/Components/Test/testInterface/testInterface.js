@@ -25,22 +25,30 @@ function TestInterface() {
   const fetchQuestions = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/tests/678b73f0c374a35e3f653162/getQuestions`,
+        `http://localhost:5000/api/tests/${testId}/getQuestions`,
         {
           headers: {
             Authorization: `${localStorage.getItem("token")}`,
           },
         }
       );
-      setQuestions(response.data.questions);
-      console.log(questions);
-
+  
+      // Separate and order questions by subject
+      const physicsQuestions = response.data.questions.filter(q => q.subject === "Physics");
+      const chemistryQuestions = response.data.questions.filter(q => q.subject === "Chemistry");
+      const mathsQuestions = response.data.questions.filter(q => q.subject === "Math");
+  
+      // Concatenate in order: Physics -> Chemistry -> Maths
+      const orderedQuestions = [...physicsQuestions, ...chemistryQuestions, ...mathsQuestions];
+      
+      setQuestions(orderedQuestions);
+  
       // Initialize question statuses
-      const initialStatus = response.data.questions.map((_, index) =>
+      const initialStatus = orderedQuestions.map((_, index) =>
         index === 0 ? "Not Answered" : "Not Visited"
       );
       setQuestionStatus(initialStatus);
-      setTimeSpent(new Array(response.data.questions.length).fill(0));
+      setTimeSpent(new Array(orderedQuestions.length).fill(0));
     } catch (error) {
       console.error(
         "Error fetching questions:",
@@ -48,6 +56,7 @@ function TestInterface() {
       );
     }
   };
+  
 
 
 
@@ -392,6 +401,9 @@ function TestInterface() {
             <div>
               <h4>{`Question ${currentQuestionIndex + 1}:`}</h4>
               <p>{questions[currentQuestionIndex].questionText}</p>
+              {questions[currentQuestionIndex].image && (
+                <img src={questions[currentQuestionIndex].image} alt="question" />
+              )}
 
               {questions[currentQuestionIndex].type === "MCQ" ? (
                 <div className="optionsMCQ">
