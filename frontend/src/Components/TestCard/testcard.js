@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import "./testcard.css";
@@ -7,6 +7,9 @@ import "./testcard.css";
 const TestCard = ({ test, role }) => {
   const [isEditing, setIsEditing] = React.useState(false);
   const [updatedTest, setUpdatedTest] = React.useState(test);
+  const [isAttempted, setIsAttempted] = React.useState(false);
+  const userId = JSON.parse(localStorage.getItem("userInfo")).user.id;
+
 
   const navigate = useNavigate(); // Initialize navigate
 
@@ -101,6 +104,26 @@ const TestCard = ({ test, role }) => {
       alert("An error occurred while updating the test.");
     }
   };
+  useEffect(() => {
+    const checkAttemptStatus = async () => {
+      try {
+        
+        const token = localStorage.getItem("token");
+        const response = await axios.get(`http://localhost:5000/api/test_analyze/user/${userId}`);
+
+        if (response.status === 200) {
+          const attemptedTests = response.data.attemptedTests;
+          setIsAttempted(attemptedTests.includes(test._id));  // Check if test is in attempted list
+        }
+        console.log(response.data);
+        
+      } catch (error) {
+        console.error("Error checking attempt status:", error);
+      }
+    };
+
+    checkAttemptStatus();
+  }, [test._id,userId]);
 
   const handleAttemptTest = () => {
     navigate(`/testInstructions/${test._id}`);
@@ -115,9 +138,11 @@ const TestCard = ({ test, role }) => {
         <p className="text-sm text-gray-500">Test Time: {formattedTime}</p>
         <p className="text-sm text-gray-500">Total Time of Test: {test.duration} minutes</p>
 
-        <Link to={`/random`} className="inline-block mt-4 text-white bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg shadow-md">
-          Analysis
-        </Link>
+        {isAttempted && (
+                  <Link to={`/analysis/${test._id}/${userId}`} className="rounded-lg bg-green-500 p-1">
+                    <button>Analysis</button>
+                  </Link>
+        )}
 
         <div className="status-tag-container mt-3">
           <span
