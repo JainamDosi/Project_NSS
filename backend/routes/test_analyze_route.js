@@ -57,7 +57,7 @@ router.get('/test-responses/:testID/:userID', async (req, res) => {
       .populate('testId', 'name description') // Populate test details
       .populate({
         path: 'responses.questionId', // Populate questionId in responses
-        select: 'questionText options correctAnswer' // Select fields for Question
+        select: 'questionText subject options correctAnswer type' // Select fields for Question
       })
       .populate({
         path: 'responses.correctAnswer', // Populate the correctAnswer (which may be a reference to a Question or another field)
@@ -126,5 +126,34 @@ router.delete('/test-responses/:id', async (req, res) => {
     res.status(500).json({ message: 'Failed to delete test response.', error: error.message });
   }
 });
+
+router.get("/user/:userId", async (req, res) => {
+  try {
+    
+    const { userId } = req.params;
+
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message:`${userId} not valid` });
+    }
+
+    // Find all test responses by user ID and return only test IDs
+    const attemptedTests = await TestResponse.find({ userId }).select("testId");
+
+    if (!attemptedTests.length) {
+      return res.status(404).json({ message: "No attempted tests found." });
+    }
+
+    // Extract test IDs from the response
+    const testIds = attemptedTests.map((test) => test.testId);
+
+    res.status(200).json({ attemptedTests: testIds });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch attempted tests.", error: error.message });
+  }
+});
+
+
+
 
 export default router;

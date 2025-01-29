@@ -21,13 +21,17 @@ const questionSchema = new mongoose.Schema(
     },
     subject: {
         type: String,
-        enum: ['Physics', 'Chemistry', 'Mathematics'], 
+        enum: ['Physics', 'Chemistry', 'Math'], 
         required: true,
     },
     type: {
       type: String,
       enum: ['MCQ', 'Numerical'],
       required: true,
+    },
+    complexity: {
+      type: String,
+      enum: ['Easy', 'Medium', 'Hard'],
     },
   },
   { timestamps: true }
