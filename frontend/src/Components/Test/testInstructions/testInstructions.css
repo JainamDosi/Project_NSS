@@ -1,76 +1,115 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-#instructionMain{
-    margin-left: 1vw;
-    margin-right: 1vw;
+#instructionMain {
+  margin-left: 1vw;
+  margin-right: 1vw;
 }
 
-.btnCenter{
-    display: flex;
-    justify-content: center;
-    margin-bottom: 2vh;
+/* Centering the Proceed Button */
+.btnCenter {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2vh;
 }
 
-.btnCenter button{
-    background-color: grey;
-    height: 50px;
-    width: 100px;
-    border: 1px solid black;
-    border-radius: 10px;
-    cursor: pointer;
+.btnCenter button {
+  background-color: grey;
+  height: 50px;
+  width: 100px;
+  border: 1px solid black;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
-ol li{
-    margin-left: 3vw;
+/* Making Checkbox and Text Appear in the Same Line */
+#instructionMain label {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: #333;
+  line-height: 1.5;
 }
 
-ul li{
-    margin-left: 2vw;
+#instructionMain input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+  cursor: pointer;
 }
 
-ul li p{
-    word-wrap: break-word; /* For legacy support */
-      overflow-wrap: break-word; /* Modern browsers */
-      white-space: normal; 
-}
-ol li p{
-    word-wrap: break-word; /* For legacy support */
-      overflow-wrap: break-word; /* Modern browsers */
-      white-space: normal; 
+/* Spacing for Ordered and Unordered Lists */
+ol li, ul li {
+  margin-left: 3vw;
 }
 
+ul li p, ol li p {
+  word-wrap: break-word; /* For legacy support */
+  overflow-wrap: break-word; /* Modern browsers */
+  white-space: normal;
+}
+
+/* Legend Styling */
 .legend {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.symbol {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  display: inline-block;
+  border: 1px solid #000;
+}
+
+.not-visited {
+  background-color: #fff;
+}
+
+.not-answered {
+  background-color: red;
+}
+
+.answered {
+  background-color: green;
+}
+
+.marked-for-review {
+  background-color: purple;
+}
+
+.answered-and-marked {
+  background: linear-gradient(45deg, green 50%, purple 50%);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+  #instructionMain {
+      padding: 10px;
   }
-  .legend-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
+
+  #instructionMain label {
+      font-size: 14px;
+      flex-wrap: wrap; /* Ensures text wraps neatly on small screens */
   }
-  .symbol {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-    display: inline-block;
-    border: 1px solid #000;
+
+  #instructionMain input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
   }
-  .not-visited {
-    background-color: #fff;
+
+  .btnCenter button {
+      width: 120px;
+      font-size: 14px;
   }
-  .not-answered {
-    background-color: red;
-  }
-  .answered {
-    background-color: green;
-  }
-  .marked-for-review {
-    background-color: purple;
-  }
-  .answered-and-marked {
-    background: linear-gradient(45deg, green 50%, purple 50%);
-  }
+}
