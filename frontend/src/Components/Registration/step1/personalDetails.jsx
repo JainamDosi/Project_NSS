@@ -291,10 +291,10 @@ const PersonalDetails = () => {
             style={
               active
               ? { background: "#ff5c00" }
-              : { background: "rgb(204, 204, 204)" }
+              : { background: "orange" }
             }
             >
-              Next
+              SignUp
             </button>
            
             <button className="personal-button-clear" onClick={clearInput}>

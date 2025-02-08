@@ -38,7 +38,7 @@ function App() {
           <Route path="/formByAdmin" element={<FormByAdmin/>} />    
           <Route path="/questionForm/:testId" element={<QuestionForm/>} />    
           <Route path="/Adminviewtest/:testId" element={<Adminviewtest/>} />    
-          <Route path="/random" element={<Random/>} />   
+          {/* <Route path="/random" element={<Random/>} />    */}
           <Route path="/analysis/:testId/:userId" element={<TestResponseDetails/>} />
         </Routes>          
       </Router>    

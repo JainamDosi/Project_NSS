@@ -56,7 +56,7 @@
 }
 
 .bluebtn{
-    background-color: blue;
+    background-color: purple;
     color: #fff;
 }
 
@@ -159,7 +159,7 @@ h1 {
 
 
   /* Button Colors */
-.btn-grey {
+/* .btn-grey {
     background-color: grey;
   }
   
@@ -177,7 +177,7 @@ background-color: purple;
 
 .btn-green-purple {
 background: linear-gradient(to right, green, purple);
-}
+} */
 
 
 /* Color styles for the question palette */
@@ -197,12 +197,12 @@ background: linear-gradient(to right, green, purple);
   }
   
   .status-orange {
-    background-color: #fd7e14; /* Orange for marked for review */
+    background-color: purple; /* Orange for marked for review */
     color: white;
   }
   
   .status-purple {
-    background-color: #6f42c1; /* Purple for answered and marked for review */
+    background-color: orange; /* Purple for answered and marked for review */
     color: white;
   }
   
