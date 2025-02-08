@@ -1,22 +1,21 @@
-* {
+*{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-#instructionMain {
+#instructionMain{
   margin-left: 1vw;
   margin-right: 1vw;
 }
 
-/* Centering the Proceed Button */
-.btnCenter {
+.btnCenter{
   display: flex;
   justify-content: center;
   margin-bottom: 2vh;
 }
 
-.btnCenter button {
+.btnCenter button{
   background-color: grey;
   height: 50px;
   width: 100px;
@@ -25,45 +24,34 @@
   cursor: pointer;
 }
 
-/* Making Checkbox and Text Appear in the Same Line */
-#instructionMain label {
-  display: flex;
-  align-items: center;
-  font-size: 16px;
-  color: #333;
-  line-height: 1.5;
-}
-
-#instructionMain input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  margin-right: 10px;
-  cursor: pointer;
-}
-
-/* Spacing for Ordered and Unordered Lists */
-ol li, ul li {
+ol li{
   margin-left: 3vw;
 }
 
-ul li p, ol li p {
-  word-wrap: break-word; /* For legacy support */
-  overflow-wrap: break-word; /* Modern browsers */
-  white-space: normal;
+ul li{
+  margin-left: 2vw;
 }
 
-/* Legend Styling */
+ul li p{
+  word-wrap: break-word; /* For legacy support */
+    overflow-wrap: break-word; /* Modern browsers */
+    white-space: normal; 
+}
+ol li p{
+  word-wrap: break-word; /* For legacy support */
+    overflow-wrap: break-word; /* Modern browsers */
+    white-space: normal; 
+}
+
 .legend {
   list-style: none;
   padding: 0;
 }
-
 .legend-item {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
 }
-
 .symbol {
   width: 20px;
   height: 20px;
@@ -71,45 +59,18 @@ ul li p, ol li p {
   display: inline-block;
   border: 1px solid #000;
 }
-
 .not-visited {
-  background-color: #fff;
+  background-color: grey;
 }
-
 .not-answered {
   background-color: red;
 }
-
 .answered {
   background-color: green;
 }
-
 .marked-for-review {
   background-color: purple;
 }
-
 .answered-and-marked {
-  background: linear-gradient(45deg, green 50%, purple 50%);
-}
-
-/* Responsive Adjustments */
-@media (max-width: 600px) {
-  #instructionMain {
-      padding: 10px;
-  }
-
-  #instructionMain label {
-      font-size: 14px;
-      flex-wrap: wrap; /* Ensures text wraps neatly on small screens */
-  }
-
-  #instructionMain input[type="checkbox"] {
-      width: 16px;
-      height: 16px;
-  }
-
-  .btnCenter button {
-      width: 120px;
-      font-size: 14px;
-  }
+  background: orange;
 }

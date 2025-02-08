@@ -37,95 +37,10 @@
     text-align: right;
 }
 
-/* .analysisBtn{
-    background-color: greenyellow;
-    
-} */
+.deleteTest{
+    margin-bottom: 5vh !important; 
+} 
 
-/* TestCard Styles */
-.card {
-    max-width: 400px;
-    width: 100%;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 16px;
-    margin-bottom: 16px;
-    transition: all 0.3s ease-in-out;
-  }
-  
-  .card:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    transform: translateY(-5px);
-  }
-  
-  .card-header {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #2d3748;
-    margin-bottom: 12px;
-  }
-  
-  .card-body p {
-    font-size: 1rem;
-    color: #4a5568;
-    margin-bottom: 8px;
-  }
-  
-  .status-tag {
-    display: inline-block;
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 0.875rem;
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-  
-  .bg-green-500 {
-    background-color: #48bb78;
-  }
-  
-  .bg-yellow-500 {
-    background-color: #ecc94b;
-  }
-  
-  .bg-red-500 {
-    background-color: #f56565;
-  }
-  
-  .btn {
-    display: inline-block;
-    width: 100%;
-    text-align: center;
-    padding: 10px 0;
-    font-size: 1rem;
-    font-weight: 600;
-    color: white;
-    border-radius: 8px;
-    transition: background-color 0.3s;
-  }
-  
-  .bg-blue-600 {
-    background-color: #3182ce;
-  }
-  
-  .bg-blue-600:hover {
-    background-color: #2b6cb0;
-  }
-  
-  .bg-yellow-500:hover {
-    background-color: #d69e2e;
-  }
-  
-  .bg-red-500:hover {
-    background-color: #c53030;
-  }
-  
-  .bg-green-500:hover {
-    background-color: #38a169;
-  }
-  
-  .admin-btn-group .btn {
-    margin-top: 8px;
-  }
-  
+.analyseTest{
+    margin-top: 1vh !important;
+}

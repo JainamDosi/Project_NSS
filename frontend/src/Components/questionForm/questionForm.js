@@ -268,7 +268,7 @@ function QuestionForm() {
                   key={optIndex}
                   className="mcq-option flex items-center space-x-4"
                 >
-                  <select
+                  {/* <select
                     value={option.type}
                     onChange={(e) =>
                       handleOptionChange(index, optIndex, e.target.value, "")
@@ -277,7 +277,7 @@ function QuestionForm() {
                   >
                     <option value="text">Text</option>
                     <option value="image">Image</option>
-                  </select>
+                  </select> */}
 
                   {option.type === "text" ? (
                     <input

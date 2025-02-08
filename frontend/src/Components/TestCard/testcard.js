@@ -140,7 +140,7 @@ const TestCard = ({ test, role }) => {
 
         {isAttempted && (
                   <Link to={`/analysis/${test._id}/${userId}`} className="rounded-lg bg-green-500 p-1">
-                    <button>Analysis</button>
+                    <button className="analyseTest">Analysis</button>
                   </Link>
         )}
 
@@ -235,7 +235,7 @@ const TestCard = ({ test, role }) => {
                   Edit Test
                 </button>
                 <button
-                  className="btn bg-red-500 w-full py-2 text-white rounded-md hover:bg-red-600"
+                  className="btn bg-red-500 w-full py-2 text-white rounded-md hover:bg-red-600 deleteTest"
                   onClick={() => handleDeleteTest(test._id)}
                 >
                   Delete Test
@@ -248,7 +248,7 @@ const TestCard = ({ test, role }) => {
                 </Link>
                 <Link
                   to={`/Adminviewtest/${test._id}`}
-                  className="btn bg-indigo-300 w-full py-2 text-white rounded-md hover:bg-indigo-600"
+                  className="btn bg-indigo-300 w-full py-2 text-white rounded-md hover:bg-indigo-600 m-2"
                 >
                   View All Questions
                 </Link>

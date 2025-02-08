@@ -26,7 +26,7 @@ const Adminviewtest = () => {
           `http://localhost:5000/api/tests/${testId}/getQuestions`,
           {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization:  `${token}`,
             },
           }
         );
@@ -102,7 +102,7 @@ const Adminviewtest = () => {
               onChange={(e) => setSelectedSubject(e.target.value)}
             >
               <option value="All">📚 All Subjects</option>
-              <option value="Physics">⚛️ Physics</option>
+              <option value="Physics">⚛ Physics</option>
               <option value="Chemistry">🧪 Chemistry</option>
               <option value="Math">📐 Math</option>
             </select>
@@ -172,5 +172,4 @@ const Adminviewtest = () => {
   );
 };
 
-export default Adminviewtest;
-
+export default Adminviewtest;

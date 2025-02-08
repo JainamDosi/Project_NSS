@@ -72,19 +72,19 @@ function LandingPage() {
       </section>
 
       <section id="tests" className="tests py-12 bg-blue-50">
-        <div className="container mx-auto px-4 md:px-8">
-          <h2 className="text-2xl font-bold text-center mb-8">Available Tests</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="test-item bg-white shadow-md p-6 rounded-lg text-center">
-              <h3 className="text-xl font-bold mb-4">Full-Length Mock Test</h3>
-              <p>Simulate the complete JEE exam with this test.</p>
-              <Link to="/studentDashboard" className="btn-secondary inline-block bg-blue-600 text-white py-2 px-6 rounded hover:bg-blue-500">
-                Take Test
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+  <div className="container mx-auto px-4 md:px-8">
+    <h2 className="text-2xl font-bold text-center mb-8">Available Tests</h2>
+    <div className="flex justify-center">
+      <div className="test-item bg-white shadow-md p-6 rounded-lg text-center w-80">
+        <h3 className="text-xl font-bold mb-4">Full-Length Mock Test</h3>
+        <p>Simulate the complete JEE exam with this test.</p>
+        <Link to="/studentDashboard" className="btn-secondary inline-block bg-blue-600 text-white py-2 px-6 rounded hover:bg-blue-500">
+          Take Test
+        </Link>
+      </div>
+    </div>
+  </div>
+</section>
 
       <section id="about" className="about py-12">
         <div className="container mx-auto px-4 md:px-8">
