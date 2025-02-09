@@ -81,7 +81,7 @@ function TestInterface() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   // Timer
-  const [time, setTime] = useState(100);
+  const [time, setTime] = useState(10800);
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
