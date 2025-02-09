@@ -15,7 +15,6 @@ const fetchuser = (req, res, next) => {
     try {
    
       console.log("verify successfulllllll");
-      console.log(JWT_SECRET);
       const data =jwt.verify(token,JWT_SECRET,{ algorithm: 'HS384' });
       const id=data.id;
       

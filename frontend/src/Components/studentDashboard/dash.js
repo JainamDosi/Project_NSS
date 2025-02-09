@@ -1,35 +1,31 @@
 import { React, useState, useEffect } from "react";
-import "./dash.css";
-import { Link ,useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import TestCard from "../TestCard/testcard";
 import Navbar from "../Navbar/navbar";
 import axios from "axios";
 
 const StudentDashboard = () => {
   const [tests, setTests] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(""); // State for search input
 
   let navigate = useNavigate();
-   
+
   useEffect(() => {
-    if (!localStorage.getItem('token') || localStorage.getItem('token') === undefined) {
-      navigate('/login');
+    if (!localStorage.getItem("token") || localStorage.getItem("token") === undefined) {
+      navigate("/login");
     }
   }, [navigate]);
 
-
-  // Fetch tests with authorization token
   useEffect(() => {
     const fetchTests = async () => {
       try {
-        // Retrieve token from localStorage
         const token = localStorage.getItem("token");
         const response = await axios.get("http://localhost:5000/api/tests", {
           headers: {
-            Authorization: `${token}`, // Include token in Authorization header
+            Authorization: `${token}`,
           },
         });
         setTests(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error("There was an error fetching the test data!", error);
       }
@@ -38,73 +34,76 @@ const StudentDashboard = () => {
     fetchTests();
   }, []);
 
-  // Adjust times for IST (subtract 5 hours 30 minutes)
   const adjustForIST = (date) => {
     const adjustedDate = new Date(date);
-    adjustedDate.setHours(adjustedDate.getHours() - 5); // Subtract 5 hours
-    adjustedDate.setMinutes(adjustedDate.getMinutes() - 30); // Subtract 30 minutes
+    adjustedDate.setHours(adjustedDate.getHours() - 5);
+    adjustedDate.setMinutes(adjustedDate.getMinutes() - 30);
     return adjustedDate;
   };
 
-  // Categorize tests based on their test time and duration
   const currentDate = new Date();
 
-  const ongoingTests = tests.filter((test) => {
+  // Filter tests based on search query
+  const filteredTests = tests.filter((test) =>
+    test.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const ongoingTests = filteredTests.filter((test) => {
     const testStartTime = adjustForIST(test.testDate);
-    const testEndTime = new Date(testStartTime.getTime() + test.duration * 60 * 1000); // Adjust for duration
+    const testEndTime = new Date(testStartTime.getTime() + test.duration * 60 * 1000);
     return currentDate >= testStartTime && currentDate <= testEndTime;
   });
 
-  const upcomingTests = tests.filter((test) => adjustForIST(test.testDate) > currentDate);
-  const completedTests = tests.filter((test) => {
+  const upcomingTests = filteredTests.filter((test) => adjustForIST(test.testDate) > currentDate);
+
+  const completedTests = filteredTests.filter((test) => {
     const testStartTime = adjustForIST(test.testDate);
-    const testEndTime = new Date(testStartTime.getTime() + test.duration * 60 * 1000); // Adjust for duration
+    const testEndTime = new Date(testStartTime.getTime() + test.duration * 60 * 1000);
     return currentDate > testEndTime;
   });
 
   return (
     <>
-      <div>
-        <Navbar />
-      </div>
-      {/* <div id="btnsInDashBoard">
-        <Link to="">
-          <button className="Analysis">Analysis</button>
-        </Link>
-      </div> */}
+      <Navbar />
 
-      <h1>Ongoing Tests</h1>
-      <main className="mainStudentDashboard">
-        <div>
+      <div className="flex w-full justify-center my-4">
+        <input
+          type="text"
+          placeholder="Search for a test..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-1/2 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      <section className="container mx-auto px-4">
+        <h1 className="text-2xl font-semibold text-gray-800 my-4">Ongoing Tests</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {ongoingTests.length > 0 ? (
             ongoingTests.map((test) => <TestCard key={test.id} test={test} role="student" />)
           ) : (
-            <p>No ongoing tests available.</p>
+            <p className="text-gray-500">No ongoing tests available.</p>
           )}
         </div>
-      </main>
 
-      <h1>Upcoming Tests</h1>
-      <main className="mainStudentDashboard">
-        <div>
+        <h1 className="text-2xl font-semibold text-gray-800 my-4">Upcoming Tests</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {upcomingTests.length > 0 ? (
             upcomingTests.map((test) => <TestCard key={test.id} test={test} role="student" />)
           ) : (
-            <p>No upcoming tests available.</p>
+            <p className="text-gray-500">No upcoming tests available.</p>
           )}
         </div>
-      </main>
 
-      <h1>Completed Tests</h1>
-      <main className="mainStudentDashboard">
-        <div>
+        <h1 className="text-2xl font-semibold text-gray-800 my-4">Completed Tests</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {completedTests.length > 0 ? (
             completedTests.map((test) => <TestCard key={test.id} test={test} role="student" />)
           ) : (
-            <p>No completed tests available.</p>
+            <p className="text-gray-500">No completed tests available.</p>
           )}
         </div>
-      </main>
+      </section>
     </>
   );
 };
