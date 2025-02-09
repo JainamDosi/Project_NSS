@@ -1,30 +1,36 @@
 # JEE Test Platform
 
 ## Table of Contents
-- [Project Overview](#project-overview)
-- [Project Highlights](#project-highlights)
-    -[Student Tools](#student-tools)
-    -[Admin Tools](#admin-tools)
-- [Why Participate?](#why-participate)
-- [Tech Stack](#tech-stack)
-- [Installation Instructions](#installation-instructions)
-- [Usage](#usage)
-- [Features](#features)
-  - [Realistic Test Interface](#realistic-test-interface)
-  - [Detailed Performance Analysis](#detailed-performance-analysis)
-  - [Test History & Bookmarks](#test-history--bookmarks)
-  - [Upcoming Tests Calendar](#upcoming-tests-calendar)
-  - [Admin Tools](#admin-tools)
-- [API Endpoints](#api-endpoints)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
+- [JEE Test Platform](#jee-test-platform)
+  - [Table of Contents](#table-of-contents)
+  - [Project Overview](#project-overview)
+  - [Project Highlights](#project-highlights)
+    - [Student Tools:](#student-tools)
+    - [Admin Tools:](#admin-tools)
+  - [Tech Stack](#tech-stack)
+    - [Backend:](#backend)
+    - [Frontend:](#frontend)
+  - [Installation Instructions](#installation-instructions)
+  - [Usage](#usage)
+  - [Features](#features)
+    - [Realistic Test Interface](#realistic-test-interface)
+    - [Detailed Performance Analysis](#detailed-performance-analysis)
+    - [Upcoming Tests Calendar](#upcoming-tests-calendar)
+    - [Admin Tools](#admin-tools-1)
+  - [API Endpoints](#api-endpoints)
+    - [Authentication](#authentication)
+    - [Test Management](#test-management)
+    - [Performance Analysis](#performance-analysis)
+    - [Question Management](#question-management)
+  - [Contributing](#contributing)
+  - [License](#license)
+  - [Contact](#contact)
 
 ## Project Overview
-<!-- The **JEE Test Platform** is a full-stack web application designed to simulate a real exam environment for JEE/NEET aspirants. It provides an engaging and interactive platform where students can attempt mock tests, track their performance, and get detailed insights into their strengths and weaknesses. The platform also offers tools for test administrators to manage tests and provide personalized feedback. -->
+<!-- The **JEE Test Platform** is a full-stack web application designed to simulate a real exam environment for JEE aspirants. It provides an engaging and interactive platform where students can attempt mock tests, track their performance, and get detailed insights into their strengths and weaknesses. The platform also offers tools for test administrators to manage tests and provide personalized feedback. -->
 The **JEE Test Platform** is a comprehensive web application built to create an immersive and realistic test-taking experience for JEE/NEET aspirants. Designed with students in mind, it replicates the actual exam environment, helping them get comfortable with the pressure and pace of competitive exams.
 
-The platform allows users to attempt mock tests, track their progress over time, and gain in-depth insights into their performance, identifying both strengths and areas that need improvement. With a focus on making learning more intuitive and data-driven, it uses visual charts and detailed analytics to guide students in refining their preparation strategy.
+The platform allows users to attempt mock tests, track their progress over time, and gain in-depth insights into their performance, identifying both strengths and areas that need improvement. With a focus on making learning more intuitive and data-driven, it uses detailed analytics to guide students in refining their preparation strategy.
 
 Additionally, the platform offers tools for test administrators to easily manage question uploads, evaluate results, and provide personalized feedback to help students grow. Whether you're a student looking to master your exams or an educator aiming to streamline the assessment process, this platform brings a seamless experience for all.
 
@@ -72,7 +78,7 @@ Additionally, the platform offers tools for test administrators to easily manage
    - **Subject-wise marks breakdown** for an in-depth understanding of performance.
    - **Time per question** analysis to help students manage time better.
 
-3. **Test History & Bookmarks**:
+3. **Test History**:
    - Access **past tests**, including answer keys.
    <!-- - Ability to **bookmark important past-year questions (PYQs)** for review later. -->
 
@@ -112,7 +118,6 @@ These tools provide both students and administrators with a well-rounded experie
 - **Mongoose**: Used for interacting with MongoDB, enabling flexible schema-based data modeling.
 - **JWT (jsonwebtoken)**: For user authentication and authorization using JSON Web Tokens.
 - **bcrypt & bcryptjs**: For hashing passwords securely.
-- **Passport.js**: Authentication middleware, including Google OAuth 2.0 for social login functionality.
 - **cookie-parser**: To handle cookies and session management.
 - **dotenv**: For environment variable management.
 - **CORS**: Middleware for handling Cross-Origin Resource Sharing issues.
@@ -160,7 +165,7 @@ These technologies combine to create a robust, scalable, and user-friendly platf
    ```bash
    # Frontend
    cd frontend
-   npm run dev
+   npm run start
 
    # Backend
    cd backend
@@ -183,15 +188,12 @@ These technologies combine to create a robust, scalable, and user-friendly platf
 
 3. **View Results and Analytics**:
    - After completing a test, view detailed performance analysis.
-   - Use charts to understand your strengths and weaknesses based on subjects.
 
-4. **Track Test History**:
-   - Access previous tests, answer keys, and bookmarked questions under the "Test History" section.
 
-5. **Upcoming Tests**:
+4. **Upcoming Tests**:
    - Keep track of upcoming test dates using the integrated dashboard.
 
-6. **Admin Tools**:
+5. **Admin Tools**:
    - Admin users can create new tests and edit or delete previous tests, upload or edit questions and manage test results.
 
 
@@ -202,15 +204,14 @@ These technologies combine to create a robust, scalable, and user-friendly platf
   - **Green** for answered questions.
   - **Red** for not answered questions.
   - **Grey** for not visited questions.
-  - **Violet** for answered and marked for review questions.
-  - **Orange** for not answered and marked for review questions.
+  - **Orange** for answered and marked for review questions.
+  - **Violet** for not answered and marked for review questions.
 - Timer tracking the entire test duration.
 - Ability to switch between questions during the test.
 
 ### Detailed Performance Analysis
-- Graphs for subject-wise marks.
 - Insights into time spent per question.
-- Visual graphs for easy identification of strengths and weaknesses.
+- Subject wise analysis.
 
 <!-- ### Test History & Bookmarks
 - Access to all previously attempted tests.

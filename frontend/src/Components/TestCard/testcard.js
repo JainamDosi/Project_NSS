@@ -138,7 +138,7 @@ const TestCard = ({ test, role }) => {
         <p className="text-sm text-gray-500">Test Time: {formattedTime}</p>
         <p className="text-sm text-gray-500">Total Time of Test: {test.duration} minutes</p>
 
-        {isAttempted && (
+        {isAttempted && role==="student" &&(
                   <Link to={`/analysis/${test._id}/${userId}`} className="rounded-lg bg-green-500 p-1">
                     <button className="analyseTest">Analysis</button>
                   </Link>
@@ -219,7 +219,7 @@ const TestCard = ({ test, role }) => {
           </div>
         ) : (
           <>
-            {role === "student" && testStatus === "Ongoing" ? (
+            {role === "student" && testStatus === "Ongoing" && !isAttempted ? (
               <button
                 className="btn bg-blue-600 w-full py-2 text-white rounded-md mt-4 hover:bg-blue-700"
                 onClick={handleAttemptTest}
