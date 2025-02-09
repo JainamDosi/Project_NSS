@@ -9,7 +9,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET;
-console.log(JWT_SECRET);
 
 
 router.post('/createuser', [
@@ -19,7 +18,6 @@ router.post('/createuser', [
     async (req, res) => {
     let success = false;
 
-    console.log(body.name);
     const error = validationResult(req);
     if (!error.isEmpty()) {
         return res.status(400).json({ success, error: error.array() });
@@ -38,16 +36,13 @@ router.post('/createuser', [
             email: req.body.email,
             password: secPass
         });
-        console.log("awuthhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
         const data = {
             id: user._id,
             name: user.name,
             email: user.email,
         };
-        console.log(process.env.jwt_SECRET);
         const authtoken = jwt.sign(data,JWT_SECRET,{ algorithm: 'HS384' });
         const zzzz =jwt.verify(authtoken,JWT_SECRET);
-        console.log(zzzz);
         success = true;
         res.json({ success, token: authtoken });
     } catch (e) {
@@ -86,7 +81,6 @@ router.post('/login', [
                      // token: generateToken(user._id),
             }
         };
-        console.log("aaaaaaaaaaaaaaaaaaa");
         console.log(data);
 
         const authtoken = jwt.sign(data ,JWT_SECRET);
