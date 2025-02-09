@@ -26,7 +26,7 @@ const Adminviewtest = () => {
           `http://localhost:5000/api/tests/${testId}/getQuestions`,
           {
             headers: {
-              Authorization:  `${token}`,
+              Authorization: `${token}`,
             },
           }
         );
@@ -59,36 +59,32 @@ const Adminviewtest = () => {
       setError("Authorization token not found.");
       return;
     }
-  
+
     try {
       const response = await fetch(
         `http://localhost:5000/api/tests/${testId}/questions/${questionId}`,
         {
           method: 'DELETE',
           headers: {
-            
+            Authorization: `${token}`,
           },
         }
       );
-  
+
       if (!response.ok) {
         throw new Error('Failed to delete question.');
       }
-  
+
       setQuestions(questions.filter(q => q._id !== questionId));
     } catch (err) {
-      // setError("Failed to delete question.");
       console.log(err.message);
       alert(err.message);
     }
   };
-  
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-100 p-6">
-      <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
-        📖 Test Questions
-      </h2>
+      <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">📖 Test Questions</h2>
 
       {loading && <p className="text-blue-500 text-center text-lg">Loading...</p>}
       {error && <p className="text-red-500 text-center text-lg">{error}</p>}
@@ -108,14 +104,14 @@ const Adminviewtest = () => {
             </select>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="space-y-6">
             {filteredQuestions.length > 0 ? (
               filteredQuestions.map((question, index) => (
                 <div
                   key={index}
-                  className="p-6 border border-gray-200 rounded-xl shadow-lg bg-white transition-transform transform hover:scale-105 hover:shadow-2xl duration-300 relative"
+                  className="p-6 border border-gray-200 rounded-xl shadow-lg bg-white transition-transform transform hover:scale-105 hover:shadow-2xl duration-300 relative w-full flex flex-col"
                 >
-                  <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3 pr-12">
                     {index + 1}. {question.questionText}
                   </h3>
 
@@ -123,11 +119,11 @@ const Adminviewtest = () => {
                     <img
                       src={question.image}
                       alt="Question"
-                      className="w-full h-40 object-cover rounded-md mb-4"
+                      className="w-full h-60 object-cover rounded-md mb-4"
                     />
                   )}
 
-                  {question.options && question.options.length > 0 && (
+                  {question.type !== "Numerical" && question.options && question.options.length > 0 && (
                     <ul className="space-y-2">
                       {question.options.map((option, i) => (
                         <li
@@ -144,6 +140,12 @@ const Adminviewtest = () => {
                     </ul>
                   )}
 
+                  {question.type === "Numerical" && question.correctAnswer && (
+                    <p className="mt-4 text-lg font-medium text-green-700 bg-green-100 p-2 rounded-md">
+                      ✅ Correct Answer: {question.correctAnswer}
+                    </p>
+                  )}
+
                   <div className="mt-4 flex flex-col sm:flex-row sm:justify-between text-sm text-gray-600">
                     <p>
                       <strong>📘 Subject:</strong> {question.subject}
@@ -156,7 +158,8 @@ const Adminviewtest = () => {
                   <button
                     onClick={() => handleDelete(question._id)}
                     className="absolute top-4 right-4 p-2 bg-red-500 text-white rounded-full hover:bg-red-700 transition"
-                  >delete
+                  >
+                    Delete
                   </button>
                 </div>
               ))
@@ -172,4 +175,4 @@ const Adminviewtest = () => {
   );
 };
 
-export default Adminviewtest;
+export default Adminviewtest;

@@ -120,8 +120,8 @@ const PersonalDetails = () => {
     const json = await response.json();
     console.log(json);
     if (json.success) {
-      localStorage.setItem('token', json.token);
-      // history("/home");
+      alert("User created successfully");
+      navigate("/login");
     } else {
       // history("/signup");
     }

@@ -242,13 +242,13 @@ const TestCard = ({ test, role }) => {
                 </button>
                 <Link
                   to={`/questionForm/${test._id}`}
-                  className="btn bg-green-500 w-full py-2 text-white rounded-md hover:bg-green-600"
+                  className="btn bg-green-500 w-full p-2 text-white rounded-md hover:bg-green-600"
                 >
                   Add Questions
                 </Link>
                 <Link
                   to={`/Adminviewtest/${test._id}`}
-                  className="btn bg-indigo-300 w-full py-2 text-white rounded-md hover:bg-indigo-600 m-2"
+                  className="btn bg-indigo-300 w-full p-2 text-white rounded-md hover:bg-indigo-600 m-2"
                 >
                   View All Questions
                 </Link>
